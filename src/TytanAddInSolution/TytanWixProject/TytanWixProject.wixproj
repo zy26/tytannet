@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VisualStudioProject>
+    <WindowsInstallerXML
+        ProductVersion="2.0.5805.0"
+        ProjectGuid="{04A4A819-785F-4398-90D3-FB97B2CCCF86}"
+        SchemaVersion="1.0"
+    >
+        <BuildSettings
+            OutputName="Tytan.NET.v0.13.VS80"
+            OutputType="MSI"
+        />
+        <Configurations>
+            <Configuration
+                Name="Debug"
+                RelativeOutputDirectory="bin\Debug"
+                RelativeIntermediateDirectory="obj\Debug"
+            />
+            <Configuration
+                Name="Release"
+                RelativeOutputDirectory="bin\Release"
+                RelativeIntermediateDirectory="obj\Release"
+            />
+        </Configurations>
+        <WixlibReferences>
+            <WixlibReference
+                RelativePath="WixUI.wixlib"
+            />
+        </WixlibReferences>
+        <Files>
+            <File
+                RelativePath="Project.wxs"
+            />
+            <File
+                RelativePath="WixUI_en-us.wxl"
+            />
+        </Files>
+    </WindowsInstallerXML>
+</VisualStudioProject>

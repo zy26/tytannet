@@ -1,0 +1,13 @@
+;
+; Put extra folders to clean here:
+;
+TytanActions
+TytanAddIn
+TytanCodeGenerators
+TytanCore
+TytanVisualizers
+TytanWixActions
+TytanWixProject
+VisualEditorDebugView
+VisualEditorNativeImage
+VisualEditorRegistry

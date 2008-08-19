@@ -1,0 +1,154 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pretorianie.Tytan.Core</RootNamespace>
+    <AssemblyName>Tytan.Core</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\output\AddIns\TytanNET\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\output\AddIns\TytanNET\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft.NET\Primary Interop Assemblies\stdole.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseForms\BasePackageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForms\BasePackageForm.designer.cs">
+      <DependentUpon>BasePackageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseGenerators\BaseCodeGenerator.cs" />
+    <Compile Include="BaseGenerators\BaseCodeGeneratorWithSite.cs" />
+    <Compile Include="BaseGenerators\CodeGeneratorRegistrationAttribute.cs" />
+    <Compile Include="BaseGenerators\IObjectWithSite.cs" />
+    <Compile Include="BaseGenerators\IServiceProvider.cs" />
+    <Compile Include="BaseGenerators\IVsGeneratorProgress.cs" />
+    <Compile Include="BaseGenerators\IVsSingleFileGenerator.cs" />
+    <Compile Include="BaseGenerators\VsGUIDs.cs" />
+    <Compile Include="Comparers\NamespaceComparer.cs" />
+    <Compile Include="CustomAddIn\CustomAddInManager.cs" />
+    <Compile Include="CustomAddIn\CustomAddInMenuManager.cs" />
+    <Compile Include="CustomAddIn\CustomImageConverter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomPackage\EmptyMenuCreator.cs" />
+    <Compile Include="Data\BackForwardNavigator.cs" />
+    <Compile Include="Data\CodeEditPoint.cs" />
+    <Compile Include="Data\CodeEditSelection.cs" />
+    <Compile Include="Data\GeneratorPropertyOptions.cs" />
+    <Compile Include="Data\NamedCollection.cs" />
+    <Compile Include="Data\PackageAssist.cs" />
+    <Compile Include="Data\PackageContainer.cs" />
+    <Compile Include="Data\PersistentStorageData.cs" />
+    <Compile Include="Data\SolutionEventsListener.cs" />
+    <Compile Include="DbgView\CodeJumpStyle.cs" />
+    <Compile Include="DbgView\DebugSharedMemory.cs" />
+    <Compile Include="DbgView\DebugViewData.cs" />
+    <Compile Include="DbgView\DebugViewFilteredListData.cs" />
+    <Compile Include="DbgView\DebugViewMonitor.cs" />
+    <Compile Include="DbgView\SharedMemory.cs" />
+    <Compile Include="EnvVarView\EnvironmentVariable.cs" />
+    <Compile Include="EnvVarView\EnvironmentVariables.cs" />
+    <Compile Include="Events\ProjectEventHandler.cs" />
+    <Compile Include="Events\SolutionEventHandler.cs" />
+    <Compile Include="Helpers\CodeHelper.cs" />
+    <Compile Include="Helpers\ConfigHelper.cs" />
+    <Compile Include="Helpers\ConversionHelper.cs" />
+    <Compile Include="Helpers\EditorHelper.cs" />
+    <Compile Include="Helpers\IDEHelper.cs" />
+    <Compile Include="Helpers\NameHelper.cs" />
+    <Compile Include="Helpers\PersistentStorageHelper.cs" />
+    <Compile Include="Helpers\ProjectHelper.cs" />
+    <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="Helpers\SolutionHelper.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Helpers\SysEventHelper.cs" />
+    <Compile Include="Helpers\VariableHelper.cs" />
+    <Compile Include="Interfaces\CodeModelLanguages.cs" />
+    <Compile Include="Interfaces\IMenuCreator.cs" />
+    <Compile Include="Interfaces\IMenuCustomizator.cs" />
+    <Compile Include="Interfaces\IPackageAction.cs" />
+    <Compile Include="Interfaces\IPackageEnvironment.cs" />
+    <Compile Include="Interfaces\IPackageToolWindow.cs" />
+    <Compile Include="Interfaces\IToolCreator.cs" />
+    <Compile Include="CustomPackage\PackageActionCollection.cs" />
+    <Compile Include="NativeImage\Common\EngineFileExtension.cs" />
+    <Compile Include="NativeImage\Common\EngineManager.cs" />
+    <Compile Include="NativeImage\IEngine.cs" />
+    <Compile Include="NativeImage\IFunctionDescriptor.cs" />
+    <Compile Include="NativeImage\IDescriptor.cs" />
+    <Compile Include="NativeImage\IContentDescriptor.cs" />
+    <Compile Include="NativeImage\StructureDescriptorTypes.cs" />
+    <Compile Include="NativeImage\IPropertyDescriptor.cs" />
+    <Compile Include="NativeImage\ISectionDescriptor.cs" />
+    <Compile Include="NativeImage\INativeImageDescriptor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CustomAddIn\CustomAddInActionDictionary.cs" />
+    <Compile Include="TaskList\CustomTask.cs" />
+    <Compile Include="TaskList\CustomTaskColumn.cs" />
+    <Compile Include="TaskList\CustomTaskEnumerator.cs" />
+    <Compile Include="TaskList\CustomTaskProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BaseForms\BasePackageForm.resx">
+      <DependentUpon>BasePackageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomAddIn\CommandBar.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Key.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
