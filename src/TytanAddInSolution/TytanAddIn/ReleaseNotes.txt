@@ -1,0 +1,134 @@
+TytanNET Release notes (25-October-2008):
+
+
+--------------------------------------------------------------------------------------------
+[Info]:
+
+TytaNET is a freeware addin for Visual Studio 2005 and Visual Studio 2008.
+It extends the standard IDE with following unique capabilities:
+ - tool windows
+   * DebugView - runtime .NET debug logs watcher
+   * RegistryView - registry editor
+   * EnvVarView - environment variables editor
+   * CommandPrevie - view over Visual Studio's commands and toolbars
+ - code refactoring methods
+   * QuickReference - rapid project referencing
+   * MultiRenameRefactor - renaming set of methods
+   * ExtractPropertyRefactor - generate getters and setters for choosen fields
+   * InitConstructorRefactor - generate init-constructor for selected group of fields
+ - in-place insertion/edition of documents by
+   * adding GuidAttribute or just GUID string depending on actual cursor context
+   * adding paths to files/folders
+   * embedding/exporting file contents
+   * adding database connection strings
+ - debugging-time type visualizers for
+   * XML documents
+   * images and image lists (Image, ImageList)
+   * colours
+   * COM objects
+
+
+In case of problems please visit: http://www.codeplex.com/tytannet or http://code.google.com/p/tytannet/wiki/FAQ
+Check for new releases at: http://www.codeplex.com/tytannet
+
+
+--------------------------------------------------------------------------------------------
+[Contributors]:
+
+ Project Leader & Developer - Pawel Hofman (ankh.sangraal@gmail.com)
+
+
+--------------------------------------------------------------------------------------------
+[Change Log]:
+
+TytanNET - v0.17 - (25-October-2008) 
+ - added support for localized Visual Studio versions (FR, DE, IT, ES)
+ - added refactoring - Guid attribute or raw text insertion
+ - added in-place edition of database connection string with system standard dialog
+ - added in-place edition of path location / file location / file content 
+ - added in-place insertion of proposed class-name
+ - added automatic version check each week 
+
+
+TytanNET - v0.16 - (11-October-2008)
+ - Completely rewritten installer for more secure and robust installation
+ - ReferenceProject is now disabled in debug-mode of VisualStudio IDE /PR #18398/
+ - added AboutBox menu with info about TytanNET
+ - introduced "Check for update" option for quick version validation
+ - introduced "Tips & Tricks" help info
+ - added popup-menu on toolbar for auxiliary tool-windows
+ - fixed Multi-method Rename crash when some invalid parameters passed as a rename template
+ - fixed VB-specific fields naming issues with ExtractPropertyRefactor refactoring
+ - fixed VB-specific access-modification crash with ExtractPropertyRefactor
+ - fixed VB-specific hex conversion issues with VsctGenerator
+
+
+TytanNET - v0.15 - (25-August-2008)
+ - DebugView can jump to global functions in C/C++ code
+ - fixed few DebugView crashes when accessing Visual Studio Code-Model
+ - InitConstructor refactoring can create constructor without parameters, if all unchecked on the dialog-box
+ - added new CommandPreview toolwindow to browse Visual Studio commands and menus
+ - CommandPreview can export icons of buttons to a file
+ - added feature to change the namespace and class names of code generator for VSCT files 
+
+TytanNET - v0.14 - (30-July-2008)
+ - updated installer to automatically launch Visual Studio with switch '/ResetAddin' to avoid icon looses
+ - ported to Visual Studio 2008 (changed: tool windows sizes and tab icons display)
+ - improved process info access for DebugView
+ - added internal logs framework
+ - added 'Browse for assembly...' to ReferenceProject
+ - removed duplicates from ReferenceProject
+ - removed some funnies when non-dotNET project in the
+
+TytanNET - v0.13 - (12-June-2008)
+ - added automatic installer to improve configuration process
+ - added code generator for VSCT files
+ - added searching for RegistryView tool
+ - added support for predefined 'favorite' keys inside RegistryView (with management)
+ - RegistryView has now support for back-forward navigation
+ - RegistryView has now ability to export given key into .reg file
+ - DebugView remembers the location of active element when new filter applied
+ - DebugView and RegistryView are now available as stand-alone applications
+ - fixed few minor issues
+
+TytanNET - v0.12 - (28-April-2008)
+ - added quick project reference menus (on the toolbar and for each project menu inside Solution Explorer)
+ - fixed few minor issues
+
+TytanNET - v0.11 - (18-April-2008)
+ - toolbar now stores its location and restores it on the next Visual Studio session
+ - added visualizers for: Color, XML text, Image (Bitmap, Icon) and ImageList
+
+TytanNET - v0.10 - (16-April-2008)
+ - fixed RegistryView tool crash on access to forbidden keys
+ - fixed 'Open Folder...' icon placement for all files in Solution tree
+ - added 'Open Folder...' icon for MDI window context menu
+
+TytanNET - v0.9 - (02-April-2008)
+ - initial version with following tool windows:
+   - DebugView 
+   - RegistryView 
+   - Visual Studio EnvironmentVariables View 
+ - initial version with following refactoring methods:
+   - Init Constructor
+   - Extract Property
+   - Reorder Assignment
+   - Multi-method Rename
+   - Open Folder
+
+--------------------------------------------------------------------------------------------
+[Troubleshooting]:
+
+1] No images on TytanNET toolbar.
+   Please close Visual Studio IDE and open the Visual Studio Command Prompt.
+   Then type and execute the command:
+                devenv.exe /resetaddin Pretorianie.Tytan.Connect
+
+2] Only the administrator who installed the TytaNET has it visible inside the "Add-in Manager" menu.
+   It is because by default TytanNET is not installing itself for all the users.
+   If you want to enable TytanNET Addin for particular user, just copy the files
+   from installation dir (%ProgramFiles%\TytanNET for Visual Studio):
+    a) TytanNET.VS2005.AddIn  -- into folder --> %MyDocuments%\Visual Studio 2005\AddIns
+    b) TytanNET.VS2008.AddIn  -- into folder --> %MyDocuments%\Visual Studio 2008\AddIns
+    
+
