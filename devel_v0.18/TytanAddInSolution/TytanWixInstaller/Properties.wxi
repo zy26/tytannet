@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  
+  <?define DynProductName         = "TytanNET v0.17 - Visual Studio addin" ?>
+  <?define DynManufacturerName    = "Pretorianie 2008" ?>
+  <?define DynProductVersion      = "0.17.0" ?>
+  <?define DynProductLanguage     = "1033" ?>
+  <?define DynProductCode         = "68DD5518-4AC1-4f03-B5CC-A04476FCCF37" ?> <!-- update each time generating new installer -->
+  <?define DynPackageCode         = "9179DB97-2303-4726-BA69-BC7996AC17B8" ?> <!-- and also this one -->
+  <?define DynUpgradeCode         = "B92A720C-DE1D-4790-AD57-99B0B0E36C28" ?>
+
+  <?define DynMainFolderName      = "TytanNET for Visual Studio" ?>
+  <?define DynFeaturesCore        = "TytanNET v0.17 Components" ?>
+  <?define DynFeaturesVisualizers = "TytanNET v0.17 Visualizers" ?>
+
+</Include>
