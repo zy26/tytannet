@@ -92,12 +92,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseForms\BaseOptionPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseForms\BaseOptionPage.Designer.cs">
+      <DependentUpon>BaseOptionPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseForms\BasePackageForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BaseForms\BasePackageForm.designer.cs">
       <DependentUpon>BasePackageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseForms\BaseToolWindowPane.cs" />
     <Compile Include="BaseGenerators\BaseCodeGenerator.cs" />
     <Compile Include="BaseGenerators\BaseCodeGeneratorWithSite.cs" />
     <Compile Include="BaseGenerators\BaseMultiCodeGeneratorWithSite.cs" />
@@ -164,6 +171,7 @@
     <Compile Include="Interfaces\IMenuCreator.cs" />
     <Compile Include="Interfaces\IMenuCustomizator.cs" />
     <Compile Include="Interfaces\IPackageAction.cs" />
+    <Compile Include="Interfaces\IPackageConfigUpdater.cs" />
     <Compile Include="Interfaces\IPackageEnvironment.cs" />
     <Compile Include="Interfaces\IPackageToolWindow.cs" />
     <Compile Include="Interfaces\IToolCreator.cs" />
@@ -179,6 +187,8 @@
     <Compile Include="NativeImage\IPropertyDescriptor.cs" />
     <Compile Include="NativeImage\ISectionDescriptor.cs" />
     <Compile Include="NativeImage\INativeImageDescriptor.cs" />
+    <Compile Include="Pane\OutputPane.cs" />
+    <Compile Include="Pane\TaskListPane.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CustomAddIn\CustomAddInActionDictionary.cs" />
     <Compile Include="TaskList\CustomTask.cs" />
@@ -192,6 +202,9 @@
     <Compile Include="Tracer\Log.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BaseForms\BaseOptionPage.resx">
+      <DependentUpon>BaseOptionPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\BasePackageForm.resx">
       <DependentUpon>BasePackageForm.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -2,13 +2,14 @@ using System;
 using System.ComponentModel.Design;
 using System.IO;
 using EnvDTE;
+using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.Interfaces;
 
 namespace Pretorianie.Tytan.Actions.Misc
 {
     /// <summary>
-    /// AddIn that allows to open Windows Explorer at given place in the project.
+    /// Action that allows to open Windows Explorer with selected element from Solution Explorer.
     /// </summary>
     public sealed class OpenWindowsExplorer : IPackageAction
     {
@@ -100,15 +101,27 @@ namespace Pretorianie.Tytan.Actions.Misc
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             MenuCommand menu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, ID, Execute);
 
             parent = env;
-            mcs.AddCommand(menu);
 
             // -------------------------------------------------------
             mc.AddCommand(menu, "OpenWindowsExplorer", "Open &Folder...", 9008, null, null, false);
@@ -136,11 +149,11 @@ namespace Pretorianie.Tytan.Actions.Misc
             }
         }
 
-        #endregion
-
-        #region IDisposable Members
-
-        public void Dispose()
+        /// <summary>
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
+        /// </summary>
+        public void Destroy()
         {
         }
 

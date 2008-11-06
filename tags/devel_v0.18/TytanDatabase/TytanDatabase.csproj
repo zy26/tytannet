@@ -59,16 +59,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Pretorianie.AdoHelper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=2a3fce18bb18d435, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Pretorianie.AdoHelper.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Pretorianie.OleDbHelper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=2a3fce18bb18d435, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Pretorianie.OleDbHelper.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="Pretorianie.AdoHelper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=2a3fce18bb18d435, processorArchitecture=MSIL" />
+    <Reference Include="Pretorianie.OleDbHelper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=2a3fce18bb18d435, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -108,6 +100,10 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pretorianie.AdoHelper.dll" />
+    <Content Include="Pretorianie.OleDbHelper.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

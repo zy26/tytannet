@@ -12,7 +12,7 @@ namespace Pretorianie.Tytan.Core.Interfaces
         #region VisualStudio AddIn Required
 
         /// <summary>
-        /// Gets the type of the Control that will be created dynamically and embedded inside IDE ActiveX host.
+        /// Gets the type of the Control that will be created dynamically and embedded inside IDE <c>ActiveX</c> host.
         /// </summary>
         Type ControlType
         { get; }
@@ -40,13 +40,13 @@ namespace Pretorianie.Tytan.Core.Interfaces
         #region VisualStudio Package Required
 
         /// <summary>
-        /// Type of the ToolWindowPane that can host the control.
+        /// Type of the <c>ToolWindowPane</c> that can host the control.
         /// </summary>
         Type ToolWindowPaneType
         { get; }
 
         /// <summary>
-        /// Gets or sets the instance of the control described by the type ControlType.
+        /// Gets or sets the instance of the control described by the type <c>ControlType</c>.
         /// </summary>
         Control Control
         { get; set; }
@@ -54,7 +54,7 @@ namespace Pretorianie.Tytan.Core.Interfaces
         /// <summary>
         /// The unique description of this tool window.
         /// This guid can be used for indexing the windows collection,
-        /// for example: applicationObject.Windows.Item(guidstr).
+        /// for example: applicationObject.Windows.Item(GuidString).
         /// </summary>
         string Guid
         { get; }
@@ -66,7 +66,7 @@ namespace Pretorianie.Tytan.Core.Interfaces
         { get; }
 
         /// <summary>
-        /// 0-based index of the 16x16 pixels bitmap within BitmapResourceID that will be used as TabImage.
+        /// 0-based index of the 16x16 pixels bitmap within <c>BitmapResourceID</c> that will be used as TabImage.
         /// </summary>
         int BitmapIndex
         { get; }

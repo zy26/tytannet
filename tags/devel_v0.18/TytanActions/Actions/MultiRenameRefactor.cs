@@ -16,41 +16,43 @@ namespace Pretorianie.Tytan.Actions
     /// </summary>
     public sealed class MultiRenameRefactor : IPackageAction
     {
-        private const string PersistantStorageName = "MultiRenameTool";
+        /// <summary>
+        /// Name of the configuration settings group.
+        /// </summary>
+        private const string ConfigurationName = "MultiRenameTool";
 
         private IPackageEnvironment parent;
+        private PersistentStorageData config;
         private MultiRenameForm dlgRename;
         
         #region State Management
 
-        private static void RestoreState(MultiRenameForm dlg)
+        private void PopulateConfig(MultiRenameForm dlg)
         {
-            PersistentStorageData data = PersistentStorageHelper.Load(PersistantStorageName);
-
-            if (data != null && data.Count > 0)
+            if (config != null && config.Count > 0)
             {
-                dlg.Formula = data.GetString("Formula");
-                dlg.Counter = new StringHelper.CounterDetails(data.GetUInt("CounterStart", 1), data.GetUInt("CounterStep", 1), (int)data.GetUInt("CounterDigits", 3));
-                dlg.FormatIndex = (int)data.GetUInt("FormatIndex");
+                dlg.Formula = config.GetString("Formula");
+                dlg.Counter = new StringHelper.CounterDetails(config.GetUInt("CounterStart", 1),
+                                                              config.GetUInt("CounterStep", 1),
+                                                              (int) config.GetUInt("CounterDigits", 3));
+                dlg.FormatIndex = (int) config.GetUInt("FormatIndex");
             }
         }
 
-        private static void StoreState(MultiRenameForm dlg)
+        private void StoreConfig(MultiRenameForm dlg)
         {
             if (dlg != null)
             {
-                PersistentStorageData data = new PersistentStorageData(PersistantStorageName);
+                if(config == null)
+                    config = ObjectFactory.LoadConfiguration(ConfigurationName);
+
                 StringHelper.CounterDetails counter = dlg.Counter;
 
-                data.Add("Formula", dlg.Formula);
-                data.Add("CounterStart", counter.Current);
-                data.Add("CounterStep", counter.Step);
-                data.Add("CounterDigits", (uint)counter.Digits);
-                data.Add("FormatIndex", (uint)dlg.FormatIndex);
-
-
-                // store:
-                PersistentStorageHelper.Save(data);
+                config.Add("Formula", dlg.Formula);
+                config.Add("CounterStart", counter.Current);
+                config.Add("CounterStep", counter.Step);
+                config.Add("CounterDigits", (uint)counter.Digits);
+                config.Add("FormatIndex", (uint)dlg.FormatIndex);
             }
         }
 
@@ -67,18 +69,33 @@ namespace Pretorianie.Tytan.Actions
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return config; }
+            set { config = value; }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             MenuCommand menu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, ID, Execute, BeforeQueryStatus);
 
             parent = env;
-            mcs.AddCommand(menu);
+
+            // load configuration:
+            config = ObjectFactory.LoadConfiguration(ConfigurationName);
 
             // -------------------------------------------------------
-            mc.AddCommand(menu, "MultiRenameRefactor", "Multi Method &Rename...", 9004, "Text Editor::Ctrl+R, L", null, false);
+            mc.AddCommand(menu, "MultiRenameRefactor", "Multi Method &Rename...", 9004, "Global::Ctrl+R, L", null, false);
             mc.Customizator.AddRefactoring(menu, false, -1, null);
         }
 
@@ -111,7 +128,7 @@ namespace Pretorianie.Tytan.Actions
                 if (dlgRename == null)
                 {
                     dlgRename = new MultiRenameForm();
-                    RestoreState(dlgRename);
+                    PopulateConfig(dlgRename);
                 }
 
                 // show confirmation dialog:
@@ -119,6 +136,9 @@ namespace Pretorianie.Tytan.Actions
                                         EditorHelper.FilterMethods(selectionData.Methods, vsCMFunction.vsCMFunctionConstructor, vsCMFunction.vsCMFunctionDestructor));
                 if (dlgRename.ShowDialog() == DialogResult.OK && dlgRename.ReadInterface(out methods, out names))
                 {
+                    // remember the latest settings:
+                    StoreConfig(dlgRename);
+
                     // open the undo-context to combine all the modifications of the source code into one:
                     parent.DTE.UndoContext.Open(SharedStrings.UndoContext_MultiRenameRefactor, true);
 
@@ -148,19 +168,14 @@ namespace Pretorianie.Tytan.Actions
             }
         }
 
-        #endregion
-
-        #region IDisposable Members
-
         /// <summary>
-        /// Release all used resources.
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
         /// </summary>
-        public void Dispose()
+        public void Destroy()
         {
             if (dlgRename != null)
-                StoreState(dlgRename);
-
-            GC.SuppressFinalize(this);
+                StoreConfig(dlgRename);
         }
 
         #endregion

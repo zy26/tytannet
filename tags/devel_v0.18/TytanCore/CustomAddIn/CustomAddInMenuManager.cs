@@ -77,7 +77,6 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         ///<summary>
         ///Adds the specified standard menu command to the menu.
         ///</summary>
-        ///
         ///<param name="command">The <see cref="T:System.ComponentModel.Design.MenuCommand"></see> to add. </param>
         ///<exception cref="T:System.InvalidOperationException">The <see cref="T:System.ComponentModel.Design.CommandID"></see> of the specified <see cref="T:System.ComponentModel.Design.MenuCommand"></see> is already present on a menu. </exception>
         public void AddCommand(MenuCommand command)
@@ -95,7 +94,6 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         ///<summary>
         ///Adds the specified designer verb to the set of global designer verbs.
         ///</summary>
-        ///
         ///<param name="verb">The <see cref="T:System.ComponentModel.Design.DesignerVerb"></see> to add. </param>
         public void AddVerb(DesignerVerb verb)
         {
@@ -105,11 +103,9 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         ///<summary>
         ///Searches for the specified command ID and returns the menu command associated with it.
         ///</summary>
-        ///
         ///<returns>
         ///The <see cref="T:System.ComponentModel.Design.MenuCommand"></see> associated with the command ID, or null if no command is found.
         ///</returns>
-        ///
         ///<param name="commandID">The <see cref="T:System.ComponentModel.Design.CommandID"></see> to search for. </param>
         public MenuCommand FindCommand(CommandID commandID)
         {
@@ -119,11 +115,9 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         ///<summary>
         ///Invokes a menu or designer verb command matching the specified command ID.
         ///</summary>
-        ///
         ///<returns>
         ///true if the command was found and invoked successfully; otherwise, false.
         ///</returns>
-        ///
         ///<param name="commandID">The <see cref="T:System.ComponentModel.Design.CommandID"></see> of the command to search for and execute. </param>
         public bool GlobalInvoke(CommandID commandID)
         {
@@ -141,7 +135,6 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         ///<summary>
         ///Removes the specified standard menu command from the menu.
         ///</summary>
-        ///
         ///<param name="command">The <see cref="T:System.ComponentModel.Design.MenuCommand"></see> to remove. </param>
         public void RemoveCommand(MenuCommand command)
         {
@@ -154,7 +147,6 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         ///<summary>
         ///Removes the specified designer verb from the collection of global designer verbs.
         ///</summary>
-        ///
         ///<param name="verb">The <see cref="T:System.ComponentModel.Design.DesignerVerb"></see> to remove. </param>
         public void RemoveVerb(DesignerVerb verb)
         {
@@ -164,7 +156,6 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         ///<summary>
         ///Shows the specified shortcut menu at the specified location.
         ///</summary>
-        ///
         ///<param name="y">The y-coordinate at which to display the menu, in screen coordinates. </param>
         ///<param name="menuID">The <see cref="T:System.ComponentModel.Design.CommandID"></see> for the shortcut menu to show. </param>
         ///<param name="x">The x-coordinate at which to display the menu, in screen coordinates. </param>
@@ -175,11 +166,9 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         ///<summary>
         ///Gets or sets an array of the designer verbs that are currently available.
         ///</summary>
-        ///
         ///<returns>
         ///An array of type <see cref="T:System.ComponentModel.Design.DesignerVerb"></see> that indicates the designer verbs that are currently available.
         ///</returns>
-        ///
         public DesignerVerbCollection Verbs
         {
             get { return verbs; }
@@ -280,6 +269,14 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         {
             get { return isSetupUI; }
             set { isSetupUI = value; }
+        }
+
+        /// <summary>
+        /// Gets the handle to auxiliary menu-commands service manager.
+        /// </summary>
+        public IMenuCommandService CommandService
+        {
+            get { return this; }
         }
 
         /// <summary>
@@ -396,7 +393,7 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
             if(commands.TryGetValue(commandID, out vsCommand) && vsCommand != null)
                 return vsCommand;
 
-            // register command: 
+            // register command:
             try
             {
                 string fullCommandName = string.Format("{0}.{1}", addInInstance.ProgID, commandName);
@@ -433,6 +430,7 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
                 // store for future usage:
                 commands.Add(commandID, vsCommand);
                 captions.Add(vsCommand, caption);
+                AddCommand(menuCommand);
             }
 
             return vsCommand;
@@ -602,6 +600,9 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
                     Trace.Write(ex.Message);
                 }
             }
+
+            // and remove the command from the menu-command service:
+            RemoveCommand (menuCommand);
         }
 
         /// <summary>

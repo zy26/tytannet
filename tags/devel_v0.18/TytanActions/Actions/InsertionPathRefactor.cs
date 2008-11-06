@@ -31,10 +31,23 @@ namespace Pretorianie.Tytan.Actions
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             MenuCommand fileMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, PackageCmdIDList.toolAction_InsertFilePath, ExecuteFilePath, QueryExecute);
             MenuCommand contentMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, PackageCmdIDList.toolAction_InsertContentPath, ExecuteFileContent, QueryExecute);
@@ -42,16 +55,12 @@ namespace Pretorianie.Tytan.Actions
             MenuCommand folderMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, PackageCmdIDList.toolAction_InsertFolderPath, ExecuteFolderPath, QueryExecute);
 
             parent = env;
-            mcs.AddCommand(fileMenu);
-            mcs.AddCommand(contentMenu);
-            mcs.AddCommand(exportContentMenu);
-            mcs.AddCommand(folderMenu);
 
             // -------------------------------------------------------
-            mc.AddCommand(fileMenu, "InsertFilePath", "Insert &File Path...", 0, null, null, false);
-            mc.AddCommand(contentMenu, "InsertFileContent", "Insert File Content As &Binary...", 0, null, null, false);
+            mc.AddCommand(fileMenu, "InsertFilePath", "Insert &File Path...", 9019, null, null, false);
+            mc.AddCommand(contentMenu, "InsertFileContent", "Insert File Content As &Binary...", 9020, null, null, false);
             mc.AddCommand(exportContentMenu, "InsertFileExportContent", "Export File C&ontent...", 0, null, null, false);
-            mc.AddCommand(folderMenu, "InsertFolderPath", "Insert Folder &Location...", 0, null, null, false);
+            mc.AddCommand(folderMenu, "InsertFolderPath", "Insert Folder &Location...", 9018, null, null, false);
             mc.Customizator.AddInsertionItem(folderMenu, false, -1, null);
             mc.Customizator.AddInsertionItem(fileMenu, false, -1, null);
             mc.Customizator.AddInsertionItem(contentMenu, false, -1, null);
@@ -82,13 +91,34 @@ namespace Pretorianie.Tytan.Actions
         }
 
         /// <summary>
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
+        /// </summary>
+        public void Destroy()
+        {
+        }
+
+        /// <summary>
+        /// Creates secure path - acceptable inside the programming language source-code.
+        /// </summary>
+        private static string SecurePath(string path)
+        {
+            return path;
+        }
+
+        private static string UnsecurePath(string path)
+        {
+            return path;
+        }
+
+        /// <summary>
         /// Gets the currently selected text.
         /// </summary>
         private string GetSelection()
         {
             CodeEditPoint editPoint = parent.CurrentEditPoint;
 
-            if(editPoint != null && editPoint.IsSelected)
+            if (editPoint != null && editPoint.IsSelected)
                 return editPoint.Selection.Text;
 
             return null;
@@ -137,12 +167,12 @@ namespace Pretorianie.Tytan.Actions
             CreateFileDialog(true);
 
             if (!string.IsNullOrEmpty(path))
-                dlgFile.FileName = path;
+                dlgFile.FileName = UnsecurePath(path);
 
             // and insert selected file's path into currently active document:
             if (dlgFile.ShowDialog() == DialogResult.OK)
                 parent.CurrentEditPoint.InsertTextOrReplaceSelection(SharedStrings.UndoContext_InsertFilePath,
-                                                                     dlgFile.FileName);
+                                                                     SecurePath(dlgFile.FileName), true);
         }
 
         /// <summary>
@@ -156,7 +186,7 @@ namespace Pretorianie.Tytan.Actions
             CreateFileDialog(false);
 
             if (!string.IsNullOrEmpty(path))
-                dlgFile.FileName = path;
+                dlgFile.FileName = UnsecurePath(path);
 
             // and insert selected file into currently active document:
             if (dlgFile.ShowDialog() == DialogResult.OK)
@@ -165,7 +195,7 @@ namespace Pretorianie.Tytan.Actions
 
                 if (!string.IsNullOrEmpty(data))
                     parent.CurrentEditPoint.InsertTextOrReplaceSelection(SharedStrings.UndoContext_InsertFileContent,
-                                                                         data);
+                                                                         data, true);
             }
         }
 
@@ -176,7 +206,7 @@ namespace Pretorianie.Tytan.Actions
         {
             string selection = GetSelection();
 
-            if(string.IsNullOrEmpty(selection))
+            if (string.IsNullOrEmpty(selection))
                 return;
 
             // configure dialog-box:
@@ -248,18 +278,7 @@ namespace Pretorianie.Tytan.Actions
             // and insert selected folder's location into currently active document:
             if (dlgFolder.ShowDialog() == DialogResult.OK)
                 parent.CurrentEditPoint.InsertTextOrReplaceSelection(SharedStrings.UndoContext_InsertFolderPath,
-                                                                     dlgFolder.SelectedPath);
-        }
-
-        #endregion
-
-        #region IDisposable
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
+                                                                     SecurePath(dlgFolder.SelectedPath), true);
         }
 
         #endregion

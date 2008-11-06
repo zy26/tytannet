@@ -165,18 +165,30 @@ namespace Pretorianie.Tytan.Actions
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
-             MenuCommand menu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, ID, Execute, BeforeQueryStatus);
+            MenuCommand menu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, ID, Execute, BeforeQueryStatus);
 
             parent = env;
-            mcs.AddCommand(menu);
 
             // -------------------------------------------------------
-            mc.AddCommand(menu, "ExtractPropertyRefactor", "E&xtract Property...", 9001, "Text Editor::Ctrl+R, R", null, false);
+            mc.AddCommand(menu, "ExtractPropertyRefactor", "E&xtract Property...", 9001, "Global::Ctrl+R, R", null, false);
             mc.Customizator.AddRefactoring(menu, false, -1, null);
         }
 
@@ -223,11 +235,11 @@ namespace Pretorianie.Tytan.Actions
             }
         }
 
-        #endregion
-
-        #region IDisposable Members
-
-        public void Dispose()
+        /// <summary>
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
+        /// </summary>
+        public void Destroy()
         {
         }
 

@@ -22,6 +22,8 @@ namespace Pretorianie.Tytan.Database.Helpers
             DataLinks sysConnectionDialog = new DataLinks();
             _Connection adoConnection;
 
+            initialConnectionString = UnsecureConnectionString(initialConnectionString);
+
             if (string.IsNullOrEmpty(initialConnectionString))
             {
                 // get the connection object from the dialog:
@@ -61,6 +63,25 @@ namespace Pretorianie.Tytan.Database.Helpers
             // otherwise return the default connection info:
             userConnectionString = null;
             return false;
+        }
+
+        /// <summary>
+        /// Remove characters that might occure inside connection string but might be a part of variable/string/XML-attribute
+        /// where the string was copied from.
+        /// </summary>
+        private static string UnsecureConnectionString(string connectionString)
+        {
+            if (string.IsNullOrEmpty(connectionString))
+                return null;
+
+            if (connectionString.StartsWith("\""))
+                connectionString = connectionString.Substring(1);
+            if (connectionString.EndsWith(";"))
+                connectionString = connectionString.Substring(0, connectionString.Length - 1);
+            if (connectionString.EndsWith("\""))
+                connectionString = connectionString.Substring(0, connectionString.Length - 1);
+
+            return string.IsNullOrEmpty(connectionString) ? null : connectionString;
         }
     }
 }

@@ -368,16 +368,19 @@ namespace Pretorianie.Tytan.Tools
 
         private void RefreshProcessCombo()
         {
+            if (toolStripProcesses == null)
+                return;
+
             ProcessItem i = new ProcessItem(-1, "-- all --");
             ProcessItem j = new ProcessItem(-2, "-- disk --");
             SortedList<string, Process> processes = new SortedList<string, Process>();
-            string selected = (toolStripProcesses != null && toolStripProcesses.SelectedItem != null
+            string selected = (toolStripProcesses.SelectedItem != null
                                && (toolStripProcesses.SelectedItem) is ProcessItem
                                    ? ((ProcessItem) (toolStripProcesses.SelectedItem)).Name
                                    : null);
             int selectedIndex = 0;
             int counter = 0;
-
+            
             toolStripProcesses.Items.Clear();
             toolStripProcesses.Items.Add(i);
             toolStripProcesses.Items.Add(j);
@@ -506,13 +509,11 @@ namespace Pretorianie.Tytan.Tools
 
         private void SetItemSelected(int selectedIndex, ListViewItem item, bool sendEvent)
         {
-            bool different;
-
             copyToolStripMenuItem.Enabled =
                 jumpToFunctionToolStripMenuItem.Enabled =
                     toolStripJump.Enabled = (item != null) && toolStripCustomColumns.SelectedIndex != 0;
 
-            different = selectedItemIndex != selectedIndex;
+            bool different = selectedItemIndex != selectedIndex;
             selectedItem = item;
             selectedItemIndex = selectedIndex;
 
@@ -612,7 +613,5 @@ namespace Pretorianie.Tytan.Tools
         {
             toolStripCustomColumns.SelectedIndex = (int)newStyle + 1;
         }
-
-
     }
 }

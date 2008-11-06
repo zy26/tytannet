@@ -2,7 +2,7 @@
 {
     public static class PackageCmdIDList
     {
-        public const int menuTaskListTooolbar = 0x2010;
+        public const int menuTaskListToolbar = 0x2010;
 
         public const int toolTypeFinder = 0x100;
         public const int toolRegistryView = 0x200;
@@ -19,6 +19,7 @@
         public const int toolRefactor_MultiRename = 0x154;
 
         public const int toolAction_ReferenceProject = 0x250;
+        public const int toolAction_QuitQuestion = 0x251;
 
         public const int toolAction_AbouxBoxPopup = 0x180;
         public const int toolAction_AbouxBoxCheckUpdate = 0x181;

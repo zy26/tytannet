@@ -28,10 +28,10 @@ namespace Pretorianie.Tytan.Core.CustomPackage
         /// <summary>
         /// Invoke initialization for all stored actions.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, System.ComponentModel.Design.IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             foreach (IPackageAction a in data.Values)
-                a.Initialize(env, mcs, mc);
+                a.Initialize(env, mc);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Pretorianie.Tytan.Core.CustomPackage
         public void Dispose()
         {
             foreach (IPackageAction a in data.Values)
-                a.Dispose();
+                a.Destroy();
         }
 
         /// <summary>

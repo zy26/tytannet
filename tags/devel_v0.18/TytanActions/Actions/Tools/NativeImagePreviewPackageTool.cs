@@ -1,10 +1,12 @@
 using System;
 using System.ComponentModel.Design;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EnvDTE80;
+using Pretorianie.Tytan.Core.BaseForms;
+using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.Interfaces;
 using Pretorianie.Tytan.Tools;
-using Pretorianie.Tytan.Windows;
 using Pretorianie.Tytan.Core.Helpers;
 
 namespace Pretorianie.Tytan.Actions.Tools
@@ -15,10 +17,19 @@ namespace Pretorianie.Tytan.Actions.Tools
         private Window2 window;
         private NativeImagePreviewTool control;
 
+        #region WindowPane
+
+        [Guid(GuidList.guidToolWindow_NativeImagePreview)]
+        public class NativeImagePreviewToolWindow : BaseToolWindowPane<NativeImagePreviewPackageTool>
+        {
+        }
+
+        #endregion
+
         #region IPackageToolWindow Members
 
         /// <summary>
-        /// Gets the type of the Control that will be created dynamically and embedded inside IDE ActiveX host.
+        /// Gets the type of the Control that will be created dynamically and embedded inside IDE <c>ActiveX</c> host.
         /// </summary>
         public Type ControlType
         {
@@ -51,7 +62,7 @@ namespace Pretorianie.Tytan.Actions.Tools
         }
 
         /// <summary>
-        /// Type of the ToolWindowPane that can host the control.
+        /// Type of the <c>ToolWindowPane</c> that can host the control.
         /// </summary>
         public Type ToolWindowPaneType
         {
@@ -59,7 +70,7 @@ namespace Pretorianie.Tytan.Actions.Tools
         }
 
         /// <summary>
-        /// Gets or sets the instance of the control described by the type ControlType.
+        /// Gets or sets the instance of the control described by the type <c>ControlType</c>.
         /// </summary>
         public Control Control
         {
@@ -80,7 +91,7 @@ namespace Pretorianie.Tytan.Actions.Tools
         /// <summary>
         /// The unique description of this tool window.
         /// This guid can be used for indexing the windows collection,
-        /// for example: applicationObject.Windows.Item(guidstr).
+        /// for example: applicationObject.Windows.Item(GuidString).
         /// </summary>
         public string Guid
         {
@@ -96,7 +107,7 @@ namespace Pretorianie.Tytan.Actions.Tools
         }
 
         /// <summary>
-        /// 0-based index of the 16x16 pixels bitmap within BitmapResourceID that will be used as TabImage.
+        /// 0-based index of the 16x16 pixels bitmap within <c>BitmapResourceID</c> that will be used as TabImage.
         /// </summary>
         public int BitmapIndex
         {
@@ -116,15 +127,27 @@ namespace Pretorianie.Tytan.Actions.Tools
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             MenuCommand menu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, ID, Execute);
 
             parent = env;
-            mcs.AddCommand(menu);
 
             // -------------------------------------------------------
             mc.AddCommand(menu, "NativeImagePreview", "NativeImage &Preview", BitmapIndex, "Global::Ctrl+W, N", null, true);
@@ -139,16 +162,12 @@ namespace Pretorianie.Tytan.Actions.Tools
             parent.ShowToolWindow(this);
         }
 
-        #endregion
-
-        #region IDisposable Members
-
-        ///<summary>
-        ///Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        ///</summary>
-        public void Dispose()
+        /// <summary>
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
+        /// </summary>
+        public void Destroy()
         {
-            GC.SuppressFinalize(this);
         }
 
         #endregion

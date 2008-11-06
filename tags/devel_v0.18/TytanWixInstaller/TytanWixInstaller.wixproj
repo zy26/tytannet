@@ -5,7 +5,7 @@
     <ProductVersion>3.0</ProductVersion>
     <ProjectGuid>{1846275f-32f4-4a35-813f-52155ac411f2}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>TytanNET.v0.17.setup</OutputName>
+    <OutputName>TytanNET.v0.18.setup</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.0\Wix.targets</WixTargetsPath>
     <SccProjectName>SAK</SccProjectName>
@@ -14,12 +14,12 @@
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\..\..\output\setup\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\..\output\Setup\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\..\..\output\setup\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\..\output\Setup\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>

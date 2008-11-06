@@ -23,18 +23,30 @@ namespace Pretorianie.Tytan.Actions
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             MenuCommand databaseMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, ID, Execute, BeforeExecute);
 
             parent = env;
-            mcs.AddCommand(databaseMenu);
 
             // -------------------------------------------------------
-            mc.AddCommand(databaseMenu, "InsertConnectionString", "Insert &Connection String...", 0, null, null, false);
+            mc.AddCommand(databaseMenu, "InsertConnectionString", "Insert &Connection String...", 9016, "Global::Ctrl+R, S", null, false);
             mc.Customizator.AddInsertionItem(databaseMenu, true, -1, null);
         }
 
@@ -63,6 +75,14 @@ namespace Pretorianie.Tytan.Actions
                 InsertDatabaseConnection(editorEditPoint, isSelected, cs);
         }
 
+        /// <summary>
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
+        /// </summary>
+        public void Destroy()
+        {
+        }
+
         private static void InsertDatabaseConnection(CodeEditPoint editorEditPoint, bool isSelection, string connectionString)
         {
             // if selected text is equal to the one accepted by user - there is no point in editor update:
@@ -70,18 +90,7 @@ namespace Pretorianie.Tytan.Actions
                 return;
 
             editorEditPoint.InsertTextOrReplaceSelection(SharedStrings.UndoContext_InsertConnectionString,
-                                                         connectionString);
+                                                         connectionString, true);
         }
-
-        #region Dispose
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        #endregion
     }
 }

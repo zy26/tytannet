@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
+using Pretorianie.Tytan.Core.Data;
 
 namespace Pretorianie.Tytan.Core.Helpers
 {
@@ -32,6 +33,15 @@ namespace Pretorianie.Tytan.Core.Helpers
         public static MenuCommand CreateCommand(Guid menuGroup, int commandID, EventHandler executeHandler, EventHandler beforeQueryStatusHandler)
         {
             return new OleMenuCommand(executeHandler, null, beforeQueryStatusHandler, new CommandID(menuGroup, commandID));
+        }
+
+        /// <summary>
+        /// Loads the configuration with specified name.
+        /// </summary>
+        /// <param name="name">Unique name of the configuration to load.</param>
+        public static PersistentStorageData LoadConfiguration(string name)
+        {
+            return PersistentStorageHelper.Load(name);
         }
     }
 }

@@ -84,13 +84,9 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connect.cs" />
-    <Compile Include="Registrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +114,10 @@
     <ProjectReference Include="..\TytanCore\TytanCore.csproj">
       <Project>{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}</Project>
       <Name>TytanCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TytanDatabase\TytanDatabase.csproj">
+      <Project>{76C487D6-0A6D-4C7A-96EA-67286535931D}</Project>
+      <Name>TytanDatabase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

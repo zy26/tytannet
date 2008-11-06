@@ -68,15 +68,15 @@ namespace Pretorianie.Tytan.Actions.Misc
         /// </summary>
         private void StoreCheckState()
         {
-            if (lastUpdateCheck != DateTime.MinValue)
-            {
-                PersistentStorageData data = new PersistentStorageData(PersistantStorageName);
+            if (lastUpdateCheck == DateTime.MinValue)
+                return;
 
-                data.Add("LastUpdateDate", lastUpdateCheck.ToShortDateString());
+            PersistentStorageData data = new PersistentStorageData(PersistantStorageName);
 
-                // store:
-                PersistentStorageHelper.Save(data);
-            }
+            data.Add("LastUpdateDate", lastUpdateCheck.ToShortDateString());
+
+            // store:
+            PersistentStorageHelper.Save(data);
         }
 
         private void PerformUpdateCheck()
@@ -129,10 +129,23 @@ namespace Pretorianie.Tytan.Actions.Misc
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             MenuCommand tipsMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, PackageCmdIDList.toolAction_AbouxBoxPopup, ExecuteTips);
             MenuCommand checkMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, PackageCmdIDList.toolAction_AbouxBoxCheckUpdate, ExecuteCheckUpdate);
@@ -142,12 +155,6 @@ namespace Pretorianie.Tytan.Actions.Misc
             MenuCommand aboutMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, PackageCmdIDList.toolAction_AbouxBoxInfo, ExecuteAboutBox);
 
             parent = env;
-            mcs.AddCommand(tipsMenu);
-            mcs.AddCommand(checkMenu);
-            mcs.AddCommand(bugMenu);
-            mcs.AddCommand(featureMenu);
-            mcs.AddCommand(visitMenu);
-            mcs.AddCommand(aboutMenu);
 
             // -------------------------------------------------------
             mc.AddCommand(tipsMenu, "TipsAndTricks", "&Tips && tricks...", 9013, null, null, false);
@@ -170,6 +177,14 @@ namespace Pretorianie.Tytan.Actions.Misc
         /// Invokes proper processing assigned to current action.
         /// </summary>
         public void Execute(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
+        /// </summary>
+        public void Destroy()
         {
         }
 
@@ -244,11 +259,5 @@ namespace Pretorianie.Tytan.Actions.Misc
             dlgAbout.ShowDialog();
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-        }
     }
 }

@@ -1,22 +1,30 @@
 using System;
+using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using System.Windows.Forms;
 using EnvDTE80;
+using Pretorianie.Tytan.Core.BaseForms;
+using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.Interfaces;
 using Pretorianie.Tytan.Tools;
-using Pretorianie.Tytan.Windows;
 
 namespace Pretorianie.Tytan.Actions.Tools
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class CommandViewPackageTool : IPackageToolWindow
     {
         private IPackageEnvironment parent;
         private CommandViewTool control;
         private Window2 window;
+
+        #region WindowPane
+
+        [Guid(GuidList.guidToolWindow_DebugView)]
+        public class CommandViewToolWindow : BaseToolWindowPane<CommandViewPackageTool>
+        {
+        }
+
+        #endregion
 
         #region IPackageToolWindow Members
 
@@ -126,15 +134,27 @@ namespace Pretorianie.Tytan.Actions.Tools
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             MenuCommand menu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, ID, Execute);
 
             parent = env;
-            mcs.AddCommand(menu);
 
             // -------------------------------------------------------
             mc.AddCommand(menu, "CommandView", "&Command Browser", BitmapIndex, "Global::Ctrl+W, B", null, true);
@@ -149,23 +169,19 @@ namespace Pretorianie.Tytan.Actions.Tools
             if (parent.ShowToolWindow(this))
                 control.RefreshInfos(parent.DTE);
         }
-        
-        void CommandSelected(CommandViewTool sender, Core.Data.CommandInfo item)
+
+        /// <summary>
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
+        /// </summary>
+        public void Destroy()
+        {
+        }
+
+        void CommandSelected(CommandViewTool sender, CommandInfo item)
         {
             // select given command inside Property Window:
             parent.SelectAtProperties(window, item);
-        }
-
-        #endregion
-
-        #region IDisposable Members
-
-        ///<summary>
-        ///Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        ///</summary>
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
         }
 
         #endregion
