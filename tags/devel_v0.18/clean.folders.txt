@@ -1,6 +1,7 @@
 ;
 ; Put extra folders to clean here:
 ;
+AlfaTests
 TytanActions
 TytanAddIn
 TytanCodeGenerators

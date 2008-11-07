@@ -202,6 +202,7 @@ namespace Pretorianie.Tytan.Core.Events
                 solutionEvents.ProjectAdded -= SolutionEvents_ProjectAdded;
                 solutionEvents.ProjectRemoved -= SolutionEvents_ProjectRemoved;
                 solutionEvents.ProjectRenamed -= SolutionEvents_ProjectRenamed;
+                solutionEvents.QueryCloseSolution -= SolutionEvents_QueryCloseSolution;
                 solutionEvents = null;
                 dteEvents = null;
                 appObject = null;
