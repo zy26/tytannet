@@ -149,6 +149,7 @@
                             <util:XmlFile Id="AddIn2005_02" File="[AddIns2005InstallLocation]$(var.DynTytanAddInFileName)" Action="setValue" ElementPath="//Extensibility/ToolsOptionsPage/Category[\[]@Name='TytanNET'[\]]/SubCategory[\[]@Name='General'[\]]/Assembly" Value="[INSTALLLOCATION]Tytan.Actions.dll" Sequence="2" />
                             <util:XmlFile Id="AddIn2005_03" File="[AddIns2005InstallLocation]$(var.DynTytanAddInFileName)" Action="setValue" ElementPath="//Extensibility/ToolsOptionsPage/Category[\[]@Name='TytanNET'[\]]/SubCategory[\[]@Name='References'[\]]/Assembly" Value="[INSTALLLOCATION]Tytan.Actions.dll" Sequence="3" />
                             <RemoveFile Id="RemoveAddInFile2005" Name="AddInFile2005_00" On="uninstall" />
+                            <RegistryValue Id="CoreVS2005IntegrationRegistry" Root="HKCU" Key="Software\Pretorianie\VisualStudio.8" Name="ShowTytanToolbar" Value="1" Type="integer" Action="write" />
                         </Component>
                     </Directory>
 
@@ -164,6 +165,7 @@
                             <util:XmlFile Id="AddIn2008_02" File="[AddIns2008InstallLocation]$(var.DynTytanAddInFileName)" Action="setValue" ElementPath="//Extensibility/ToolsOptionsPage/Category[\[]@Name='TytanNET'[\]]/SubCategory[\[]@Name='General'[\]]/Assembly" Value="[INSTALLLOCATION]Tytan.Actions.dll" />
                             <util:XmlFile Id="AddIn2008_03" File="[AddIns2008InstallLocation]$(var.DynTytanAddInFileName)" Action="setValue" ElementPath="//Extensibility/ToolsOptionsPage/Category[\[]@Name='TytanNET'[\]]/SubCategory[\[]@Name='References'[\]]/Assembly" Value="[INSTALLLOCATION]Tytan.Actions.dll" />
                             <RemoveFile Id="RemoveAddInFile2008" Name="AddInFile2008_00" On="uninstall" />
+                            <RegistryValue Id="CoreVS2008IntegrationRegistry" Root="HKCU" Key="Software\Pretorianie\VisualStudio.9" Name="ShowTytanToolbar" Value="1" Type="integer" Action="write" />
                         </Component>
                     </Directory>
 

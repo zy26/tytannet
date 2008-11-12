@@ -228,7 +228,6 @@
     </Compile>
     <Compile Include="PackageCmdIDList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="SharedStrings.cs" />
     <Compile Include="SharedStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

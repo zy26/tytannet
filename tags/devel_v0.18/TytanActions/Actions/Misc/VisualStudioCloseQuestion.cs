@@ -25,7 +25,7 @@ namespace Pretorianie.Tytan.Actions.Misc
         /// <summary>
         /// Name of the "Ask" configuration parameter.
         /// </summary>
-        public const string Config_Ask = "Ask";
+        public const string Config_Prompt = "PromptForClose";
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace Pretorianie.Tytan.Actions.Misc
 
         void SolutionEvents_SolutionQueryClose(object sender, Solution s, ref bool bCancel)
         {
-            if (config == null || config.GetUInt(Config_Ask, 1) > 0)
+            if (config == null || config.GetUInt(Config_Prompt, 1) > 0)
             {
                 if (MessageBox.Show(SharedStrings.SolutionClose_Question, SharedStrings.SolutionClose_DialogTitle,
                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)

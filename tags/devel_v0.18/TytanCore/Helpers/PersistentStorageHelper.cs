@@ -21,7 +21,9 @@ namespace Pretorianie.Tytan.Core.Helpers
             try
             {
                 RegistryKey key;
-                string path = string.Format(@"Software\Pretorianie\VisualStudio.{0}\{1}", shortVersionString, toolName);
+                string path = string.IsNullOrEmpty(toolName)
+                                  ? string.Format(@"Software\Pretorianie\VisualStudio.{0}", shortVersionString)
+                                  : string.Format(@"Software\Pretorianie\VisualStudio.{0}\{1}", shortVersionString, toolName);
 
                 if (writable)
                 {

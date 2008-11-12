@@ -118,13 +118,34 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="T0" xml:space="preserve">
-    <value>double-clicking on the text inside DebugView tool, will immediatelly jump to the source code, close to the line where the log entry was created.</value>
+    <value>double-clicking on the text inside DebugView tool, will immediately jump to the source code, close to the line where the log entry was created.</value>
   </data>
   <data name="T1" xml:space="preserve">
     <value>DebugView requires the log entries to have a special format to perform the jump quickly.</value>
   </data>
+  <data name="T10" xml:space="preserve">
+    <value>you can quickly insert a Guid attribute to a class or just GUID string (depending on current cursor location) by clicking 'Insert Guid' inside Refactor menu.</value>
+  </data>
+  <data name="T11" xml:space="preserve">
+    <value>from DebugView you can quickly navigate to source-code by just double-clicking the log entry.</value>
+  </data>
+  <data name="T12" xml:space="preserve">
+    <value>Registry Editor can export data in the same format as a standard Windows' registry editor (regedit.exe).</value>
+  </data>
+  <data name="T13" xml:space="preserve">
+    <value>Registry Editor enhances the navigation over system registry.</value>
+  </data>
+  <data name="T14" xml:space="preserve">
+    <value>by editing Environment Variables inside Visual Studio you don't need to restart it each time you want to change parameters for your tests.</value>
+  </data>
+  <data name="T15" xml:space="preserve">
+    <value>you can safe a lot of time just by using TytanNET coding enhancements and removing boring coding from your life!</value>
+  </data>
+  <data name="T16" xml:space="preserve">
+    <value>I am always keen to listen your suggestions about TytanNET and how to improve it.</value>
+  </data>
   <data name="T2" xml:space="preserve">
-    <value>DebugView can at run-time filter incomming messages.</value>
+    <value>DebugView can at run-time filter incoming messages.</value>
   </data>
   <data name="T3" xml:space="preserve">
     <value>there are few log-entries formats automatically detected by DebugView tool.</value>
@@ -148,10 +169,16 @@
  - RegistryView - editor of system registry,
  - EnvironmentVariables - editor of environment variables</value>
   </data>
+  <data name="T8" xml:space="preserve">
+    <value>TytanNET allows insertion and edition of database connection strings using standard full-featured dialog box.</value>
+  </data>
+  <data name="T9" xml:space="preserve">
+    <value>to edit connection string is enough to select a text in any text editor window and click 'Refactor-&gt;Quick Insert-&gt;Insert Connection String'.</value>
+  </data>
   <data name="Tips_First" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="Tips_Last" xml:space="preserve">
-    <value>7</value>
+    <value>16</value>
   </data>
 </root>

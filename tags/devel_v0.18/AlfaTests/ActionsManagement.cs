@@ -166,6 +166,7 @@ namespace AlfaTests
             // release manager's resources:
             manager.ApplicationExit(true);
 
+            // check if the initialization has been called at most 2-times:
             ThrowCounterException(2);
         }
     }

@@ -61,7 +61,7 @@ namespace Pretorianie.Tytan {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to double-clicking on the text inside DebugView tool, will immediatelly jump to the source code, close to the line where the log entry was created..
+        ///   Looks up a localized string similar to double-clicking on the text inside DebugView tool, will immediately jump to the source code, close to the line where the log entry was created..
         /// </summary>
         internal static string T0 {
             get {
@@ -79,7 +79,70 @@ namespace Pretorianie.Tytan {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DebugView can at run-time filter incomming messages..
+        ///   Looks up a localized string similar to you can quickly insert a Guid attribute to a class or just GUID string (depending on current cursor location) by clicking &apos;Insert Guid&apos; inside Refactor menu..
+        /// </summary>
+        internal static string T10 {
+            get {
+                return ResourceManager.GetString("T10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to from DebugView you can quickly navigate to source-code by just double-clicking the log entry..
+        /// </summary>
+        internal static string T11 {
+            get {
+                return ResourceManager.GetString("T11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registry Editor can export data in the same format as a standard Windows&apos; registry editor (regedit.exe)..
+        /// </summary>
+        internal static string T12 {
+            get {
+                return ResourceManager.GetString("T12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registry Editor enhances the navigation over system registry..
+        /// </summary>
+        internal static string T13 {
+            get {
+                return ResourceManager.GetString("T13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to by editing Environment Variables inside Visual Studio you don&apos;t need to restart it each time you want to change parameters for your tests..
+        /// </summary>
+        internal static string T14 {
+            get {
+                return ResourceManager.GetString("T14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to you can safe a lot of time just by using TytanNET coding enhancements and removing boring coding from your life!.
+        /// </summary>
+        internal static string T15 {
+            get {
+                return ResourceManager.GetString("T15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I am always keen to listen your suggestions about TytanNET and how to improve it..
+        /// </summary>
+        internal static string T16 {
+            get {
+                return ResourceManager.GetString("T16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DebugView can at run-time filter incoming messages..
         /// </summary>
         internal static string T2 {
             get {
@@ -140,6 +203,24 @@ namespace Pretorianie.Tytan {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TytanNET allows insertion and edition of database connection strings using standard full-featured dialog box..
+        /// </summary>
+        internal static string T8 {
+            get {
+                return ResourceManager.GetString("T8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to edit connection string is enough to select a text in any text editor window and click &apos;Refactor-&gt;Quick Insert-&gt;Insert Connection String&apos;..
+        /// </summary>
+        internal static string T9 {
+            get {
+                return ResourceManager.GetString("T9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0.
         /// </summary>
         internal static string Tips_First {
@@ -149,7 +230,7 @@ namespace Pretorianie.Tytan {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 7.
+        ///   Looks up a localized string similar to 16.
         /// </summary>
         internal static string Tips_Last {
             get {

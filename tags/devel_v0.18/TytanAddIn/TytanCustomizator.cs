@@ -4,6 +4,8 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using Microsoft.VisualStudio.CommandBars;
 using Pretorianie.Tytan.Core.CustomAddIn;
+using Pretorianie.Tytan.Core.Data;
+using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.Interfaces;
 
 namespace Pretorianie.Tytan
@@ -34,9 +36,15 @@ namespace Pretorianie.Tytan
         /// </summary>
         public const string InsertMenu = "Quick &Insert";
 
+        /// <summary>
+        /// Name of the parameter that describes the status of the TytanToolbar visibility.
+        /// </summary>
+        private const string ShowTytanToolbarOption = "ShowTytanToolbar";
+
         #region IMenuCustomizator Members
 
         private CustomAddInManager manager;
+        private PersistentStorageData config;
         private CommandBar tytanToolbar;
         private CommandBarPopup tytanAuxTools;
         private CommandBarPopup tytanRefactors;
@@ -64,6 +72,10 @@ namespace Pretorianie.Tytan
         {
             IMenuCreator mc = m.MenuCreator;
 
+            // read the global settings for an add-in:
+            config = ObjectFactory.LoadConfiguration(null);
+
+            // configure the management objects:
             manager = m;
             tytanToolbar = mc.AddToolbar(ToolbarName);
             tytanAuxTools = mc.AddPopup(tytanToolbar, AuxiliaryToolsName, null, false, -1);
@@ -82,7 +94,7 @@ namespace Pretorianie.Tytan
         public void AfterApplicationInit(bool setupUI)
         {
             if (tytanToolbar != null)
-                tytanToolbar.Visible = true;
+                tytanToolbar.Visible = config.GetUInt(ShowTytanToolbarOption, 1) > 0;
         }
 
         /// <summary>
@@ -91,7 +103,13 @@ namespace Pretorianie.Tytan
         public void Destroy()
         {
             if (tytanToolbar != null)
+            {
+                // store the config option:
+                config.Add(ShowTytanToolbarOption, (uint) (tytanToolbar.Visible ? 1 : 0));
+                PersistentStorageHelper.Save(config);
+
                 tytanToolbar.Visible = false;
+            }
         }
 
         /// <summary>
