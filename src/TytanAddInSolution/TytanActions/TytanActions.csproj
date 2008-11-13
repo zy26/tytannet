@@ -109,6 +109,7 @@
     <Compile Include="Actions\Misc\AboutBoxAction.cs" />
     <Compile Include="Actions\Misc\OpenWindowsExplorer.cs" />
     <Compile Include="Actions\Misc\ReferenceProjectAction.cs" />
+    <Compile Include="Actions\Misc\VisualStudioCloseQuestion.cs" />
     <Compile Include="Actions\MultiRenameRefactor.cs" />
     <Compile Include="Actions\Tools\CommandViewPackageTool.cs" />
     <Compile Include="Actions\Tools\DebugViewPackageTool.cs" />
@@ -208,10 +209,17 @@
       <DependentUpon>RegistryRemoveFavorite.cs</DependentUpon>
     </Compile>
     <Compile Include="GuidList.cs" />
-    <Compile Include="PublicResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PublicResources.resx</DependentUpon>
+    <Compile Include="OptionPages\ReferenceProjectOption.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OptionPages\ReferenceProjectOption.Designer.cs">
+      <DependentUpon>ReferenceProjectOption.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionPages\SolutionCloseOption.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OptionPages\SolutionCloseOption.Designer.cs">
+      <DependentUpon>SolutionCloseOption.cs</DependentUpon>
     </Compile>
     <Compile Include="SharedIcons.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -220,7 +228,6 @@
     </Compile>
     <Compile Include="PackageCmdIDList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="SharedStrings.cs" />
     <Compile Include="SharedStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -273,12 +280,6 @@
     <Compile Include="Tools\TypeFinderToolControl.Designer.cs">
       <DependentUpon>TypeFinderToolControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Windows\CommandViewToolWindow.cs" />
-    <Compile Include="Windows\DebugViewToolWindow.cs" />
-    <Compile Include="Windows\EnvironmentVarsToolWindow.cs" />
-    <Compile Include="Windows\NativeImagePreviewToolWindow.cs" />
-    <Compile Include="Windows\RegistryViewToolWindow.cs" />
-    <Content Include="Windows\TypeFinderToolWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\AboutBoxForm.resx">
@@ -335,12 +336,16 @@
     </EmbeddedResource>
     <None Include="PublicResources.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PublicResources.Designer.cs</LastGenOutput>
     </None>
     <EmbeddedResource Include="Forms\RegistryRemoveFavorite.resx">
       <SubType>Designer</SubType>
       <DependentUpon>RegistryRemoveFavorite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionPages\ReferenceProjectOption.resx">
+      <DependentUpon>ReferenceProjectOption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionPages\SolutionCloseOption.resx">
+      <DependentUpon>SolutionCloseOption.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SharedStrings.resx">
       <SubType>Designer</SubType>
@@ -397,14 +402,20 @@
     <None Include="Resources\application_side_tree.bmp" />
     <None Include="Resources\Control_ToolBar.bmp" />
     <None Include="Resources\application_home.bmp" />
+    <Content Include="Resources\database_edit.bmp" />
     <Content Include="Resources\empty.bmp" />
     <None Include="Resources\FillDown.bmp" />
+    <Content Include="Resources\folder_edit.bmp" />
     <Content Include="Resources\folder_find_next.png" />
     <None Include="Resources\SychronizeListHS.bmp" />
     <None Include="Resources\SaveFormDesignHS.bmp" />
     <None Include="Resources\lightbulb.bmp" />
     <None Include="Resources\gradient.png" />
     <None Include="Resources\TipsAndTricks.png" />
+    <Content Include="Resources\page_white_edit.bmp" />
+    <Content Include="Resources\page_white_star.bmp" />
+    <Content Include="Resources\tag_blue_edit.bmp" />
+    <Content Include="Resources\tag_red.bmp" />
     <Content Include="Resources\VSFolder_open.bmp" />
     <None Include="Resources\VSObject_Event.bmp" />
     <None Include="Resources\VSFolder_closed.bmp" />

@@ -17,6 +17,12 @@ namespace Pretorianie.Tytan.Core.Interfaces
         { get; }
 
         /// <summary>
+        /// Gets the handle to auxiliary menu-commands service manager.
+        /// </summary>
+        IMenuCommandService CommandService
+        { get; }
+
+        /// <summary>
         /// Menu customizator.
         /// </summary>
         IMenuCustomizator Customizator

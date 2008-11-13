@@ -15,7 +15,11 @@ namespace Pretorianie.Tytan.Core.Helpers
         /// <summary>
         /// Path to the text file with version info.
         /// </summary>
-        private const string VersionURL = "http://tytannet.googlecode.com/files/CurrentVersion.txt";
+        private const string VersionUrlGoogle = "http://tytannet.googlecode.com/files/CurrentVersion.txt";
+        /// <summary>
+        /// Path to the wiki page with version info.
+        /// </summary>
+        private const string VersionUrlCodeplex = "http://www.codeplex.com/tytannet/Wiki/View.aspx?title=CurrentConfigurationInfo";
 
         /// <summary>
         /// Path to the new version release page.
@@ -23,9 +27,23 @@ namespace Pretorianie.Tytan.Core.Helpers
         private const string ReleaseURL = "http://www.codeplex.com/tytannet/Release/ProjectReleases.aspx";
 
         /// <summary>
+        /// List of characters that can be separators between parameter name and its value.
+        /// </summary>
+        private static readonly char[] ParamValueSeparators = new char[] {':', '='};
+        /// <summary>
         /// Name of the parameter that brings the version info.
         /// </summary>
         private const string ParamVersionName = "Version";
+
+
+        /// <summary>
+        /// String that appears at the beginning of version-info section.
+        /// </summary>
+        private const string StartVersionSection = "### Config Start ###";
+        /// <summary>
+        /// String that appears at the end of the version info section.
+        /// </summary>
+        private const string EndVersionSection = "### Config End ###";
 
 
         private static readonly Version invalidVersion = new Version("0.0.0.0");
@@ -48,8 +66,8 @@ namespace Pretorianie.Tytan.Core.Helpers
                 if (versionClient == null)
                 {
                     versionClient = new WebClient();
-                    versionClient.DownloadStringCompleted += RemoteVersionCompleted;
-                    versionClient.DownloadStringAsync(new Uri(VersionURL));
+                    versionClient.DownloadStringCompleted += RemoteCodeplexVersionCompleted;
+                    versionClient.DownloadStringAsync(new Uri(VersionUrlCodeplex));
                 }
 
                 isVersionKnown = serverVersion != null;
@@ -74,24 +92,64 @@ namespace Pretorianie.Tytan.Core.Helpers
             return isVersionKnown;
         }
 
-        private static void RemoteVersionCompleted(object sender, DownloadStringCompletedEventArgs e)
+        /// <summary>
+        /// Operate on a raw-file received from code.google.com site.
+        /// </summary>
+        private static void RemoteGoogleVersionCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            ParseVersionString(e.Result);
+        }
+
+        /// <summary>
+        /// Operate on a wiki-page content received from www.codeplex.com site.
+        /// </summary>
+        private static void RemoteCodeplexVersionCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            string data = e.Result;
+
+            if (!string.IsNullOrEmpty(e.Result))
+            {
+                int start = data.IndexOf(StartVersionSection);
+                int end = data.IndexOf(EndVersionSection);
+
+                if (start < 0 || end < 0)
+                    data = null;
+                else
+                {
+                    // cut the whole text between [Start] & [End]:
+                    data = data.Substring(start + StartVersionSection.Length, end - start - StartVersionSection.Length);
+
+                    // and finally replace all HTML new line characters:
+                    data =
+                        data.Replace("<BR />", Environment.NewLine).Replace("<br />", Environment.NewLine).Replace(
+                            "<BR/>", Environment.NewLine).Replace("<br/>", Environment.NewLine);
+                }
+            }
+
+            ParseVersionString(data);
+        }
+
+
+        private static void ParseVersionString(string versionString)
         {
             try
             {
-                string[] data = e.Result != null
-                                    ? e.Result.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries)
-                                    : null;
+                string[] data = string.IsNullOrEmpty(versionString)
+                                    ? null
+                                    : versionString.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
                 string version = CurrentVersion.ToString();
 
                 // parse received data for version info:
                 if (data != null)
                 {
                     foreach (string s in data)
+                    {
                         if (s.StartsWith(ParamVersionName, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            version = s.Substring(s.IndexOf(':') + 1).Trim();
+                            version = s.Substring(s.IndexOfAny(ParamValueSeparators) + 1).Trim();
                             break;
                         }
+                    }
                 }
 
                 // remember the server version:

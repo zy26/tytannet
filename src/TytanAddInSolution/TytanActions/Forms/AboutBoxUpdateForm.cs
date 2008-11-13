@@ -8,14 +8,6 @@ namespace Pretorianie.Tytan.Forms
 {
     public partial class AboutBoxUpdateForm : Form
     {
-        /// <summary>
-        /// Method handler for event when new version has been detected.
-        /// </summary>
-        /// <param name="currentVersion"></param>
-        /// <param name="newVersion"></param>
-        /// <param name="navigationPath"></param>
-        public delegate void NewVersionAvailableHandler(string currentVersion, string newVersion, string navigationPath);
-
         private Version currentVersion;
         private Version newVersion;
         private string navigationURL;
@@ -45,6 +37,7 @@ namespace Pretorianie.Tytan.Forms
             try
             {
                 advice = SharedStrings.AboutUpdate_DefaultAdvice;
+                lblAdvice.Text = advice;
                 lblLocalVersion.Text = VersionHelper.CurrentVersion.ToString(2);
                 lblRemoteVersion.Text = SharedStrings.AboutUpdate_Checking;
                 pictureBox.BackgroundImage = logo;
@@ -81,6 +74,8 @@ namespace Pretorianie.Tytan.Forms
                 {
                     lblAdvice.Text = advice;
                     lblRemoteVersion.Text = newVersion.ToString(2);
+                    if (currentVersion != null)
+                        lblLocalVersion.Text = currentVersion.ToString(2);
                 }
                 bttHomepage.Left = lblAdvice.Left + lblAdvice.Width + 8;
                 bttHomepage.Visible = showButton;
@@ -98,17 +93,17 @@ namespace Pretorianie.Tytan.Forms
         {
             try
             {
-                if (newVersion == VersionHelper.InvalidVersion)
+                if (newVersion == VersionHelper.InvalidVersion || newVersion == null)
                 {
                     advice = SharedStrings.AboutUpdate_UnknownVersion;
-                }
-                else if (currentVersion > newVersion)
-                {
-                    advice = SharedStrings.AboutUpdate_VersionTooNew;
                 }
                 else if (currentVersion == newVersion)
                 {
                     advice = SharedStrings.AboutUpdate_VersionLatest;
+                }
+                else if (currentVersion > newVersion)
+                {
+                    advice = SharedStrings.AboutUpdate_VersionTooNew;
                 }
                 else
                 {

@@ -3,6 +3,7 @@ using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
+using System.Diagnostics;
 
 namespace Pretorianie.Tytan.Core.Events
 {
@@ -33,6 +34,10 @@ namespace Pretorianie.Tytan.Core.Events
         /// Event fired when the current solution has been closed.
         /// </summary>
         public event SolutionEventHandler SolutionClosed;
+        /// <summary>
+        /// Event fired when asking for solution to close.
+        /// </summary>
+        public event SolutionQueryEventHandler SolutionQueryClose;
 
         #endregion
 
@@ -61,15 +66,24 @@ namespace Pretorianie.Tytan.Core.Events
         public SolutionEventsListener(DTE2 dte)
         {
             appObject = dte;
-            dteEvents = (Events2)dte.Events;
+            dteEvents = (Events2) dte.Events;
             solutionEvents = dteEvents.SolutionEvents;
 
             // mount even handlers, they will be detached during Dispose() method call:
-            solutionEvents.Opened += SolutionEvents_Opened;
-            solutionEvents.BeforeClosing += SolutionEvents_BeforeClosing;
-            solutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
-            solutionEvents.ProjectRemoved += SolutionEvents_ProjectRemoved;
-            solutionEvents.ProjectRenamed += SolutionEvents_ProjectRenamed;
+            try
+            {
+                solutionEvents.Opened += SolutionEvents_Opened;
+                solutionEvents.BeforeClosing += SolutionEvents_BeforeClosing;
+                solutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
+                solutionEvents.ProjectRemoved += SolutionEvents_ProjectRemoved;
+                solutionEvents.ProjectRenamed += SolutionEvents_ProjectRenamed;
+                solutionEvents.QueryCloseSolution += SolutionEvents_QueryCloseSolution;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.Message);
+                Trace.WriteLine(ex.StackTrace);
+            }
         }
 
         #region Solution Events
@@ -102,6 +116,12 @@ namespace Pretorianie.Tytan.Core.Events
         {
             if (SolutionOpened != null)
                 SolutionOpened(this, appObject.Solution);
+        }
+
+        void SolutionEvents_QueryCloseSolution(ref bool fCancel)
+        {
+            if (SolutionQueryClose != null)
+                SolutionQueryClose(this, appObject.Solution, ref fCancel);
         }
 
         #endregion
@@ -182,6 +202,7 @@ namespace Pretorianie.Tytan.Core.Events
                 solutionEvents.ProjectAdded -= SolutionEvents_ProjectAdded;
                 solutionEvents.ProjectRemoved -= SolutionEvents_ProjectRemoved;
                 solutionEvents.ProjectRenamed -= SolutionEvents_ProjectRenamed;
+                solutionEvents.QueryCloseSolution -= SolutionEvents_QueryCloseSolution;
                 solutionEvents = null;
                 dteEvents = null;
                 appObject = null;

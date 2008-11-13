@@ -24,21 +24,32 @@ namespace Pretorianie.Tytan.Actions
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService mcs, IMenuCreator mc)
+        public void Initialize(IPackageEnvironment env, IMenuCreator mc)
         {
             MenuCommand guidMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, PackageCmdIDList.toolAction_InsertGuid, ExecuteGuid, QueryExecuteGuid);
             MenuCommand prevGuidMenu = ObjectFactory.CreateCommand(GuidList.guidCmdSet, PackageCmdIDList.toolAction_InsertPrevGuid, ExecutePrevGuid, QueryExecutePrevGuid);
 
             parent = env;
-            mcs.AddCommand(guidMenu);
-            mcs.AddCommand(prevGuidMenu);
 
             // -------------------------------------------------------
-            mc.AddCommand(guidMenu, "InsertGuid", "Insert New &Guid", 0, null, null, false);
-            mc.AddCommand(prevGuidMenu, "InsertPrevGuid", "Insert &Previous Guid", 0, null, null, false);
+            mc.AddCommand(guidMenu, "InsertGuid", "Insert New &Guid", 9017, "Global::Ctrl+R, G", null, false);
+            mc.AddCommand(prevGuidMenu, "InsertPrevGuid", "Insert &Previous Guid", 0, "Global::Ctrl+R, Q", null, false);
             mc.Customizator.AddInsertionItem(guidMenu, false, 1, null);
             mc.Customizator.AddInsertionItem(prevGuidMenu, false, 2, null);
         }
@@ -75,6 +86,7 @@ namespace Pretorianie.Tytan.Actions
         private void InsertGuid(Guid guid)
         {
             CodeEditPoint editorEditPoint = parent.CurrentEditPoint;
+            string guidText = guid.ToString().ToUpper();
 
             try
             {
@@ -85,7 +97,10 @@ namespace Pretorianie.Tytan.Actions
                 if (!ProcessClassGuidAttribute(editorEditPoint, guid.ToString().ToUpper()))
                 {
                     // otherwise type as normal text:
-                    editorEditPoint.EditPoint.Insert(guid.ToString().ToUpper());
+                    if (editorEditPoint.IsSelected)
+                        editorEditPoint.InsertAsSelectionWithStringChars(guidText);
+                    else
+                        editorEditPoint.EditPoint.Insert(guidText);
                 }
             }
             finally
@@ -102,6 +117,14 @@ namespace Pretorianie.Tytan.Actions
 
             // if inside the function, then applying of an attribute to class/struct is prohibited:
             if (currentFunction != null)
+                return false;
+
+            // if the current place is inside string characters: ""
+            // then don't jump to the class definition:
+            EditPoint startString = editorEditPoint.EditPoint.CreateEditPoint();
+            startString.CharLeft(1);
+            string s = startString.GetText(2);
+            if(s == "\"\"" || editorEditPoint.IsSelected)
                 return false;
 
             CodeClass currentClass = editorEditPoint.GetCurrentCodeElement<CodeClass>(vsCMElement.vsCMElementClass);
@@ -147,16 +170,12 @@ namespace Pretorianie.Tytan.Actions
         {
         }
 
-        #region Dispose
-
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
         /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
+        public void Destroy()
         {
         }
-
-        #endregion
     }
 }

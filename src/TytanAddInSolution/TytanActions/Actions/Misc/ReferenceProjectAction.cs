@@ -23,7 +23,6 @@ namespace Pretorianie.Tytan.Actions.Misc
         private IPackageEnvironment parent;
         private SolutionEventsListener solutionListener;
         //private ShellEventsListener shellListener;
-        private IMenuCommandService mcs;
         private IMenuCreator mc;
         private IList<CommandBarPopup> vsParentPopups;
         private readonly Dictionary<Project, MenuCommand> vsCommands = new Dictionary<Project, MenuCommand>();
@@ -186,13 +185,25 @@ namespace Pretorianie.Tytan.Actions.Misc
         }
 
         /// <summary>
+        /// Gets the current valid configuration for the action. In case of
+        /// null-value no settings are actually needed at all.
+        /// 
+        /// Set is executed at runtime when the configuration for
+        /// given action is updated via external module (i.e. Tools->Options).
+        /// </summary>
+        public PersistentStorageData Configuration
+        {
+            get { return null; }
+            set { }
+        }
+
+        /// <summary>
         /// Performs initialization of this action and
         /// also registers all the UI elements required by the action, e.g.: menus / menu groups / toolbars.
         /// </summary>
-        public void Initialize(IPackageEnvironment env, IMenuCommandService menuService, IMenuCreator menuCreator)
+        public void Initialize(IPackageEnvironment env, IMenuCreator menuCreator)
         {
             parent = env;
-            mcs = menuService;
             mc = menuCreator;
 
             solutionListener = new SolutionEventsListener(env.DTE);
@@ -473,11 +484,9 @@ namespace Pretorianie.Tytan.Actions.Misc
         /// </summary>
         private MenuCommand AddProject(int id, string caption, int itemIndex, int iconIndex, string paramName, object paramValue, bool beginGroup)
         {
-            MenuCommand menuCommand = ObjectFactory.CreateCommand(GuidList.guidCmdSet, id, Execute, AnyProjectBeforeQueryStatus);
+            MenuCommand menuCommand = ObjectFactory.CreateCommand(GuidList.guidCmdSet, id, ExecuteAddReference, AnyProjectBeforeQueryStatus);
 
             menuCommand.Properties.Add(paramName, paramValue);
-            mcs.AddCommand(menuCommand);
-
             mc.AddCommand(menuCommand, GetUniqueName(caption), caption, iconIndex, null,
                           (paramValue is DummyProject ? ((DummyProject) paramValue).Name : GetToolTip(caption)), false);
             mc.Customizator.AddReferenceProject(menuCommand, beginGroup, itemIndex);
@@ -519,6 +528,16 @@ namespace Pretorianie.Tytan.Actions.Misc
         /// Invokes proper processing assigned to current action.
         /// </summary>
         public void Execute(object sender, EventArgs e)
+        {
+            // external update - update the whole menu list:
+            RemoveAllProjects();
+            SolutionOpened(this, parent.DTE.Solution);
+        }
+
+        /// <summary>
+        /// Invokes proper processing assigned to current action.
+        /// </summary>
+        public void ExecuteAddReference(object sender, EventArgs e)
         {
             MenuCommand cmd = sender as MenuCommand;
 
@@ -600,14 +619,11 @@ namespace Pretorianie.Tytan.Actions.Misc
             }
         }
 
-        #endregion
-
-        #region IDisposable Members
-
-        ///<summary>
-        ///Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        ///</summary>
-        public void Dispose()
+        /// <summary>
+        /// Executed on Visual Studio exit.
+        /// All non-managed resources should be released here.
+        /// </summary>
+        public void Destroy()
         {
             if (solutionListener != null)
             {

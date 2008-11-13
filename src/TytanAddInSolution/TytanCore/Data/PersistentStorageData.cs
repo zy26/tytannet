@@ -14,6 +14,7 @@ namespace Pretorianie.Tytan.Core.Data
         private readonly Dictionary<string, string[]> valMultiStrings;
         private readonly Dictionary<string, byte[]> valBytes;
         private readonly Dictionary<string, uint> valUInts;
+        private bool isDirty; // checks if current configuration should be stored
 
         /// <summary>
         /// Init constructor of PersistentStorageData.
@@ -25,6 +26,7 @@ namespace Pretorianie.Tytan.Core.Data
             valMultiStrings = new Dictionary<string, string[]>();
             valBytes = new Dictionary<string, byte[]>();
             valUInts = new Dictionary<string, uint>();
+            isDirty = true;
         }
 
         #region Add / Get
@@ -204,7 +206,7 @@ namespace Pretorianie.Tytan.Core.Data
         }
 
         /// <summary>
-        /// Gets the uint value with specified name.
+        /// Gets the <c>uint</c> value with specified name.
         /// </summary>
         public uint GetUInt(string name)
         {
@@ -212,7 +214,7 @@ namespace Pretorianie.Tytan.Core.Data
         }
 
         /// <summary>
-        /// Gets the uint value with specified name.
+        /// Gets the <c>uint</c> value with specified name.
         /// </summary>
         public uint GetUInt(string name, uint defaultValue)
         {
@@ -256,6 +258,15 @@ namespace Pretorianie.Tytan.Core.Data
         }
 
         /// <summary>
+        /// Gets or sets an indication if current data has been modified.
+        /// </summary>
+        public bool IsDirty
+        {
+            get { return isDirty; }
+            set { isDirty = value; }
+        }
+
+        /// <summary>
         /// Gets the stored string values.
         /// </summary>
         public ICollection<string> Strings
@@ -286,7 +297,7 @@ namespace Pretorianie.Tytan.Core.Data
         }
 
         /// <summary>
-        /// Gets the stored uint values.
+        /// Gets the stored <c>uint</c> values.
         /// </summary>
         public ICollection<uint> UInts
         {
@@ -358,7 +369,7 @@ namespace Pretorianie.Tytan.Core.Data
         }
 
         /// <summary>
-        /// Gets the names of uint values.
+        /// Gets the names of <c>uint</c> values.
         /// </summary>
         public ICollection<string> KeysUInts
         {

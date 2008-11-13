@@ -378,6 +378,24 @@ namespace Pretorianie.Tytan {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TytanNET Question.
+        /// </summary>
+        internal static string SolutionClose_DialogTitle {
+            get {
+                return ResourceManager.GetString("SolutionClose_DialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to close current solution?.
+        /// </summary>
+        internal static string SolutionClose_Question {
+            get {
+                return ResourceManager.GetString("SolutionClose_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command View.
         /// </summary>
         internal static string ToolWindowTitle_CommandView {

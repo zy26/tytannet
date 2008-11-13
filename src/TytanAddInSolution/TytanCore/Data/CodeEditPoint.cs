@@ -167,7 +167,7 @@ namespace Pretorianie.Tytan.Core.Data
         /// Inserts text at current cursor location or replaces the one that is currently selected.
         /// Undo will be used to name the action in Visual Studio's UndoRedo editor.
         /// </summary>
-        public void InsertTextOrReplaceSelection(string undoContextName, string newText)
+        public void InsertTextOrReplaceSelection(string undoContextName, string newText, bool detectStringCharsInSelection)
         {
             try
             {
@@ -177,7 +177,10 @@ namespace Pretorianie.Tytan.Core.Data
                 if (IsSelected)
                 {
                     // paste into selected text:
-                    selection.Insert(newText, (int) vsInsertFlags.vsInsertFlagsContainNewText);
+                    if (detectStringCharsInSelection)
+                        InsertAsSelectionWithStringChars(newText);
+                    else
+                        selection.Insert(newText, (int) vsInsertFlags.vsInsertFlagsContainNewText);
                 }
                 else
                 {
@@ -190,6 +193,23 @@ namespace Pretorianie.Tytan.Core.Data
                 // close the undo-context, so all the changes will be threated as one:
                 application.UndoContext.Close();
             }
+        }
+
+        /// <summary>
+        /// Inserts text replacing current selection. Detects if current text contains the string characters ('"')
+        /// at the beginning and at the end and inserts them also.
+        /// </summary>
+        public void InsertAsSelectionWithStringChars(string text)
+        {
+            // if selection wraps string characters, also add them into inserted text:
+            string selText = selection.Text.Trim();
+
+            if (selText[0] == '"' && selText[selText.Length - 1] == '"')
+                text = string.Format("\"{0}\"", text);
+            else if (selText[0] == '"' && selText.EndsWith("\";"))
+                text = string.Format("\"{0}\";", text);
+
+            selection.Insert(text, (int)vsInsertFlags.vsInsertFlagsContainNewText);
         }
 
         #endregion

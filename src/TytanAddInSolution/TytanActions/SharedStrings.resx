@@ -224,6 +224,12 @@ Please click [Download] button to navigate to release page.</value>
   <data name="RegistryView_UnableToChangeName" xml:space="preserve">
     <value>Unable to change the name of that key.</value>
   </data>
+  <data name="SolutionClose_DialogTitle" xml:space="preserve">
+    <value>TytanNET Question</value>
+  </data>
+  <data name="SolutionClose_Question" xml:space="preserve">
+    <value>Do you want to close current solution?</value>
+  </data>
   <data name="ToolWindowTitle_CommandView" xml:space="preserve">
     <value>Command View</value>
   </data>

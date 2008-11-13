@@ -124,7 +124,7 @@ namespace Pretorianie.Tytan.Tools
         }
 
         /// <summary>
-        /// Jumps on the TreeView to the given registry path.
+        /// Jumps on the <c>TreeView</c> to the given registry path.
         /// </summary>
         private void NavigateTo(string path)
         {

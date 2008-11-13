@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using Pretorianie.Tytan.Core.Data;
+using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.Interfaces;
 
 namespace Pretorianie.Tytan.Core.CustomAddIn
@@ -21,7 +23,6 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
             if (action != null && !data.Contains(action))
                 data.Add(action);
         }
-
 
         #region Properties
 
@@ -95,7 +96,6 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
 
         #endregion
 
-
         /// <summary>
         /// Performs the cleanup actions.
         /// </summary>
@@ -103,9 +103,39 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         {
             // notify about the exit event:
             foreach (IPackageAction addIn in data)
-                addIn.Dispose();
+            {
+                PersistentStorageData config = addIn.Configuration;
+
+                // write configuration if needed:
+                if (config != null && config.IsDirty)
+                    PersistentStorageHelper.Save(config);
+
+                // and finally release resources:
+                addIn.Destroy();
+            }
 
             data.Clear();
+        }
+
+        /// <summary>
+        /// Performs initialization over each known custom Visual Studio action.
+        /// </summary>
+        public void Initialize(IPackageEnvironment env, IMenuCreator menuCreator)
+        {
+            foreach (IPackageAction a in data)
+                a.Initialize(env, menuCreator);
+        }
+
+        /// <summary>
+        /// Gets the action implemented by specified class.
+        /// </summary>
+        public IPackageAction Get(Type actionType)
+        {
+            foreach(IPackageAction x in data)
+                if (x.GetType() == actionType)
+                    return x;
+
+            return null;
         }
     }
 }

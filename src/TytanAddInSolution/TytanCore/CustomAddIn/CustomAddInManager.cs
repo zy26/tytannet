@@ -7,6 +7,7 @@ using System.Resources;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell.Interop;
+using Pretorianie.Tytan.Core.BaseForms;
 using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.Interfaces;
@@ -16,9 +17,9 @@ using System.Reflection;
 namespace Pretorianie.Tytan.Core.CustomAddIn
 {
     /// <summary>
-    /// Class that manages the AddIn.
+    /// Class that manages the group of action belonging to the custom add-in.
     /// </summary>
-    public class CustomAddInManager : IToolCreator, IPackageEnvironment
+    public class CustomAddInManager : IToolCreator, IPackageEnvironment, IPackageConfigUpdater
     {
         private readonly DTE2 appObject;
         private readonly AddIn addInInstance;
@@ -71,6 +72,7 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
 
             // all settings read/writes will be pefrom according current version of Visual Studio IDE:
             PersistentStorageHelper.Attach(applicationObject);
+            BaseOptionPage.ConfigProvider = this;
         }
 
         /// <summary>
@@ -91,6 +93,7 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
 
             // all settings read/writes will be pefrom according current version of Visual Studio IDE:
             PersistentStorageHelper.Attach(applicationObject);
+            BaseOptionPage.ConfigProvider = this;
         }
 
         /// <summary>
@@ -175,8 +178,7 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         {
             try
             {
-                foreach (IPackageAction action in actions.Actions)
-                    action.Initialize(this, menuManager, menuManager);
+                actions.Initialize(this, menuManager);
             }
             catch (Exception e)
             {
@@ -293,7 +295,7 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         }
 
         /// <summary>
-        /// Gets the current info about given Visual Studio AddIn.
+        /// Gets the current info about given Visual Studio add-in.
         /// </summary>
         public PackageInfo Info
         {
@@ -448,6 +450,32 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         public object GetService(Type serviceType)
         {
             return ShellHelper.GetService(appObject as Microsoft.VisualStudio.OLE.Interop.IServiceProvider, serviceType);
+        }
+
+        #endregion
+
+        #region Implementation of IPackageConfigProvider
+
+        /// <summary>
+        /// Sets the configuration description for given action.
+        /// </summary>
+        public void UpdateConfiguration(Type actionType, PersistentStorageData config)
+        {
+            IPackageAction action = actions.Get(actionType);
+
+            if (action != null)
+                action.Configuration = config;
+        }
+
+        /// <summary>
+        /// Calls an update method related with given button on the configuration GUI.
+        /// </summary>
+        public void UpdateExecute(Type actionType, EventArgs e)
+        {
+            IPackageAction action = actions.Get(actionType);
+
+            if(action != null)
+                action.Execute(null, e);
         }
 
         #endregion

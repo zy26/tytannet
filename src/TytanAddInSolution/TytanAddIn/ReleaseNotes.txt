@@ -1,4 +1,4 @@
-TytanNET Release notes (25-October-2008):
+TytanNET Release notes (13-November-2008):
 
 
 --------------------------------------------------------------------------------------------
@@ -26,9 +26,14 @@ It extends the standard IDE with following unique capabilities:
    * images and image lists (Image, ImageList)
    * colours
    * COM objects
+ - quick insertion and edition
+   * of connection strings in any text editor windows (just a matter of text-selection)
+   * of Guid attribute or GUID string (depending on cursor context inside active document)
+   * of file or folder paths
+   * of file contents
 
 
-In case of problems please visit: http://www.codeplex.com/tytannet or http://code.google.com/p/tytannet/wiki/FAQ
+In case of problems please visit: http://www.codeplex.com/tytannet
 Check for new releases at: http://www.codeplex.com/tytannet
 
 
@@ -41,7 +46,19 @@ Check for new releases at: http://www.codeplex.com/tytannet
 --------------------------------------------------------------------------------------------
 [Change Log]:
 
-TytanNET - v0.17 - (25-October-2008) 
+TytanNET - v0.18 - (13-November-2008)
+ - added icons and shortcuts for "insertion" refactorings
+ - improved text insertion for Guid attribute and raw string
+ - improved text insertion for Connection string
+ - introduced configuration settings (i.e.: Tools->Options->TytanNET tab)
+ - fixed DebugView filter storage
+ - added prompt when solution is about to close
+ - added configuration page to enable/disable closing prompt
+ - fixed Tytan toolbar state restoring (PR #19383)
+ - fixed solution events internal error (PR #19352)
+
+
+TytanNET - v0.17 - (25-October-2008)
  - added support for localized Visual Studio versions (FR, DE, IT, ES)
  - added refactoring - Guid attribute or raw text insertion
  - added in-place edition of database connection string with system standard dialog

@@ -26,7 +26,7 @@ set xoutput=%xoutput:~1,-1%
 set xname=%3
 set xresource=%4
 set xculture=%5
-set xversion=0.17.0.0
+set xversion=0.18.0.0
 set xsignkey=key.snk
 
 REM #####################################################
