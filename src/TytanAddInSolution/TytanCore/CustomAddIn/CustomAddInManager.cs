@@ -457,6 +457,19 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
         #region Implementation of IPackageConfigProvider
 
         /// <summary>
+        /// Gets the configuration description assigned to given actin.
+        /// </summary>
+        public PersistentStorageData ProvideConfiguration(Type actionType)
+        {
+            IPackageAction action = actions.Get(actionType);
+
+            if (action != null)
+                return action.Configuration;
+
+            return null;
+        }
+
+        /// <summary>
         /// Sets the configuration description for given action.
         /// </summary>
         public void UpdateConfiguration(Type actionType, PersistentStorageData config)

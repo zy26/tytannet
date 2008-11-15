@@ -288,6 +288,15 @@ namespace Pretorianie.Tytan {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selecting assembly.
+        /// </summary>
+        internal static string ReferenceProject_OptionDialogTitle {
+            get {
+                return ResourceManager.GetString("ReferenceProject_OptionDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Output of {0}.
         /// </summary>
         internal static string ReferenceProject_OutputText {

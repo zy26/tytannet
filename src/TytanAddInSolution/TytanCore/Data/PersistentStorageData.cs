@@ -14,6 +14,7 @@ namespace Pretorianie.Tytan.Core.Data
         private readonly Dictionary<string, string[]> valMultiStrings;
         private readonly Dictionary<string, byte[]> valBytes;
         private readonly Dictionary<string, uint> valUInts;
+        private readonly IList<string> namesToRemove;
         private bool isDirty; // checks if current configuration should be stored
 
         /// <summary>
@@ -26,6 +27,7 @@ namespace Pretorianie.Tytan.Core.Data
             valMultiStrings = new Dictionary<string, string[]>();
             valBytes = new Dictionary<string, byte[]>();
             valUInts = new Dictionary<string, uint>();
+            namesToRemove = new List<string>();
             isDirty = true;
         }
 
@@ -42,6 +44,8 @@ namespace Pretorianie.Tytan.Core.Data
                 valUInts.Remove(name);
             if (valMultiStrings.ContainsKey(name))
                 valMultiStrings.Remove(name);
+            if (namesToRemove.Contains(name))
+                namesToRemove.Remove(name);
 
             if (valStrings.ContainsKey(name))
                 valStrings[name] = value;
@@ -60,6 +64,8 @@ namespace Pretorianie.Tytan.Core.Data
                 valUInts.Remove(name);
             if (valMultiStrings.ContainsKey(name))
                 valMultiStrings.Remove(name);
+            if (namesToRemove.Contains(name))
+                namesToRemove.Remove(name);
 
             if (valBytes.ContainsKey(name))
                 valBytes[name] = value;
@@ -78,6 +84,8 @@ namespace Pretorianie.Tytan.Core.Data
                 valBytes.Remove(name);
             if (valMultiStrings.ContainsKey(name))
                 valMultiStrings.Remove(name);
+            if (namesToRemove.Contains(name))
+                namesToRemove.Remove(name);
 
             if (valUInts.ContainsKey(name))
                 valUInts[name] = value;
@@ -96,6 +104,8 @@ namespace Pretorianie.Tytan.Core.Data
                 valBytes.Remove(name);
             if (valUInts.ContainsKey(name))
                 valUInts.Remove(name);
+            if (namesToRemove.Contains(name))
+                namesToRemove.Remove(name);
 
             if (valMultiStrings.ContainsKey(name))
                 valMultiStrings[name] = value;
@@ -232,6 +242,53 @@ namespace Pretorianie.Tytan.Core.Data
         public bool Contains(string name)
         {
             return valStrings.ContainsKey(name) || valMultiStrings.ContainsKey(name) || valBytes.ContainsKey(name) || valUInts.ContainsKey(name);
+        }
+
+        /// <summary>
+        /// Removes element at given name.
+        /// </summary>
+        public bool Remove(string name)
+        {
+            if (PerformInternalRemove(name))
+            {
+                if (!namesToRemove.Contains(name))
+                    namesToRemove.Add(name);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Removes given element from internal collections.
+        /// </summary>
+        private bool PerformInternalRemove(string name)
+        {
+            if (valStrings.ContainsKey(name))
+            {
+                valStrings.Remove(name);
+
+                return true;
+            }
+
+            if (valMultiStrings.ContainsKey(name))
+            {
+                valMultiStrings.Remove(name);
+                return true;
+            }
+
+            if (valBytes.ContainsKey(name))
+            {
+                valBytes.Remove(name);
+                return true;
+            }
+
+            if (valUInts.ContainsKey(name))
+            {
+                valUInts.Remove(name);
+                return true;
+            }
+
+            return false;
         }
 
         #endregion
@@ -376,6 +433,17 @@ namespace Pretorianie.Tytan.Core.Data
             get
             {
                 return valUInts.Keys;
+            }
+        }
+
+        /// <summary>
+        /// Gets the names of elements that should be removed.
+        /// </summary>
+        public ICollection<string> Removed
+        {
+            get
+            {
+                return namesToRemove;
             }
         }
 

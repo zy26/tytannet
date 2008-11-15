@@ -29,11 +29,12 @@ namespace Pretorianie.Tytan.OptionPages
         private void InitializeComponent()
         {
             this.bttReload = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.listReferences = new System.Windows.Forms.ListBox();
+            this.txtPath = new System.Windows.Forms.TextBox();
+            this.bttAdd = new System.Windows.Forms.Button();
+            this.bttRemove = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.bttFind = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bttReload
@@ -47,39 +48,44 @@ namespace Pretorianie.Tytan.OptionPages
             this.bttReload.UseVisualStyleBackColor = true;
             this.bttReload.Click += new System.EventHandler(this.bttReload_Click);
             // 
-            // listBox1
+            // listReferences
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(3, 29);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(378, 199);
-            this.listBox1.TabIndex = 1;
+            this.listReferences.FormattingEnabled = true;
+            this.listReferences.Location = new System.Drawing.Point(3, 29);
+            this.listReferences.Name = "listReferences";
+            this.listReferences.Size = new System.Drawing.Size(378, 199);
+            this.listReferences.TabIndex = 1;
+            this.listReferences.SelectedIndexChanged += new System.EventHandler(this.listReferences_SelectedIndexChanged);
             // 
-            // textBox1
+            // txtPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(3, 236);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(282, 20);
-            this.textBox1.TabIndex = 2;
+            this.txtPath.Location = new System.Drawing.Point(3, 236);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(257, 20);
+            this.txtPath.TabIndex = 2;
             // 
-            // button2
+            // bttAdd
             // 
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button2.Location = new System.Drawing.Point(291, 234);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(90, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Add";
-            this.button2.UseVisualStyleBackColor = true;
+            this.bttAdd.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.bttAdd.Location = new System.Drawing.Point(304, 234);
+            this.bttAdd.Name = "bttAdd";
+            this.bttAdd.Size = new System.Drawing.Size(77, 23);
+            this.bttAdd.TabIndex = 3;
+            this.bttAdd.Text = "Add";
+            this.bttAdd.UseVisualStyleBackColor = true;
+            this.bttAdd.Click += new System.EventHandler(this.bttAdd_Click);
             // 
-            // button3
+            // bttRemove
             // 
-            this.button3.Location = new System.Drawing.Point(291, 262);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(90, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Remove";
-            this.button3.UseVisualStyleBackColor = true;
+            this.bttRemove.Enabled = false;
+            this.bttRemove.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.bttRemove.Location = new System.Drawing.Point(304, 262);
+            this.bttRemove.Name = "bttRemove";
+            this.bttRemove.Size = new System.Drawing.Size(77, 23);
+            this.bttRemove.TabIndex = 4;
+            this.bttRemove.Text = "Remove";
+            this.bttRemove.UseVisualStyleBackColor = true;
+            this.bttRemove.Click += new System.EventHandler(this.bttRemove_Click);
             // 
             // label1
             // 
@@ -91,14 +97,26 @@ namespace Pretorianie.Tytan.OptionPages
             this.label1.TabIndex = 5;
             this.label1.Text = "Links to custom assemblies:";
             // 
+            // bttFind
+            // 
+            this.bttFind.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.bttFind.Location = new System.Drawing.Point(266, 234);
+            this.bttFind.Name = "bttFind";
+            this.bttFind.Size = new System.Drawing.Size(32, 23);
+            this.bttFind.TabIndex = 6;
+            this.bttFind.Text = "...";
+            this.bttFind.UseVisualStyleBackColor = true;
+            this.bttFind.Click += new System.EventHandler(this.bttFind_Click);
+            // 
             // ReferenceProjectOption
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Controls.Add(this.bttFind);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.bttRemove);
+            this.Controls.Add(this.bttAdd);
+            this.Controls.Add(this.txtPath);
+            this.Controls.Add(this.listReferences);
             this.Controls.Add(this.bttReload);
             this.Name = "ReferenceProjectOption";
             this.ResumeLayout(false);
@@ -109,10 +127,11 @@ namespace Pretorianie.Tytan.OptionPages
         #endregion
 
         private System.Windows.Forms.Button bttReload;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ListBox listReferences;
+        private System.Windows.Forms.TextBox txtPath;
+        private System.Windows.Forms.Button bttAdd;
+        private System.Windows.Forms.Button bttRemove;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button bttFind;
     }
 }

@@ -1,4 +1,4 @@
-TytanNET Release notes (13-November-2008):
+TytanNET Release notes (15-November-2008):
 
 
 --------------------------------------------------------------------------------------------
@@ -46,12 +46,13 @@ Check for new releases at: http://www.codeplex.com/tytannet
 --------------------------------------------------------------------------------------------
 [Change Log]:
 
-TytanNET - v0.18 - (13-November-2008)
+TytanNET - v0.18 - (15-November-2008)
  - added icons and shortcuts for "insertion" refactorings
  - improved text insertion for Guid attribute and raw string
  - improved text insertion for Connection string
  - introduced configuration settings (i.e.: Tools->Options->TytanNET tab)
  - fixed DebugView filter storage
+ - added configuration page for defining custom assemblies for quick project referencing
  - added prompt when solution is about to close
  - added configuration page to enable/disable closing prompt
  - fixed Tytan toolbar state restoring (PR #19383)

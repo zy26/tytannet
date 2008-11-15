@@ -36,6 +36,8 @@ namespace Pretorianie.Tytan.Core.BaseForms
 
             ConfigurationUpdate(out config);
             UpdateActionConfig(configUpdater, ActionType, config);
+            if (config != null)
+                ConfigurationAfterUpdate();
         }
 
         public virtual void OnCancel()
@@ -53,8 +55,8 @@ namespace Pretorianie.Tytan.Core.BaseForms
         {
             if (cu != null && config != null && actionType != null)
             {
-                cu.UpdateConfiguration(actionType, config);
                 PersistentStorageHelper.Save(config);
+                cu.UpdateConfiguration(actionType, config);
             }
         }
 
@@ -120,6 +122,13 @@ namespace Pretorianie.Tytan.Core.BaseForms
         protected virtual void ConfigurationUpdate(out PersistentStorageData actionConfig)
         {
             actionConfig = null;
+        }
+
+        /// <summary>
+        /// Executes any custom actions after writing configuration description into registry.
+        /// </summary>
+        protected virtual void ConfigurationAfterUpdate()
+        {
         }
 
         #endregion

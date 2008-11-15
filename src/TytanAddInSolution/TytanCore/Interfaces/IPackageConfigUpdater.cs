@@ -9,6 +9,11 @@ namespace Pretorianie.Tytan.Core.Interfaces
     public interface IPackageConfigUpdater
     {
         /// <summary>
+        /// Gets the configuration description assigned to given actin.
+        /// </summary>
+        PersistentStorageData ProvideConfiguration(Type actionType);
+
+        /// <summary>
         /// Sets the configuration description for given action.
         /// </summary>
         void UpdateConfiguration(Type actionType, PersistentStorageData config);

@@ -23,7 +23,7 @@ namespace Pretorianie.Tytan.OptionPages
             config = ObjectFactory.LoadConfiguration(VisualStudioCloseQuestion.ConfigurationName);
 
             // present configuration on the screen:
-            promptOnClosing.Checked = config.GetUInt(VisualStudioCloseQuestion.Config_Prompt, 1) > 0;
+            promptOnClosing.Checked = config.GetUInt(VisualStudioCloseQuestion.Config_Prompt, 0) > 0;
         }
 
         protected override void ConfigurationUpdate(out PersistentStorageData actionConfig)

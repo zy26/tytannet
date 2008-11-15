@@ -78,6 +78,11 @@ namespace Pretorianie.Tytan.Core.Helpers
                 // store the data:
                 if (key != null)
                 {
+                    // remove deleted keys:
+                    foreach (string k in data.Removed)
+                        key.DeleteValue(k, false);
+
+                    // set values for the others:
                     foreach (string k in data.KeysStrings)
                         key.SetValue(k, data.GetString(k), RegistryValueKind.String);
 
@@ -122,14 +127,14 @@ namespace Pretorianie.Tytan.Core.Helpers
                     switch (key.GetValueKind(k))
                     {
                         case RegistryValueKind.MultiString:
-                            data.Add(k, d as string[]);
+                            data.Add(k, (string[])d);
                             break;
                         case RegistryValueKind.ExpandString:
                         case RegistryValueKind.String:
-                            data.Add(k, d as string);
+                            data.Add(k, (string)d);
                             break;
                         case RegistryValueKind.Binary:
-                            data.Add(k, d as byte[]);
+                            data.Add(k, (byte[])d);
                             break;
                         case RegistryValueKind.DWord:
                         case RegistryValueKind.QWord:

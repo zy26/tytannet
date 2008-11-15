@@ -275,4 +275,7 @@ Please click [Download] button to navigate to release page.</value>
   <data name="UndoContext_MultiRenameRefactor" xml:space="preserve">
     <value>Rename Methods Refactor</value>
   </data>
+  <data name="ReferenceProject_OptionDialogTitle" xml:space="preserve">
+    <value>Selecting assembly</value>
+  </data>
 </root>

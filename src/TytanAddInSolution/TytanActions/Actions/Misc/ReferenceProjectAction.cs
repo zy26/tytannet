@@ -30,14 +30,15 @@ namespace Pretorianie.Tytan.Actions.Misc
         private readonly IComparer<string> namespaceComparer = new NamespaceComparer('.');
         private OpenFileDialog dlgBrowse;
 
-        public const string Name = "ReferenceProjectAction";
+        public const string CofigurationName = "ReferenceProjectAction";
         private const string Persistent_ForbiddenNames = "ForbiddenNames";
-        private const string Persistent_SystemAssemblies = "SystemAssemblies";
+        public const string Persistent_SystemAssemblies = "SystemAssemblies";
 
         private string[] ForbiddenNames = 
             new string[] { "microsoft", "system", "mscorlib" };
 
-        private string[] SystemAssemblies =
+        private string[] SystemAssemblies;
+        private string[] DefaultSystemAssemblies =
             new string[] {"System.Data.dll", "System.Drawing.dll", "System.Windows.Forms.dll", "System.Xml.dll"};
 
         private const string Property_ReferenceProject = "ReferenceProject";
@@ -194,7 +195,11 @@ namespace Pretorianie.Tytan.Actions.Misc
         public PersistentStorageData Configuration
         {
             get { return null; }
-            set { }
+            set
+            {
+                // update the menu each time something updates the configuration info object:
+                Execute(this, null);
+            }
         }
 
         /// <summary>
@@ -217,21 +222,30 @@ namespace Pretorianie.Tytan.Actions.Misc
             //shellListener.ModeChanged += ShellModeChanged;
             // -------------------------------------------------------
 
-            // load some configuration options from registry:
-            PersistentStorageData data = new PersistentStorageData(Name);
-            string forbiddenNames = data.GetString(Persistent_ForbiddenNames);
-            string systemAssemblies = data.GetString(Persistent_SystemAssemblies);
-
-            if (!string.IsNullOrEmpty(forbiddenNames))
-                ForbiddenNames = forbiddenNames.Split('|', ',');
-            if (!string.IsNullOrEmpty(systemAssemblies))
-                SystemAssemblies = systemAssemblies.Split('|', ',');
-            if (SystemAssemblies != null)
-                Array.Sort(SystemAssemblies);
-
             // append all existing projects in current solution,
             // in case AddIn was loaded after opening solution:
+            LoadAndSortSystemAssemblies();
             SolutionOpened(null, parent.DTE.Solution);
+        }
+
+        /// <summary>
+        /// Loads system assemblies and the list of forbidden names.
+        /// </summary>
+        private void LoadAndSortSystemAssemblies()
+        {
+            // load some configuration options from registry:
+            PersistentStorageData data = ObjectFactory.LoadConfiguration(CofigurationName);
+            string[] forbiddenNames = data.GetMultiString(Persistent_ForbiddenNames);
+            string[] systemAssemblies = data.GetMultiString(Persistent_SystemAssemblies);
+
+            if (forbiddenNames != null && forbiddenNames.Length > 0)
+                ForbiddenNames = forbiddenNames;
+            if (systemAssemblies != null && systemAssemblies.Length > 0)
+                SystemAssemblies = systemAssemblies;
+            else
+                SystemAssemblies = DefaultSystemAssemblies;
+            if (SystemAssemblies != null)
+                Array.Sort(SystemAssemblies);
         }
 
         //void ShellModeChanged(object sender, EnvDTE80.DTE2 appObject, ShellModes currentMode, ShellModes oldMode)
@@ -531,6 +545,7 @@ namespace Pretorianie.Tytan.Actions.Misc
         {
             // external update - update the whole menu list:
             RemoveAllProjects();
+            LoadAndSortSystemAssemblies();
             SolutionOpened(this, parent.DTE.Solution);
         }
 

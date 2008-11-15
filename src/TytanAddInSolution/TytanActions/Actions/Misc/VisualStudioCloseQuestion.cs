@@ -66,7 +66,7 @@ namespace Pretorianie.Tytan.Actions.Misc
 
         void SolutionEvents_SolutionQueryClose(object sender, Solution s, ref bool bCancel)
         {
-            if (config == null || config.GetUInt(Config_Prompt, 1) > 0)
+            if (config == null || config.GetUInt(Config_Prompt, 0) > 0)
             {
                 if (MessageBox.Show(SharedStrings.SolutionClose_Question, SharedStrings.SolutionClose_DialogTitle,
                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
