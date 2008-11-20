@@ -1,12 +1,15 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Pretorianie.Tytan.Core.DbgView
+namespace Pretorianie.Tytan.Core.Mapping
 {
+    /// <summary>
+    /// Shared memory to access system debug messages info.
+    /// </summary>
     internal class DebugSharedMemory : SharedMemory
     {
         public DebugSharedMemory(string name)
-            : base(4096, name, ProtectionTypes.PageReadWrite, SectionTypes.SecNone, AccessTypes.Read)
+            : base(4096, name, 0, SectionTypes.SecNone, AccessTypes.ReadOnly)
         {
         }
 

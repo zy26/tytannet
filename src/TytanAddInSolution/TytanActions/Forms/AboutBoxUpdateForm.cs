@@ -38,7 +38,7 @@ namespace Pretorianie.Tytan.Forms
             {
                 advice = SharedStrings.AboutUpdate_DefaultAdvice;
                 lblAdvice.Text = advice;
-                lblLocalVersion.Text = VersionHelper.CurrentVersion.ToString(2);
+                lblLocalVersion.Text = VersionHelper.CurrentVersion.ToString(VersionHelper.NumberOfDigits);
                 lblRemoteVersion.Text = SharedStrings.AboutUpdate_Checking;
                 pictureBox.BackgroundImage = logo;
 
@@ -73,9 +73,9 @@ namespace Pretorianie.Tytan.Forms
                 if (newVersion != null)
                 {
                     lblAdvice.Text = advice;
-                    lblRemoteVersion.Text = newVersion.ToString(2);
+                    lblRemoteVersion.Text = newVersion.ToString(VersionHelper.NumberOfDigits);
                     if (currentVersion != null)
-                        lblLocalVersion.Text = currentVersion.ToString(2);
+                        lblLocalVersion.Text = currentVersion.ToString(VersionHelper.NumberOfDigits);
                 }
                 bttHomepage.Left = lblAdvice.Left + lblAdvice.Width + 8;
                 bttHomepage.Visible = showButton;

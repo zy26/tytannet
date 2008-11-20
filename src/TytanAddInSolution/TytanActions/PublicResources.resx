@@ -209,6 +209,6 @@
     <value>TytanNET is an add-in that provides extra toolwindows and extends refactoring capabilities of C# / VB / ManagedC++ projects inside Visual Studio.</value>
   </data>
   <data name="AddIn_FriendlyName" xml:space="preserve">
-    <value>TytanNET v0.18</value>
+    <value>TytanNET v0.0.19</value>
   </data>
 </root>

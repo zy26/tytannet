@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EnvDTE;
 using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.Interfaces;
+using Pretorianie.Tytan.Core.Data.Refactoring;
 
 namespace Pretorianie.Tytan.Core.Helpers
 {
@@ -161,12 +162,11 @@ namespace Pretorianie.Tytan.Core.Helpers
         }
 
         /// <summary>
-        /// Generates the init constructor that is based on the given variables.
+        /// Create constructor <c>CodeElement</c>.
         /// </summary>
-        public static CodeTypeMember GetInitConstructor(string codeClassName, IList<CodeVariable> vars, IList<string> paramNames, CodeModelLanguages language)
+        private static CodeMemberMethod CreateConstructor(string codeClassName, CodeModelLanguages language, bool hasVariables)
         {
             CodeMemberMethod initConstructor;
-            int i = 0;
 
             if (language == CodeModelLanguages.VisualBasic)
             {
@@ -184,6 +184,33 @@ namespace Pretorianie.Tytan.Core.Helpers
             initConstructor.Attributes = MemberAttributes.Public | MemberAttributes.Final;
 
             initConstructor.ReturnType = new CodeTypeReference(" ");
+
+            if (hasVariables)
+            {
+                // add comment:
+                initConstructor.Comments.Add(new CodeCommentStatement("<summary>", true));
+                initConstructor.Comments.Add(new CodeCommentStatement("Init constructor of " + codeClassName + ".", true));
+                initConstructor.Comments.Add(new CodeCommentStatement("</summary>", true));
+            }
+            else
+            {
+                // add comment:
+                initConstructor.Comments.Add(new CodeCommentStatement("<summary>", true));
+                initConstructor.Comments.Add(new CodeCommentStatement("Default constructor of " + codeClassName + ".", true));
+                initConstructor.Comments.Add(new CodeCommentStatement("</summary>", true));
+            }
+
+            return initConstructor;
+        }
+
+        /// <summary>
+        /// Generates the init constructor that is based on the given variables.
+        /// </summary>
+        public static CodeTypeMember GetInitConstructor(string codeClassName, IList<CodeVariable> vars, IList<string> paramNames, CodeModelLanguages language)
+        {
+            CodeMemberMethod initConstructor = CreateConstructor(codeClassName, language, vars != null && vars.Count > 0);
+
+            int i = 0;
 
             if (vars != null)
             {
@@ -215,18 +242,35 @@ namespace Pretorianie.Tytan.Core.Helpers
                                 new CodeVariableReferenceExpression(paramName)));
                     }
                 }
-
-                // add comment:
-                initConstructor.Comments.Add(new CodeCommentStatement("<summary>", true));
-                initConstructor.Comments.Add(new CodeCommentStatement("Init constructor of " + codeClassName + ".", true));
-                initConstructor.Comments.Add(new CodeCommentStatement("</summary>", true));
             }
-            else
+
+            return initConstructor;
+        }
+
+        /// <summary>
+        /// Generates the init constructor that is based on the given variables.
+        /// </summary>
+        public static CodeTypeMember GetInitConstructor(string codeClassName, IList<CodeNamedElement> codeElements, CodeModelLanguages language)
+        {
+            CodeMemberMethod initConstructor = CreateConstructor(codeClassName, language,
+                codeElements != null && codeElements.Count > 0);
+
+            if (codeElements != null)
             {
-                // add comment:
-                initConstructor.Comments.Add(new CodeCommentStatement("<summary>", true));
-                initConstructor.Comments.Add(new CodeCommentStatement("Default constructor of " + codeClassName + ".", true));
-                initConstructor.Comments.Add(new CodeCommentStatement("</summary>", true));
+                //// if all the variables are shared, then make assumption
+                //// that the whole class is shared:
+                //if (VariableHelper.AreShared(vars))
+                //    initConstructor.Attributes = MemberAttributes.Static | MemberAttributes.Final;
+
+                foreach (CodeNamedElement e in codeElements)
+                {
+                    // declare parameter:
+                    initConstructor.Parameters.Add(new CodeParameterDeclarationExpression(" " + e.ReferecedTypeName, e.ParameterName));
+
+                    // make usage of this parameter - create assignment instruction:
+                    initConstructor.Statements.Add(new CodeAssignStatement(e.GetReferenceExpression(codeClassName),
+                            new CodeVariableReferenceExpression(e.ParameterName)));
+                }
             }
 
             return initConstructor;
@@ -248,7 +292,22 @@ namespace Pretorianie.Tytan.Core.Helpers
         }
 
         /// <summary>
-        /// Generates the new instance of System.Guid attribute.
+        /// Checks if the collection contains only the shared variables.
+        /// </summary>
+        public static bool AreShared(IList<CodeNamedElement> codeElements)
+        {
+            if (codeElements == null)
+                return false;
+
+            foreach (CodeNamedElement e in codeElements)
+                if (!e.IsStatic)
+                    return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Generates the new instance of System.<c>Guid</c> attribute.
         /// </summary>
         public static CodeAttributeDeclaration GetGuidAttribute(string guid)
         {

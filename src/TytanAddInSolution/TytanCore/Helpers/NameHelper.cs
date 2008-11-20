@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using EnvDTE;
 using Pretorianie.Tytan.Core.Interfaces;
+using Pretorianie.Tytan.Core.Data.Refactoring;
 
 namespace Pretorianie.Tytan.Core.Helpers
 {
@@ -174,6 +175,30 @@ namespace Pretorianie.Tytan.Core.Helpers
             }
 
             return paramNames;
+        }
+
+        /// <summary>
+        /// Updates the parameter names for each <c>CodeNamedElement</c> item.
+        /// </summary>
+        public static void UpdateParameterNames(IList<CodeNamedElement> codeElements, CodeModelLanguages language)
+        {
+            if (codeElements == null || codeElements.Count == 0)
+                return;
+
+            List<string> paramNames = new List<string>();
+            string name;
+
+            // generate name in secure mode:
+            foreach (CodeNamedElement e in codeElements)
+            {
+                name = GetParameterName(e.Name, language);
+
+                while (paramNames.Contains(name))
+                    name = "_" + name;
+
+                e.ParameterName = name;
+                paramNames.Add(name);
+            }
         }
     }
 }

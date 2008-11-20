@@ -104,7 +104,7 @@ namespace Pretorianie.Tytan.Actions.Misc
                         dlgNewVersion = new AboutBoxNewVersionForm();
 
                     // and update the dialog with proper content:
-                    dlgNewVersion.SetUI(newVersion.ToString(2), navigationURL);
+                    dlgNewVersion.SetUI(newVersion.ToString(VersionHelper.NumberOfDigits), navigationURL);
                     dlgNewVersion.Show();
                 }
 

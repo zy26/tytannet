@@ -146,14 +146,17 @@ namespace Pretorianie.Tytan.Core.Helpers
         public static Data.CodeEditSelection GetSelectedVariables(Data.CodeEditPoint editorEditPoint)
         {
             CodeVariable codeVariable;
+            CodeProperty codeProperty;
             CodeClass codeClass;
             CodeStruct codeStruct;
             bool partialSelection = true;
 
             IList<CodeVariable> vars = null;
+            IList<CodeProperty> props = null;
 
             // get the variable and class at cursor in the IDE:
             codeVariable = editorEditPoint.GetCurrentCodeElement<CodeVariable>(vsCMElement.vsCMElementVariable);
+            codeProperty = editorEditPoint.GetCurrentCodeElement<CodeProperty>(vsCMElement.vsCMElementProperty);
             codeClass = editorEditPoint.GetCurrentCodeElement<CodeClass>(vsCMElement.vsCMElementClass);
             codeStruct = editorEditPoint.GetCurrentCodeElement<CodeStruct>(vsCMElement.vsCMElementStruct);
 
@@ -173,15 +176,21 @@ namespace Pretorianie.Tytan.Core.Helpers
                 if (codeClass != null)
                 {
                     vars = GetList<CodeVariable>(codeClass.Members, vsCMElement.vsCMElementVariable, editorEditPoint.Selection);
+                    props = GetList<CodeProperty>(codeClass.Members, vsCMElement.vsCMElementProperty, editorEditPoint.Selection);
                     if (vars != null)
                         codeClass = vars[0].Parent as CodeClass;
+                    if (codeClass == null && props != null)
+                        codeClass = props[0].Parent as CodeClass;
                 }
                 else
                     if (codeStruct != null)
                     {
                         vars = GetList<CodeVariable>(codeStruct.Members, vsCMElement.vsCMElementVariable, editorEditPoint.Selection);
+                        props = GetList<CodeProperty>(codeStruct.Members, vsCMElement.vsCMElementProperty, editorEditPoint.Selection);
                         if (vars != null)
                             codeStruct = vars[0].Parent as CodeStruct;
+                        if (codeStruct == null && props != null)
+                            codeStruct = props[0].Parent as CodeStruct;
                     }
             }
             else
@@ -196,25 +205,37 @@ namespace Pretorianie.Tytan.Core.Helpers
                     codeStruct = codeVariable.Parent as CodeStruct;
                 }
                 else
-                    // otherwise the the whole class will be changed to properties:
-                    if (codeClass != null)
+                    // if there is only one property selected:
+                    if (codeProperty != null && editorEditPoint.Selection.TopLine == editorEditPoint.Selection.BottomLine)
                     {
-                        vars = GetList<CodeVariable>(codeClass.Members, vsCMElement.vsCMElementVariable);
-                        partialSelection = false;
+                        props = new List<CodeProperty>();
+                        props.Add(codeProperty);
+
+                        codeClass = codeProperty.Parent as CodeClass;
+                        codeStruct = codeProperty.Parent as CodeStruct;
                     }
                     else
-                        // or struct
-                        if (codeStruct != null)
+                        // otherwise the the whole class will be changed to properties:
+                        if (codeClass != null)
                         {
-                            vars = GetList<CodeVariable>(codeStruct.Members, vsCMElement.vsCMElementVariable);
+                            vars = GetList<CodeVariable>(codeClass.Members, vsCMElement.vsCMElementVariable);
+                            props = GetList<CodeProperty>(codeClass.Members, vsCMElement.vsCMElementProperty);
                             partialSelection = false;
                         }
+                        else
+                            // or struct
+                            if (codeStruct != null)
+                            {
+                                vars = GetList<CodeVariable>(codeStruct.Members, vsCMElement.vsCMElementVariable);
+                                props = GetList<CodeProperty>(codeStruct.Members, vsCMElement.vsCMElementProperty);
+                                partialSelection = false;
+                            }
             }
 
             // validate is something has been found:
             if (codeClass != null || codeStruct != null)
             {
-                return new Data.CodeEditSelection(codeClass, codeStruct, vars, null, partialSelection);
+                return new Data.CodeEditSelection(codeClass, codeStruct, vars, null, props, partialSelection);
             }
 
             return null;
@@ -296,7 +317,7 @@ namespace Pretorianie.Tytan.Core.Helpers
             // validate is something has been found:
             if (codeClass != null || codeStruct != null)
             {
-                return new Data.CodeEditSelection(codeClass, codeStruct, null, methods, partialSelection);
+                return new Data.CodeEditSelection(codeClass, codeStruct, null, methods, null, partialSelection);
             }
             
             return null;

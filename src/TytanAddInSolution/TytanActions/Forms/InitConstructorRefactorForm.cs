@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
-using EnvDTE;
 using Pretorianie.Tytan.Core.BaseForms;
+using Pretorianie.Tytan.Core.Data.Refactoring;
 
 namespace Pretorianie.Tytan.Forms
 {
     public partial class InitConstructorRefactorForm : BasePackageForm
     {
-        private IList<CodeVariable> storedVars;
+        private IList<CodeNamedElement> storedElemens;
 
         public InitConstructorRefactorForm()
         {
@@ -17,47 +17,46 @@ namespace Pretorianie.Tytan.Forms
         /// <summary>
         /// Initializes the interface with the given number of variables, their names and proposal for accompanying param name.
         /// </summary>
-        public void InitInterface(IList<CodeVariable> vars, IList<CodeVariable> toDisable, IList<string> paramNames)
+        public void InitInterface(IList<CodeNamedElement> codeElements)
         {
-            int i = 0;
-
             dataVars.Rows.Clear();
-            if (vars != null)
+
+            // insert variables and properties into grid on the GUI:
+            if (codeElements != null)
             {
-                storedVars = vars;
-                foreach (CodeVariable v in vars)
-                {
-                    dataVars.Rows.Add((toDisable != null && toDisable.Contains(v) ? false : true), v.Name, paramNames[i]);
-                    i++;
-                }
+                storedElemens = codeElements;
+                foreach (CodeNamedElement e in codeElements)
+                    dataVars.Rows.Add(!e.IsDisabled, e.GetName(CodeNamedElement.ElementNames.AsVariable),
+                        e.GetName(CodeNamedElement.ElementNames.AsProperty), e.ParameterName);
             }
         }
 
         /// <summary>
         /// Gets the variables and params selected by user and their modified names.
         /// </summary>
-        public bool ReadInterface(out IList<CodeVariable> vars, out IList<string> paramNames)
+        public bool ReadInterface(out IList<CodeNamedElement> codeElements)
         {
             int i = 0;
 
-            vars = new List<CodeVariable>();
-            paramNames = new List<string>();
-
+            // and add only selected elements to the result list:
+            codeElements = new List<CodeNamedElement>();
             foreach (DataGridViewRow r in dataVars.Rows)
             {
                 if ((bool)r.Cells[0].Value)
                 {
-                    vars.Add(storedVars[i]);
-                    paramNames.Add(r.Cells[2].Value as string);
+                    CodeNamedElement e = storedElemens[i];
+
+                    e.ParameterName = r.Cells[3].Value as string;
+                    e.IsDisabled = false;
+                    codeElements.Add(e);
                 }
                 i++;
             }
 
-            // deletes empty collections:
-            if (vars.Count == 0)
+            // deletes empty collection:
+            if (codeElements.Count == 0)
             {
-                vars = null;
-                paramNames = null;
+                codeElements = null;
                 //return false;
             }
 

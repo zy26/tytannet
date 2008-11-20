@@ -8,6 +8,7 @@ using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.Interfaces;
 using Pretorianie.Tytan.Forms;
+using Pretorianie.Tytan.Core.Data.Refactoring;
 
 namespace Pretorianie.Tytan.Actions
 {
@@ -18,31 +19,30 @@ namespace Pretorianie.Tytan.Actions
 
         #region Refactor
 
-        private bool Refactor(IList<CodeVariable> vars, IList<CodeVariable> disabledVars, string codeClassName, string languageGuid, CodeElements codeMembers, EditPoint insertLocation, out int gotoLine)
+        private bool Refactor(IList<CodeNamedElement> codeElements, string codeClassName, string languageGuid, CodeElements codeMembers, EditPoint insertLocation, out int gotoLine)
         {
             // set invalid goto-line:
             gotoLine = -1;
 
-            if (vars != null)
+            if (codeElements != null)
             {
                 // get the language and a list of currently available properties:
                 CodeModelLanguages language = CodeHelper.GetCodeLanguage(languageGuid);
-                IList<string> paramNames = NameHelper.GetParameterNames(vars, language);
+
+                // update parameter names for each element:
+                NameHelper.UpdateParameterNames(codeElements, language);
 
                 if (cfgDialog == null)
                 {
                     cfgDialog = new InitConstructorRefactorForm();
                 }
 
-                cfgDialog.InitInterface(vars, disabledVars, paramNames);
+                cfgDialog.InitInterface(codeElements);
 
-                if (cfgDialog.ShowDialog() == DialogResult.OK && cfgDialog.ReadInterface(out vars, out paramNames))
+                if (cfgDialog.ShowDialog() == DialogResult.OK && cfgDialog.ReadInterface(out codeElements))
                 {
                     // generate code based on user modifications:
-                    string code = GenerateSourceCodeOutput(codeClassName, vars, null, language);
-
-                    // get all variables:
-                    EditorHelper.GetList<CodeVariable>(codeMembers, vsCMElement.vsCMElementVariable);
+                    string code = GenerateSourceCodeOutput(codeClassName, codeElements, language);
 
                     // insert code to the editor:
                     if (!string.IsNullOrEmpty(code))
@@ -59,10 +59,10 @@ namespace Pretorianie.Tytan.Actions
             return false;
         }
 
-        private static string GenerateSourceCodeOutput(string codeClassName, IList<CodeVariable> vars, IList<string> paramNames, CodeModelLanguages language)
+        private static string GenerateSourceCodeOutput(string codeClassName, IList<CodeNamedElement> codeElements, CodeModelLanguages language)
         {
             CodeTypeMemberCollection code = new CodeTypeMemberCollection();
-            CodeTypeMember initConstructor = VariableHelper.GetInitConstructor(codeClassName, vars, paramNames, language);
+            CodeTypeMember initConstructor = VariableHelper.GetInitConstructor(codeClassName, codeElements, language);
 
             code.Add(initConstructor);
             return Environment.NewLine + CodeHelper.GenerateFromMember(language, code);
@@ -130,14 +130,18 @@ namespace Pretorianie.Tytan.Actions
             // get selected variables:
             CodeEditSelection editorSelection = EditorHelper.GetSelectedVariables(editorEditPoint);
 
-            if (editorSelection != null && editorSelection.Variables != null)
+            if (editorSelection != null && (editorSelection.Variables != null || editorSelection.Properties != null))
             {
-                IList<CodeVariable> vars = editorSelection.GetParentMembers<CodeVariable>(vsCMElement.vsCMElementVariable);
+                IList<CodeVariable> vars = editorSelection.AllVariables;
                 EditPoint ep;
 
                 if (vars != null)
                     ep = vars[vars.Count - 1].GetEndPoint(vsCMPart.vsCMPartWholeWithAttributes).CreateEditPoint();
-                else ep = editorSelection.Variables[editorSelection.Variables.Count - 1].GetEndPoint(vsCMPart.vsCMPartWholeWithAttributes).CreateEditPoint();
+                else
+                    if (editorSelection.Variables != null)
+                        ep = editorSelection.Variables[editorSelection.Variables.Count - 1].GetEndPoint(vsCMPart.vsCMPartWholeWithAttributes).CreateEditPoint();
+                    else
+                        ep = editorSelection.Properties[editorSelection.Properties.Count - 1].GetEndPoint(vsCMPart.vsCMPartWholeWithAttributes).CreateEditPoint();
 
                 int gotoLine;
                 try
@@ -149,7 +153,8 @@ namespace Pretorianie.Tytan.Actions
                     ep.EndOfLine();
 
                     // update the source code:
-                    isRefactored = Refactor(editorSelection.AllVariables, editorSelection.DisabledVariables, editorSelection.ParentName, editorSelection.ParentLanguage, editorSelection.CodeMembers, ep, out gotoLine);
+                    isRefactored = Refactor(CreateCodeNamedElements(editorSelection.AllVariables, editorSelection.DisabledVariables, editorSelection.AllProperties, editorSelection.DisabledProperties),
+                        editorSelection.ParentName, editorSelection.ParentLanguage, editorSelection.CodeMembers, ep, out gotoLine);
                 }
                 finally
                 {
@@ -161,6 +166,24 @@ namespace Pretorianie.Tytan.Actions
                 if (isRefactored && gotoLine >= 0)
                     editorEditPoint.GotoLine(gotoLine, 1);
             }
+        }
+
+        private IList<CodeNamedElement> CreateCodeNamedElements(IList<CodeVariable> vars, IList<CodeVariable> disabledVars, IList<CodeProperty> props, IList<CodeProperty> disabledProps)
+        {
+            IList<CodeNamedElement> r = new List<CodeNamedElement>();
+
+            if (vars != null)
+                foreach (CodeVariable v in vars)
+                    r.Add(new CodeVariableNamedElement(v, disabledVars != null && disabledVars.Contains(v), null));
+
+            if (props != null)
+                foreach (CodeProperty p in props)
+                {
+                    if (p.Setter != null)
+                        r.Add(new CodePropertyNamedElement(p, disabledProps != null && disabledProps.Contains(p), null));
+                }
+
+            return r;
         }
 
         /// <summary>

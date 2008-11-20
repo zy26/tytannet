@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Pretorianie.Tytan.Core.DbgView
+namespace Pretorianie.Tytan.Core.Mapping
 {
     /// <summary>
     /// Shared memory object.
@@ -14,7 +14,7 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// Way of accessing the physical memory.
         /// </summary>
         [Flags]
-        public enum ProtectionTypes : uint
+        protected enum ProtectionTypes : uint
         {
             /// <summary>
             /// Only read the memory.
@@ -71,11 +71,11 @@ namespace Pretorianie.Tytan.Core.DbgView
             /// <summary>
             /// Allow only read.
             /// </summary>
-            Read = 0x4,
+            ReadOnly = 0x4,
             /// <summary>
-            /// Allow only write.
+            /// Allow read and write operations.
             /// </summary>
-            Write = 0x2,
+            ReadWrite = ReadOnly | 0x2,
             /// <summary>
             /// Allow full control.
             /// </summary>
@@ -94,22 +94,25 @@ namespace Pretorianie.Tytan.Core.DbgView
             bool bInheritHandle;
         }
 
-        [DllImport("kernel32", EntryPoint = "CreateFileMappingW", CharSet = CharSet.Unicode)]
+        [DllImport("kernel32", EntryPoint = "CreateFileMappingW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr CreateFileMapping(IntPtr hFile, uint lpSecurityAttributes, uint flProtect, uint dwMaximumSizeHigh, uint dwMaximumSizeLow, string lpName);
 
-        [DllImport("kernel32", EntryPoint = "OpenFileMappingW", CharSet = CharSet.Unicode)]
+        [DllImport("kernel32", EntryPoint = "OpenFileMappingW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr OpenFileMapping(AccessTypes dwDesiredAccess, bool bInheritHandle, string lpName);
 
-        [DllImport("kernel32")]
+        [DllImport("kernel32", SetLastError = true)]
         private static extern bool UnmapViewOfFile(IntPtr lpBaseAddress);
 
-        [DllImport("kernel32")]
-        private static extern void CloseHandle(IntPtr handle);
+        [DllImport("kernel32", SetLastError = true)]
+        protected static extern void CloseHandle(IntPtr handle);
 
-        [DllImport("kernel32")]
+        [DllImport("kernel32", SetLastError = true)]
         private static extern IntPtr MapViewOfFile(IntPtr hFileMappingObject, AccessTypes dwDesiredAccess, uint dwFileOffsetHigh, uint dwFileOffsetLow, uint dwNumberOfBytesToMap);
 
-        private static readonly IntPtr InvalidHandleValue = new IntPtr(-1);
+        /// <summary>
+        /// Invalid handle value for Win32 objects.
+        /// </summary>
+        protected static readonly IntPtr InvalidHandleValue = new IntPtr(-1);
 
         #endregion
 
@@ -126,19 +129,52 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// <summary>
         /// Init constructor.
         /// </summary>
-        public SharedMemory(uint size, string name, ProtectionTypes protection, SectionTypes section, AccessTypes access)
+        public SharedMemory(uint size, string name, ulong offset, SectionTypes section, AccessTypes access)
         {
-            Create(size, name, protection, section, access);
+            Create(size, name, offset, section, access);
         }
 
         /// <summary>
         /// Creates named memory mapping object that then can be opened by the same call from another process.
         /// </summary>
-        public void Create(uint size, string name, ProtectionTypes protection, SectionTypes section, AccessTypes access)
+        public void Create(uint size, string name, ulong offset, SectionTypes section, AccessTypes access)
         {
-            hMappedFile = CreateFileMapping(InvalidHandleValue, 0, (uint)protection | (uint)section, 0, size, name);
+            hMappedFile = Create(InvalidHandleValue, ref size, ref offset, name, section, access);
+
+            // in case of error try to open an existing shared memory object:
+            if (hMappedFile == IntPtr.Zero && Marshal.GetLastWin32Error() != 0)
+                hMappedFile = OpenFileMapping(access, false, name);
+
             if (hMappedFile != IntPtr.Zero)
-                lpMemoryAddress = MapViewOfFile(hMappedFile, access, 0, 0, size);
+                lpMemoryAddress = MapViewOfFile(hMappedFile, access, (uint)(offset >> 32) & 0xFFFFFFFF,
+                                                (uint)(offset & 0xFFFFFFFF), size);
+
+            if (lpMemoryAddress != IntPtr.Zero)
+                OnCreateMapping(true);
+        }
+
+        /// <summary>
+        /// Creates named memory object with given properties.
+        /// </summary>
+        protected virtual IntPtr Create(IntPtr handle, ref uint size, ref ulong offset, string name, SectionTypes section, AccessTypes access)
+        {
+            ProtectionTypes protection;
+
+            switch (access)
+            {
+                case AccessTypes.Copy:
+                    protection = ProtectionTypes.PageWriteCopy;
+                    break;
+                case AccessTypes.ReadOnly:
+                    protection = ProtectionTypes.PageReadOnly;
+                    break;
+
+                default:
+                    protection = ProtectionTypes.PageReadWrite;
+                    break;
+            }
+
+            return CreateFileMapping(handle, 0, (uint) protection | (uint) section, 0, size, name);
         }
 
         #region Properties
@@ -148,10 +184,7 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// </summary>
         public IntPtr Handle
         {
-            get
-            {
-                return hMappedFile;
-            }
+            get { return hMappedFile; }
         }
 
         /// <summary>
@@ -159,10 +192,7 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// </summary>
         public IntPtr Address
         {
-            get
-            {
-                return lpMemoryAddress;
-            }
+            get { return lpMemoryAddress; }
         }
 
         #endregion
@@ -174,7 +204,7 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// </summary>
         public void Open(uint size, string name)
         {
-            Open(size, name, 0, AccessTypes.Read);
+            Open(size, name, 0, AccessTypes.ReadOnly);
         }
 
         /// <summary>
@@ -188,25 +218,30 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// <summary>
         /// Opens specified memory mapped object.
         /// </summary>
-        public void Open(uint size, string name, uint offset)
+        public void Open(uint size, string name, ulong offset)
         {
-            Open(size, name, offset, AccessTypes.Read);
+            Open(size, name, offset, AccessTypes.ReadOnly);
         }
 
         /// <summary>
         /// Opens specified memory mapped object.
         /// </summary>
-        public void Open(uint size, string name, uint offset, AccessTypes access)
+        public void Open(uint size, string name, ulong offset, AccessTypes access)
         {
             hMappedFile = OpenFileMapping(access, false, name);
+
             if (hMappedFile != IntPtr.Zero)
-                lpMemoryAddress = MapViewOfFile(hMappedFile, access, 0, offset, size);
+                lpMemoryAddress = MapViewOfFile(hMappedFile, access, (uint) (offset >> 32) & 0xFFFFFFFF,
+                                                (uint) (offset & 0xFFFFFFFF), size);
+
+            if (lpMemoryAddress != IntPtr.Zero)
+                OnCreateMapping(false);
         }
 
         /// <summary>
         /// Release resources.
         /// </summary>
-        public void Close()
+        public virtual void Close()
         {
             if (lpMemoryAddress != IntPtr.Zero)
             {
@@ -218,9 +253,6 @@ namespace Pretorianie.Tytan.Core.DbgView
             {
                 CloseHandle(hMappedFile);
                 hMappedFile = IntPtr.Zero;
-
-                // don't need to invoke Dispose() by GC
-                GC.SuppressFinalize(this);
             }
         }
 
@@ -234,7 +266,17 @@ namespace Pretorianie.Tytan.Core.DbgView
         public void Dispose()
         {
             Close();
-            GC.SuppressFinalize(this);
+        }
+
+        #endregion
+
+        #region Virtual Members
+
+        /// <summary>
+        /// Method invoked when new mapping object is created or opened.
+        /// </summary>
+        protected virtual void OnCreateMapping(bool isCreated)
+        {
         }
 
         #endregion

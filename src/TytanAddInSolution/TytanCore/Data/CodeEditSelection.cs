@@ -13,6 +13,7 @@ namespace Pretorianie.Tytan.Core.Data
         private readonly CodeStruct parentStruct;
         private readonly IList<CodeVariable> variables;
         private readonly IList<CodeFunction> methods;
+        private readonly IList<CodeProperty> properties;
         private readonly string parentName;
         private readonly string parentLanguage;
         private readonly CodeElements codeMembers;
@@ -22,16 +23,19 @@ namespace Pretorianie.Tytan.Core.Data
         private IList<CodeVariable> disabledVars;
         private IList<CodeFunction> allMethods;
         private IList<CodeFunction> disabledMethods;
+        private IList<CodeProperty> allProperties;
+        private IList<CodeProperty> disabledProperties;
 
         /// <summary>
         /// Init constructor of CodeEditSelection.
         /// </summary>
-        public CodeEditSelection(CodeClass parentClass, CodeStruct parentStruct, IList<CodeVariable> variables, IList<CodeFunction> methods, bool partialSelection)
+        public CodeEditSelection(CodeClass parentClass, CodeStruct parentStruct, IList<CodeVariable> variables, IList<CodeFunction> methods, IList<CodeProperty> properties, bool partialSelection)
         {
             this.parentClass = parentClass;
             this.parentStruct = parentStruct;
             this.variables = variables;
             this.methods = methods;
+            this.properties = properties;
             this.partialSelection = partialSelection;
 
             if (parentClass != null)
@@ -47,31 +51,13 @@ namespace Pretorianie.Tytan.Core.Data
                     parentLanguage = parentStruct.Language;
                     codeMembers = parentStruct.Members;
                 }
-
-            CalculateDisabledVariables();
-            CalculateDisabledMethods();
-        }
-
-        private void CalculateDisabledMethods()
-        {
-            allMethods = EditorHelper.GetList<CodeFunction>(codeMembers, vsCMElement.vsCMElementFunction);
-
-            // evaluate not selected methods:
-            if (allMethods != null)
-                foreach (CodeFunction m in allMethods)
-                {
-                    if (methods == null || !methods.Contains(m))
-                    {
-                        if (disabledMethods == null)
-                            disabledMethods = new List<CodeFunction>();
-
-                        disabledMethods.Add(m);
-                    }
-                }
         }
 
         private void CalculateDisabledVariables()
         {
+            if (allVars != null)
+                return;
+
             allVars = EditorHelper.GetList<CodeVariable>(codeMembers, vsCMElement.vsCMElementVariable);
 
             // evaluate not selected variables:
@@ -88,6 +74,48 @@ namespace Pretorianie.Tytan.Core.Data
                     }
                 }
             }
+        }
+
+        private void CalculateDisabledMethods()
+        {
+            if (allMethods != null)
+                return;
+
+            allMethods = EditorHelper.GetList<CodeFunction>(codeMembers, vsCMElement.vsCMElementFunction);
+
+            // evaluate not selected methods:
+            if (allMethods != null)
+                foreach (CodeFunction m in allMethods)
+                {
+                    if (methods == null || !methods.Contains(m))
+                    {
+                        if (disabledMethods == null)
+                            disabledMethods = new List<CodeFunction>();
+
+                        disabledMethods.Add(m);
+                    }
+                }
+        }
+
+        private void CalculateDisabledProperties()
+        {
+            if (allProperties != null)
+                return;
+
+            allProperties = EditorHelper.GetList<CodeProperty>(codeMembers, vsCMElement.vsCMElementProperty);
+
+            // evaluate not selected properties:
+            if (allProperties != null)
+                foreach (CodeProperty p in allProperties)
+                {
+                    if (properties == null || !properties.Contains(p))
+                    {
+                        if (disabledProperties == null)
+                            disabledProperties = new List<CodeProperty>();
+
+                        disabledProperties.Add(p);
+                    }
+                }
         }
 
         #region Properties
@@ -133,6 +161,17 @@ namespace Pretorianie.Tytan.Core.Data
             get
             {
                 return methods;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of properties.
+        /// </summary>
+        public IList<CodeProperty> Properties
+        {
+            get
+            {
+                return properties;
             }
         }
 
@@ -188,17 +227,19 @@ namespace Pretorianie.Tytan.Core.Data
         {
             get
             {
+                CalculateDisabledVariables();
                 return allVars;
             }
         }
 
         /// <summary>
-        /// Gets the list of variables that not belong to Variables but exist inside AllVariables.
+        /// Gets the list of variables that not belong to Variables, but do exist inside AllVariables.
         /// </summary>
         public IList<CodeVariable> DisabledVariables
         {
             get
             {
+                CalculateDisabledVariables();
                 return disabledVars;
             }
         }
@@ -210,18 +251,44 @@ namespace Pretorianie.Tytan.Core.Data
         {
             get
             {
+                CalculateDisabledMethods();
                 return allMethods;
             }
         }
 
         /// <summary>
-        /// Gets the list of variables that not belong to Methods but exist inside AllMethods.
+        /// Gets the list of methods that not belong to Methods, but do exist inside AllMethods.
         /// </summary>
         public IList<CodeFunction> DisabledMethods
         {
             get
             {
+                CalculateDisabledMethods();
                 return disabledMethods;
+            }
+        }
+
+        /// <summary>
+        /// Gets all the properties.
+        /// </summary>
+        public IList<CodeProperty> AllProperties
+        {
+            get
+            {
+                CalculateDisabledProperties();
+                return allProperties;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of properties that not belong to Properties, but do exist inside AllProperties.
+        /// </summary>
+        public IList<CodeProperty> DisabledProperties
+        {
+            get
+            {
+                CalculateDisabledProperties();
+                return disabledProperties;
             }
         }
 

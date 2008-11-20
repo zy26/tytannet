@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Pretorianie.Tytan.Core.Helpers;
+using Pretorianie.Tytan.Core.Mapping;
 
 namespace Pretorianie.Tytan.Core.DbgView
 {

@@ -35,6 +35,10 @@ namespace Pretorianie.Tytan.Core.Helpers
         /// </summary>
         private const string ParamVersionName = "Version";
 
+        /// <summary>
+        /// Number of digits for version to display.
+        /// </summary>
+        public const int NumberOfDigits = 3;
 
         /// <summary>
         /// String that appears at the beginning of version-info section.
