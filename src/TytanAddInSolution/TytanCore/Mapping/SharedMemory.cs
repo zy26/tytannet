@@ -86,14 +86,6 @@ namespace Pretorianie.Tytan.Core.Mapping
 
         #region Imports
 
-        [StructLayout(LayoutKind.Sequential)]
-        private struct SECURITY_ATTRIBUTES
-        {
-            uint nLength;
-            uint lpSecurityDescriptor;
-            bool bInheritHandle;
-        }
-
         [DllImport("kernel32", EntryPoint = "CreateFileMappingW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr CreateFileMapping(IntPtr hFile, uint lpSecurityAttributes, uint flProtect, uint dwMaximumSizeHigh, uint dwMaximumSizeLow, string lpName);
 
@@ -118,6 +110,8 @@ namespace Pretorianie.Tytan.Core.Mapping
 
         private IntPtr hMappedFile = IntPtr.Zero;
         private IntPtr lpMemoryAddress = IntPtr.Zero;
+        private uint memorySize;
+        private ulong memoryOffset;
 
         /// <summary>
         /// Default constructor.
@@ -150,7 +144,11 @@ namespace Pretorianie.Tytan.Core.Mapping
                                                 (uint)(offset & 0xFFFFFFFF), size);
 
             if (lpMemoryAddress != IntPtr.Zero)
+            {
+                memoryOffset = offset;
+                memorySize = size;
                 OnCreateMapping(true);
+            }
         }
 
         /// <summary>
@@ -195,6 +193,22 @@ namespace Pretorianie.Tytan.Core.Mapping
             get { return lpMemoryAddress; }
         }
 
+        /// <summary>
+        /// Gets the size of mapped memory block.
+        /// </summary>
+        public uint Size
+        {
+            get { return memorySize; }
+        }
+
+        /// <summary>
+        /// Gets the offset of mapped memory block.
+        /// </summary>
+        public ulong Offset
+        {
+            get { return memoryOffset; }
+        }
+
         #endregion
 
         #region Open / Close
@@ -235,7 +249,11 @@ namespace Pretorianie.Tytan.Core.Mapping
                                                 (uint) (offset & 0xFFFFFFFF), size);
 
             if (lpMemoryAddress != IntPtr.Zero)
+            {
+                memoryOffset = offset;
+                memorySize = size;
                 OnCreateMapping(false);
+            }
         }
 
         /// <summary>
@@ -253,6 +271,8 @@ namespace Pretorianie.Tytan.Core.Mapping
             {
                 CloseHandle(hMappedFile);
                 hMappedFile = IntPtr.Zero;
+                memorySize = 0;
+                memoryOffset = 0;
             }
         }
 

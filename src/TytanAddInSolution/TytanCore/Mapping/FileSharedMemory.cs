@@ -7,7 +7,7 @@ namespace Pretorianie.Tytan.Core.Mapping
     /// <summary>
     /// Class providing access to specified file via shared memory object.
     /// </summary>
-    public class FileSharedMemory : SharedMemory
+    public sealed class FileSharedMemory : SharedMemory
     {
         private readonly string viewName;
         private readonly string fileName;
@@ -38,6 +38,14 @@ namespace Pretorianie.Tytan.Core.Mapping
 
             // and try to creaet file mapping:
             Create(size, name, offset, SectionTypes.SecNone, AccessTypes.ReadWrite);
+        }
+
+        /// <summary>
+        /// Init constructor. Maps the whole file into memory.
+        /// </summary>
+        public FileSharedMemory(string fileName)
+            : this(fileName, null, 0, 0)
+        {
         }
 
         /// <summary>

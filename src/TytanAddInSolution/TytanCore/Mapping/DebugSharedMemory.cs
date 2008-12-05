@@ -6,10 +6,15 @@ namespace Pretorianie.Tytan.Core.Mapping
     /// <summary>
     /// Shared memory to access system debug messages info.
     /// </summary>
-    internal class DebugSharedMemory : SharedMemory
+    internal sealed class DebugSharedMemory : SharedMemory
     {
+        private IntPtr message = IntPtr.Zero;
+
+        /// <summary>
+        /// Init constructor. Opens a shared memory with given name.
+        /// </summary>
         public DebugSharedMemory(string name)
-            : base(4096, name, 0, SectionTypes.SecNone, AccessTypes.ReadOnly)
+            : base(4096, name, 0, SectionTypes.SecNone, AccessTypes.ReadWrite)
         {
         }
 
@@ -26,7 +31,25 @@ namespace Pretorianie.Tytan.Core.Mapping
         /// </summary>
         public string Message
         {
-            get { return Marshal.PtrToStringAnsi(new IntPtr(Address.ToInt32() + 4)).Trim (); }
+            get
+            {
+                if (message == IntPtr.Zero)
+                    return null;
+
+                return Marshal.PtrToStringAnsi(message).Trim ();
+            }
         }
+
+        #region Protected Overrides
+
+        /// <summary>
+        /// Defines the pointer to message inside debugger-specific shared memory.
+        /// </summary>
+        protected override void OnCreateMapping(bool isCreated)
+        {
+            message = new IntPtr(Address.ToInt64() + Marshal.SizeOf(typeof(uint)));
+        }
+
+        #endregion
     }
 }

@@ -29,6 +29,8 @@ namespace Pretorianie.Tytan.Forms
                     dataVars.Rows.Add(!e.IsDisabled, e.GetName(CodeNamedElement.ElementNames.AsVariable),
                         e.GetName(CodeNamedElement.ElementNames.AsProperty), e.ParameterName);
             }
+
+            ActiveControl = bttOK;
         }
 
         /// <summary>

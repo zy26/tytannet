@@ -66,6 +66,8 @@ namespace Pretorianie.Tytan.Forms
                     listView.Items.Add(i);
                 }
             }
+
+            ActiveControl = textFormula;
         }
 
         private void RecognizeRenamer(string formulaFragment, out StringHelper.IStringRenamer r)

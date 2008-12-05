@@ -41,8 +41,7 @@ namespace VisualEditor.DebugView
             this.debugViewTool1.Location = new System.Drawing.Point(0, 0);
             this.debugViewTool1.Name = "debugViewTool1";
             this.debugViewTool1.SelectedItemIndex = -1;
-            this.debugViewTool1.ServiceEnabled = false;
-            this.debugViewTool1.Size = new System.Drawing.Size(1091, 953);
+            this.debugViewTool1.Size = new System.Drawing.Size(1084, 461);
             this.debugViewTool1.TabIndex = 0;
             this.debugViewTool1.VisibleCodeJump = false;
             // 
@@ -50,7 +49,7 @@ namespace VisualEditor.DebugView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1091, 953);
+            this.ClientSize = new System.Drawing.Size(1084, 461);
             this.Controls.Add(this.debugViewTool1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
@@ -58,6 +57,7 @@ namespace VisualEditor.DebugView
             this.Text = "Debug View Tool";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.ResumeLayout(false);
 
         }

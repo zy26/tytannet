@@ -38,6 +38,8 @@ namespace Pretorianie.Tytan.Forms
                     i++;
                 }
             }
+
+            ActiveControl = bttOK;
         }
 
         /// <summary>

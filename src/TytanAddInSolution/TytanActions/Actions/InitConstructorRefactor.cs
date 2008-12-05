@@ -7,6 +7,7 @@ using EnvDTE;
 using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.Interfaces;
+using Pretorianie.Tytan.Core.Pane;
 using Pretorianie.Tytan.Forms;
 using Pretorianie.Tytan.Core.Data.Refactoring;
 

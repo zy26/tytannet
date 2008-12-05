@@ -13,5 +13,10 @@ namespace VisualEditor.DebugView
         {
             debugViewTool1.ServiceEnabled = true;
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            debugViewTool1.ServiceEnabled = false;
+        }
     }
 }

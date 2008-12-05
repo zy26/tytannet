@@ -138,6 +138,11 @@
     <Compile Include="Data\ShellVersions.cs" />
     <Compile Include="Data\ShellModes.cs" />
     <Compile Include="DbgView\CodeJumpStyle.cs" />
+    <Compile Include="DbgView\Sources\DebugSerialPortSource.cs" />
+    <Compile Include="DbgView\Sources\DbgDataEventHandler.cs" />
+    <Compile Include="DbgView\Sources\IDbgSource.cs" />
+    <Compile Include="DbgView\Sources\DebugMemorySource.cs" />
+    <Compile Include="Helpers\ComHelper.cs" />
     <Compile Include="Mapping\DebugSharedMemory.cs" />
     <Compile Include="DbgView\DebugViewData.cs" />
     <Compile Include="DbgView\DebugViewFilteredListData.cs" />
@@ -180,6 +185,7 @@
     <Compile Include="Interfaces\IPackageToolWindow.cs" />
     <Compile Include="Interfaces\IToolCreator.cs" />
     <Compile Include="CustomPackage\PackageActionCollection.cs" />
+    <Compile Include="Mapping\UnmanagedDataReader.cs" />
     <Compile Include="NativeImage\Common\EngineFileExtension.cs" />
     <Compile Include="NativeImage\Common\EngineManager.cs" />
     <Compile Include="NativeImage\IEngine.cs" />

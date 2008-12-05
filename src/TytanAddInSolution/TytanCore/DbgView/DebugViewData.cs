@@ -32,7 +32,7 @@ namespace Pretorianie.Tytan.Core.DbgView
 
             ProcessData dbgProcess = ProcessDataCache.GetByID(pid);
 
-            if (dbgProcess!= null)
+            if (dbgProcess != null)
             {
                 processName = dbgProcess.Name;
                 processPath = dbgProcess.MainModuleFileName;

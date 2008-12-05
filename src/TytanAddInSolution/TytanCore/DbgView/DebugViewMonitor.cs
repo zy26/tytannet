@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Pretorianie.Tytan.Core.Helpers;
-using Pretorianie.Tytan.Core.Mapping;
+using Pretorianie.Tytan.Core.DbgView.Sources;
+using System.Diagnostics;
 
 namespace Pretorianie.Tytan.Core.DbgView
 {
@@ -23,21 +23,14 @@ namespace Pretorianie.Tytan.Core.DbgView
 
         #region Sync Events
 
-        private static EventWaitHandle eventBufferReady;
-        private static EventWaitHandle eventDataReady;
-        private static DebugSharedMemory sharedMemory;
-
         private static Queue<DebugViewData> storedItems;
-        private static Thread threadProcessing;
+        private static List<IDbgSource> dataSources;
+        private static IList<IDbgSource> cachedDataSources;
         private static Timer refreshTimer;
         private static object syncItems;
-        private static volatile bool isRunning;
+        private static object syncSources;
         private static bool isRefreshing;
 
-
-        private const string BufferReadyName = "DBWIN_BUFFER_READY";
-        private const string DataReadyName = "DBWIN_DATA_READY";
-        private const string SharedMemoryName = "DBWIN_BUFFER";
         private const string TabReplace = "    ";
 
         #endregion
@@ -47,51 +40,35 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// </summary>
         public static bool Start()
         {
-            if (eventBufferReady == null)
-                eventBufferReady = SysEventHelper.CreateOrOpen(BufferReadyName, EventResetMode.AutoReset, false);
-
-            if (eventDataReady == null)
-                eventDataReady = SysEventHelper.CreateOrOpen(DataReadyName, EventResetMode.AutoReset, false);
-
-            sharedMemory = new DebugSharedMemory(SharedMemoryName);
-
-            // check if opening handles failed:
-            if (eventBufferReady == null || eventDataReady == null || sharedMemory.Handle == IntPtr.Zero)
-            {
-                Stop();
-                return false;
-            }
-
             // create processing units:
-            if (threadProcessing == null)
+            if (storedItems == null)
             {
                 storedItems = new Queue<DebugViewData>();
+                dataSources = new List<IDbgSource>();
                 syncItems = new object();
+                syncSources = new object();
                 refreshTimer = new Timer(InternalDataRefresh);
                 isRefreshing = false;
 
-                // main thread listening for messages:
-                threadProcessing = new Thread(delegate()
-                                                  {
-                                                      isRunning = true;
-                                                      while (isRunning)
-                                                      {
-                                                          // wait for the debug data:
-                                                          if (WaitHandle.SignalAndWait (eventBufferReady, eventDataReady))
-                                                          {
-                                                              if (sharedMemory != null && sharedMemory.Address != IntPtr.Zero)
-                                                                  InternalReceive(sharedMemory.PID, sharedMemory.Message);
-                                                              else
-                                                                  break;
-                                                          }
-                                                          else
-                                                          {
-                                                              break;
-                                                          }
-                                                      }
-                                                  });
-                threadProcessing.IsBackground = true;
-                threadProcessing.Start();
+                // by default add listener to standard debug messages:
+                AddSource(new DebugMemorySource());
+            }
+
+            // and force all data providers to start:
+            lock (syncSources)
+            {
+                foreach (IDbgSource s in dataSources)
+                {
+                    try
+                    {
+                        s.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine(ex.Message);
+                        Trace.WriteLine(ex.StackTrace);
+                    }
+                }
             }
 
             return true;
@@ -113,7 +90,84 @@ namespace Pretorianie.Tytan.Core.DbgView
             }
         }
 
-        private static void InternalReceive(uint pid, string message)
+        /// <summary>
+        /// Releases internal data structures to receive debug messages.
+        /// </summary>
+        public static void Stop()
+        {
+            lock (syncSources)
+            {
+                foreach (IDbgSource s in dataSources)
+                {
+                    try
+                    {
+                        s.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine(ex.Message);
+                        Trace.WriteLine(ex.StackTrace);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds reference to new source of debug messages.
+        /// </summary>
+        public static void AddSource(IDbgSource s)
+        {
+            lock (syncSources)
+            {
+                if (!dataSources.Contains(s))
+                {
+                    s.DataReceived -= SourceDataReceived;
+                    s.DataReceived += SourceDataReceived;
+                    dataSources.Add(s);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes given debug messages source.
+        /// </summary>
+        public static void RemoveSource(IDbgSource s)
+        {
+            lock (syncSources)
+            {
+                s.DataReceived -= SourceDataReceived;
+                dataSources.Remove(s);
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of debug data sources.
+        /// </summary>
+        public static IList<IDbgSource> Sources
+        {
+            get
+            {
+                if (cachedDataSources == null)
+                {
+                    cachedDataSources = new List<IDbgSource>();
+
+                    // add proper sources that can be manipulated at run-time:
+                    lock (syncItems)
+                    {
+                        foreach (IDbgSource s in dataSources)
+                            if (s.CanConfigureAtRuntime)
+                                cachedDataSources.Add(s);
+                    }
+                }
+
+                return cachedDataSources;
+            }
+        }
+
+        /// <summary>
+        /// Process received message.
+        /// </summary>
+        static void SourceDataReceived(uint pid, string sourceName, string sourceModule, string message)
         {
             lock (syncItems)
             {
@@ -122,7 +176,7 @@ namespace Pretorianie.Tytan.Core.DbgView
 
                 if (string.IsNullOrEmpty(message))
                 {
-                    msgs = new string[] {string.Empty};
+                    msgs = new string[] { string.Empty };
                 }
                 else
                 {
@@ -130,12 +184,21 @@ namespace Pretorianie.Tytan.Core.DbgView
                     msgs = message.Replace("\r\n", "\r").Replace("\n", "\r").Split('\r');
                 }
 
-                ProcessData dbgProcess = ProcessDataCache.GetByID(pid);
-                if (dbgProcess != null)
-                    for (int i = 0; i < msgs.Length; i++)
-                        storedItems.Enqueue(new DebugViewData(pid, dbgProcess.Name,
-                                                              dbgProcess.MainModuleFileName, creation,
-                                                              msgs[i].TrimEnd(null)));
+                // check if this element has already the name:
+                if (pid == 0 && (!string.IsNullOrEmpty(sourceName) || !string.IsNullOrEmpty(sourceModule)))
+                {
+                    foreach (string m in msgs)
+                        storedItems.Enqueue(new DebugViewData(0, sourceName, sourceModule, creation, m.TrimEnd(null)));
+                }
+                else
+                {
+                    ProcessData dbgProcess = ProcessDataCache.GetByID(pid);
+                    if (dbgProcess != null)
+                        foreach (string m in msgs)
+                            storedItems.Enqueue(new DebugViewData(pid, dbgProcess.Name,
+                                                                  dbgProcess.MainModuleFileName, creation,
+                                                                  m.TrimEnd(null)));
+                }
 
                 // avoid data flooding, by adding 1-sec delays
                 // when sending to the receiver:
@@ -144,37 +207,6 @@ namespace Pretorianie.Tytan.Core.DbgView
                     isRefreshing = true;
                     refreshTimer.Change(1000, Timeout.Infinite);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Releases internal data structures to receive debug messages.
-        /// </summary>
-        public static void Stop()
-        {
-            if (threadProcessing != null)
-            {
-                isRunning = false;
-
-                sharedMemory.Close();
-                eventDataReady.Set();
-
-                // wait for thread to finish:
-                if (threadProcessing != null)
-                    threadProcessing.Join(10 * 1000);
-                threadProcessing = null;
-            }
-
-            if (eventBufferReady != null)
-            {
-                eventBufferReady.Close();
-                eventBufferReady = null;
-            }
-         
-            if (sharedMemory.Address != IntPtr.Zero)
-            {
-                sharedMemory.Close();
-                sharedMemory = null;
             }
         }
     }

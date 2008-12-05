@@ -39,7 +39,7 @@ namespace Pretorianie.Tytan.OptionPages
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(378, 100);
+            this.groupBox1.Size = new System.Drawing.Size(378, 74);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Solution options";
@@ -54,11 +54,11 @@ namespace Pretorianie.Tytan.OptionPages
             this.promptOnClosing.Text = "Prompt on closing";
             this.promptOnClosing.UseVisualStyleBackColor = true;
             // 
-            // SolutionCloseOptions
+            // SolutionCloseOption
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.Controls.Add(this.groupBox1);
-            this.Name = "SolutionCloseOptions";
+            this.Name = "SolutionCloseOption";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
