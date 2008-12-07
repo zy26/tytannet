@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
-using System.Windows.Forms;
 using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.DbgView.Sources;
+using System.IO.Ports;
 
 namespace Pretorianie.Tytan.Forms
 {
-    public partial class DebugViewNewSerialForm : Pretorianie.Tytan.Core.BaseForms.BasePackageForm
+    public partial class DebugViewNewSerialForm : Core.BaseForms.BasePackageForm
     {
+        private List<KeyValuePair<string, Encoding>> encodings;
+
         public DebugViewNewSerialForm()
         {
             InitializeComponent();
@@ -26,12 +25,36 @@ namespace Pretorianie.Tytan.Forms
                 cmbBaudRate.SelectedIndex = cmbBaudRate.Items.Count - 1;
 
             // add encodings:
-            cmbEncodings.Items.Add(Encoding.ASCII);
-            cmbEncodings.Items.Add(Encoding.UTF7);
-            cmbEncodings.Items.Add(Encoding.UTF8);
-            cmbEncodings.Items.Add(Encoding.Unicode);
-            cmbEncodings.Items.Add(Encoding.UTF32);
+            encodings = new List<KeyValuePair<string, Encoding>>();
+            encodings.Add(new KeyValuePair<string, Encoding>("ASCII", Encoding.ASCII));
+            encodings.Add(new KeyValuePair<string, Encoding>("UTF7", Encoding.UTF7));
+            encodings.Add(new KeyValuePair<string, Encoding>("UTF8", Encoding.UTF8));
+            encodings.Add(new KeyValuePair<string, Encoding>("Unicode", Encoding.Unicode));
+            encodings.Add(new KeyValuePair<string, Encoding>("UTF32", Encoding.UTF32));
+            encodings.Add(new KeyValuePair<string, Encoding>("Big-Endian Unicode", Encoding.BigEndianUnicode));
+
+            foreach (KeyValuePair<string, Encoding> x in encodings)
+                cmbEncodings.Items.Add(x.Key);
             cmbEncodings.SelectedIndex = 0;
+
+            // add parity:
+            foreach (Parity p in Enum.GetValues(typeof(Parity)))
+                cmbParity.Items.Add(p);
+            cmbParity.SelectedIndex = 0;
+
+            // add stop bits:
+            foreach (StopBits s in Enum.GetValues(typeof(StopBits)))
+                cmbStopBits.Items.Add(s);
+            cmbStopBits.SelectedIndex = 0;
+
+            // add data bits:
+            cmbDataBits.Items.Add("7");
+            cmbDataBits.Items.Add("8");
+            cmbDataBits.SelectedIndex = 1;
+
+            // add flow control:
+            cmbFlow.Items.Add("None");
+            cmbFlow.SelectedIndex = 0;
         }
 
         public void InitializeUI()
@@ -69,7 +92,38 @@ namespace Pretorianie.Tytan.Forms
         /// </summary>
         public Encoding PortEncoding
         {
-            get { return Encoding.ASCII; }
+            get { return encodings[cmbEncodings.SelectedIndex].Value; }
+        }
+
+        /// <summary>
+        /// Gets the parity of given serial port.
+        /// </summary>
+        public Parity PortParity
+        {
+            get { return (Parity)cmbParity.Items[cmbParity.SelectedIndex]; }
+        }
+
+        /// <summary>
+        /// Gets the stop-bits of given serial port.
+        /// </summary>
+        public StopBits PortStopBits
+        {
+            get { return (StopBits)cmbStopBits.Items[cmbStopBits.SelectedIndex]; }
+        }
+
+        /// <summary>
+        /// Gets the data-bits of given serial port.
+        /// </summary>
+        public int PortDataBits
+        {
+            get
+            {
+                int bits;
+
+                if (int.TryParse(cmbDataBits.Text, out bits))
+                    return bits;
+                return 0;
+            }
         }
 
         #endregion

@@ -20,12 +20,15 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         /// <summary>
         /// Init constructor.
         /// </summary>
-        public DebugSerialPortSource(string name, BaudRates baudRate, Encoding encoder)
+        public DebugSerialPortSource(string name, BaudRates baudRate, Encoding encoder, Parity parity, int dataBits, StopBits stopBits)
         {
             this.name = name;
-            description = string.Format("{0} ({1}) Source", name, (int)baudRate);
+            description = string.Format("{0} ({1} / {2}) Source", name, (int)baudRate, encoder.EncodingName);
 
-            port = new SerialPort(name, (int)baudRate);
+            if (stopBits == StopBits.None)
+                port = new SerialPort(name, (int)baudRate, parity, dataBits);
+            else
+                port = new SerialPort(name, (int)baudRate, parity, dataBits, stopBits);
             port.Encoding = encoder;
             port.DataReceived += InternalDataReceived;
         }
@@ -34,7 +37,7 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         /// Init constructor.
         /// </summary>
         public DebugSerialPortSource(string name)
-            : this(name, BaudRates.X115200, Encoding.ASCII)
+            : this(name, BaudRates.X115200, Encoding.ASCII, Parity.None, 8, StopBits.None)
         {
         }
 

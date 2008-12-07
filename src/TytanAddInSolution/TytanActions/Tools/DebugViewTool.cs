@@ -83,17 +83,20 @@ namespace Pretorianie.Tytan.Tools
         public delegate void ItemSelectedHandler(DebugViewTool sender, int selectedItemIndex, DebugViewData data);
 
         /// <summary>
-        /// Occures when jump to the code is requested for particular item.
+        /// Occurs when jump to the code is requested for particular item.
         /// </summary>
         public event ItemCodeJumpHandler ItemCodeJump;
         /// <summary>
-        /// Occures when the item is selected inside the view by the user.
+        /// OOccurs when the item is selected inside the view by the user.
         /// </summary>
         public event ItemSelectedHandler ItemSelected;
 
         private SaveFileDialog dlgExport;
         private OpenFileDialog dlgImport;
         private DebugViewNewSerialForm dlgNewSerial;
+        private DebugViewNewTcpIpForm dlgNewTcp;
+        private DebugViewCloseForm dlgClose;
+
         private ListViewItem selectedItem;
         private ProcessItem selectedProcess;
 
@@ -630,28 +633,45 @@ namespace Pretorianie.Tytan.Tools
 
                 try
                 {
-                    DebugSerialPortSource source = new DebugSerialPortSource(dlgNewSerial.PortName, dlgNewSerial.PortBaudRate, dlgNewSerial.PortEncoding);
+                    // create new reference to the serial port:
+                    DebugSerialPortSource source = new DebugSerialPortSource(dlgNewSerial.PortName,
+                        dlgNewSerial.PortBaudRate, dlgNewSerial.PortEncoding, dlgNewSerial.PortParity,
+                        dlgNewSerial.PortDataBits, dlgNewSerial.PortStopBits);
 
+                    // try to start listening:
                     source.Start();
-                    if (!DebugViewMonitor.AddSource(source, true))
-                        MessageBox.Show("Can not attach given data source.");
+                    if (DebugViewMonitor.AddSource(source, true))
+                        MessageBox.Show("Existing listener has been replaced.", DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    toolStripCloseSource.Enabled = DebugViewMonitor.Sources.Count > 0;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void toolStripAddTCP_Click(object sender, EventArgs e)
         {
+            if (dlgNewTcp == null)
+                dlgNewTcp = new DebugViewNewTcpIpForm();
 
+            if (dlgNewTcp.ShowDialog() == DialogResult.OK)
+            {
+                toolStripCloseSource.Enabled = DebugViewMonitor.Sources.Count > 0;
+            }
         }
 
         private void toolStripCloseSource_Click(object sender, EventArgs e)
         {
+            if (dlgClose == null)
+                dlgClose = new DebugViewCloseForm();
 
+            dlgClose.InitializeUI(DebugViewMonitor.Sources);
+            dlgClose.ShowDialog();
+
+            toolStripCloseSource.Enabled = DebugViewMonitor.Sources.Count > 0;
         }
     }
 }

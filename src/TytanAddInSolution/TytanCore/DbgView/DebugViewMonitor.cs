@@ -121,6 +121,7 @@ namespace Pretorianie.Tytan.Core.DbgView
             {
                 IDbgSource existing;
                 bool canAdd = false;
+                bool overriden = false;
 
                 // check if there is already an item with the same name:
                 if (s != null)
@@ -135,6 +136,7 @@ namespace Pretorianie.Tytan.Core.DbgView
                         {
                             RemoveSource(existing);
                             canAdd = true;
+                            overriden = true;
                         }
                     }
                     else
@@ -148,11 +150,10 @@ namespace Pretorianie.Tytan.Core.DbgView
                         s.DataReceived -= SourceDataReceived;
                         s.DataReceived += SourceDataReceived;
                         dataSources.Add(s);
-                        return true;
                     }
                 }
 
-                return false;
+                return overriden;
             }
         }
 
