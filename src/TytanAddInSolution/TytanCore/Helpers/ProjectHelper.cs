@@ -58,7 +58,11 @@ namespace Pretorianie.Tytan.Core.Helpers
         /// </summary>
         public static IList<Project> GetAllProjects(DTE2 appObject)
         {
-            if (appObject == null || appObject.DTE.Solution.Projects.Count == 0)
+            if (appObject == null
+                || appObject.DTE == null
+                || appObject.DTE.Solution == null
+                || appObject.DTE.Solution.Projects == null
+                || appObject.DTE.Solution.Projects.Count == 0)
                 return null;
 
             IList<Project> projects = new List<Project>();

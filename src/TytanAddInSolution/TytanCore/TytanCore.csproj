@@ -138,10 +138,14 @@
     <Compile Include="Data\ShellVersions.cs" />
     <Compile Include="Data\ShellModes.cs" />
     <Compile Include="DbgView\CodeJumpStyle.cs" />
+    <Compile Include="DbgView\Sources\BaudRates.cs" />
     <Compile Include="DbgView\Sources\DebugSerialPortSource.cs" />
     <Compile Include="DbgView\Sources\DbgDataEventHandler.cs" />
     <Compile Include="DbgView\Sources\IDbgSource.cs" />
     <Compile Include="DbgView\Sources\DebugMemorySource.cs" />
+    <Compile Include="Execution\IProcessor.cs" />
+    <Compile Include="Execution\IQueuedTask.cs" />
+    <Compile Include="Execution\QueuedTaskHandler.cs" />
     <Compile Include="Helpers\ComHelper.cs" />
     <Compile Include="Mapping\DebugSharedMemory.cs" />
     <Compile Include="DbgView\DebugViewData.cs" />
@@ -199,6 +203,8 @@
     <Compile Include="NativeImage\INativeImageDescriptor.cs" />
     <Compile Include="Pane\OutputPane.cs" />
     <Compile Include="Pane\TaskListPane.cs" />
+    <Compile Include="Execution\BackgroundProcessor.cs" />
+    <Compile Include="Execution\QueueTaskProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CustomAddIn\CustomAddInActionDictionary.cs" />
     <Compile Include="TaskList\CustomTask.cs" />

@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using EnvDTE;
+using Pretorianie.Tytan.Actions.Internals;
+using Pretorianie.Tytan.Core.Execution;
 using VSLangProj;
 using Microsoft.VisualStudio.CommandBars;
 using Pretorianie.Tytan.Core.Data;
@@ -29,6 +31,7 @@ namespace Pretorianie.Tytan.Actions.Misc
         private readonly Dictionary<string, MenuCommand> vsNames = new Dictionary<string, MenuCommand>();
         private readonly IComparer<string> namespaceComparer = new NamespaceComparer('.');
         private OpenFileDialog dlgBrowse;
+        private QueueTaskProcessor tasks = new QueueTaskProcessor();
 
         public const string CofigurationName = "ReferenceProjectAction";
         private const string Persistent_ForbiddenNames = "ForbiddenNames";
@@ -46,134 +49,6 @@ namespace Pretorianie.Tytan.Actions.Misc
 
         private const string ForbiddenPrefix = "microsoft.";
         private const int ForbiddenPrefixLength = 10;
-
-        #region Dummy Project Implementation
-
-        private class DummyProject : Project
-        {
-            private string name;
-
-            public DummyProject(string name)
-            {
-                this.name = name;
-            }
-
-            #region Project Implementation
-
-            public void SaveAs(string newFileName)
-            {
-            }
-
-            public void Save(string fileName)
-            {
-            }
-
-            public void Delete()
-            {
-            }
-
-            public string Name
-            {
-                get { return name; }
-                set { name = value; }
-            }
-
-            public string FileName
-            {
-                get { return string.Empty; }
-            }
-
-            public bool IsDirty
-            {
-                get { return false; }
-                set { }
-            }
-
-            public Projects Collection
-            {
-                get { return null; }
-            }
-
-            public DTE DTE
-            {
-                get { return null; }
-            }
-
-            public string Kind
-            {
-                get { return string.Empty; }
-            }
-
-            public ProjectItems ProjectItems
-            {
-                get { return null; }
-            }
-
-            public Properties Properties
-            {
-                get { return null; }
-            }
-
-            public string UniqueName
-            {
-                get { return string.Empty; }
-            }
-
-            public object Object
-            {
-                get { return null; }
-            }
-
-            public object ExtenderNames
-            {
-                get { return null; }
-            }
-
-            public string ExtenderCATID
-            {
-                get { return string.Empty; }
-            }
-
-            public string FullName
-            {
-                get { return string.Empty; }
-            }
-
-            public bool Saved
-            {
-                get { return true; }
-                set { }
-            }
-
-            public ConfigurationManager ConfigurationManager
-            {
-                get { return null; }
-            }
-
-            public Globals Globals
-            {
-                get { return null; }
-            }
-
-            public ProjectItem ParentProjectItem
-            {
-                get { return null; }
-            }
-
-            public CodeModel CodeModel
-            {
-                get { return null; }
-            }
-
-            public object get_Extender(string ExtenderName)
-            {
-                return null;
-            }
-
-            #endregion
-        }
-
-        #endregion
 
         #region IPackageAction Members
 
@@ -211,12 +86,14 @@ namespace Pretorianie.Tytan.Actions.Misc
             parent = env;
             mc = menuCreator;
 
+            tasks.Clear();
+            tasks.Initialize();
             solutionListener = new SolutionEventsListener(env.DTE);
-            solutionListener.SolutionOpened += SolutionOpened;
-            solutionListener.SolutionClosed += SolutionClosed;
-            solutionListener.ProjectAdded += ProjectListChanged_Added;
+            solutionListener.SolutionOpened += Solution_Opened;
+            solutionListener.SolutionClosed += Solution_Closed;
+            solutionListener.ProjectAdded += ProjectListChanged_AddedOrRenamed;
             solutionListener.ProjectRemoved += ProjectListChanged_Removed;
-            solutionListener.ProjectRenamed += ProjectListChanged_Renamed;
+            solutionListener.ProjectRenamed += ProjectListChanged_AddedOrRenamed;
 
             //shellListener = new ShellEventsListener(env.DTE);
             //shellListener.ModeChanged += ShellModeChanged;
@@ -225,7 +102,7 @@ namespace Pretorianie.Tytan.Actions.Misc
             // append all existing projects in current solution,
             // in case AddIn was loaded after opening solution:
             LoadAndSortSystemAssemblies();
-            SolutionOpened(null, parent.DTE.Solution);
+            Solution_Opened(null, parent.DTE.Solution);
         }
 
         /// <summary>
@@ -256,7 +133,30 @@ namespace Pretorianie.Tytan.Actions.Misc
         //            p.Enabled = currentMode != ShellModes.Debug;
         //}
 
-        private void ProjectListChanged_Renamed(object sender, Project p)
+        private void ProjectListChanged_AddedOrRenamed(object sender, Project p)
+        {
+            tasks.Add(new ReferenceSolutionOpenedTask(this));
+        }
+
+        void ProjectListChanged_Removed(object sender, Project p)
+        {
+            tasks.Add(new ReferenceProjectRemovedTask(this, p));
+        }
+
+        void Solution_Opened(object sender, Solution s)
+        {
+            tasks.Add(new ReferenceSolutionOpenedTask(this));
+        }
+
+        void Solution_Closed(object sender, Solution s)
+        {
+            tasks.Add(new ReferenceSolutionClosedTask(this));
+        }
+
+        /// <summary>
+        /// Refresh the whole set of data.
+        /// </summary>
+        public void OnSolutionOpened()
         {
             RemoveAllProjects();
             vsParentPopups = mc.Customizator.AddReferenceProjectPopups();
@@ -265,7 +165,18 @@ namespace Pretorianie.Tytan.Actions.Misc
             AddMultipleProjects(ProjectHelper.GetAllProjects(parent.DTE));
         }
 
-        void ProjectListChanged_Removed(object sender, Project p)
+        /// <summary>
+        /// Refresh data, when solution has been closed.
+        /// </summary>
+        public void OnSolutionClosed()
+        {
+            RemoveAllProjects();
+        }
+
+        /// <summary>
+        /// Refresh the whole set of data, when the project has been removed.
+        /// </summary>
+        public void OnProjectRemoved(Project p)
         {
             RemoveAllProjects();
             vsParentPopups = mc.Customizator.AddReferenceProjectPopups();
@@ -275,29 +186,6 @@ namespace Pretorianie.Tytan.Actions.Misc
             projects.Remove(p);
 
             AddMultipleProjects(projects);
-        }
-
-        private void ProjectListChanged_Added(object sender, Project p)
-        {
-            RemoveAllProjects();
-            vsParentPopups = mc.Customizator.AddReferenceProjectPopups();
-
-            // refresh the projects 'Reference To' menus:
-            AddMultipleProjects(ProjectHelper.GetAllProjects(parent.DTE));
-        }
-
-        void SolutionOpened(object sender, Solution s)
-        {
-            if (s != null && s.Projects.Count > 0)
-            {
-                vsParentPopups = mc.Customizator.AddReferenceProjectPopups();
-                AddMultipleProjects(ProjectHelper.GetAllProjects(parent.DTE));
-            }
-        }
-
-        void SolutionClosed(object sender, Solution s)
-        {
-            RemoveAllProjects();
         }
 
         #region Add Multiple Projects
@@ -477,7 +365,7 @@ namespace Pretorianie.Tytan.Actions.Misc
         /// <summary>
         /// Add menu that browse for assembly to reference.
         /// </summary>
-        private void AddProjectBrowsing ()
+        private void AddProjectBrowsing()
         {
             Project p = new DummyProject(SharedStrings.ReferenceProject_Browse);
             MenuCommand menuCommand = AddProject(ID - 1, p.Name, 1, 9012, Property_ReferenceProject, p, false);
@@ -524,7 +412,6 @@ namespace Pretorianie.Tytan.Actions.Misc
             if (name.EndsWith("..."))
                 name = name.Substring(0, name.Length - 3);
 
-            //return "RefProject_" + name.Replace('.', '_').Replace(' ', '_').Replace('(', '_').Replace(')', '_');
             return "RefProject_" + name.Replace(".", string.Empty).Replace(" ", string.Empty).Replace("(", string.Empty).Replace(")", string.Empty);
         }
 
@@ -546,7 +433,7 @@ namespace Pretorianie.Tytan.Actions.Misc
             // external update - update the whole menu list:
             RemoveAllProjects();
             LoadAndSortSystemAssemblies();
-            SolutionOpened(this, parent.DTE.Solution);
+            Solution_Opened(this, parent.DTE.Solution);
         }
 
         /// <summary>
@@ -646,6 +533,7 @@ namespace Pretorianie.Tytan.Actions.Misc
                 solutionListener = null;
             }
 
+            tasks.Close();
             vsCommands.Clear();
         }
 

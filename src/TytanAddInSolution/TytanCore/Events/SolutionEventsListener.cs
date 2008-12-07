@@ -73,7 +73,7 @@ namespace Pretorianie.Tytan.Core.Events
             try
             {
                 solutionEvents.Opened += SolutionEvents_Opened;
-                solutionEvents.BeforeClosing += SolutionEvents_BeforeClosing;
+                solutionEvents.AfterClosing += SolutionEvents_AfterClosing;
                 solutionEvents.ProjectAdded += SolutionEvents_ProjectAdded;
                 solutionEvents.ProjectRemoved += SolutionEvents_ProjectRemoved;
                 solutionEvents.ProjectRenamed += SolutionEvents_ProjectRenamed;
@@ -106,7 +106,7 @@ namespace Pretorianie.Tytan.Core.Events
                 ProjectAdded(this, project);
         }
 
-        void SolutionEvents_BeforeClosing()
+        void SolutionEvents_AfterClosing()
         {
             if (SolutionClosed != null)
                 SolutionClosed(this, appObject.Solution);
@@ -198,7 +198,7 @@ namespace Pretorianie.Tytan.Core.Events
             if (solutionEvents != null)
             {
                 solutionEvents.Opened -= SolutionEvents_Opened;
-                solutionEvents.BeforeClosing -= SolutionEvents_BeforeClosing;
+                solutionEvents.AfterClosing -= SolutionEvents_AfterClosing;
                 solutionEvents.ProjectAdded -= SolutionEvents_ProjectAdded;
                 solutionEvents.ProjectRemoved -= SolutionEvents_ProjectRemoved;
                 solutionEvents.ProjectRenamed -= SolutionEvents_ProjectRenamed;
