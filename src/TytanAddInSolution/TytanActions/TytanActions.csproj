@@ -66,6 +66,7 @@
     <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic.Compatibility" />
     <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -87,6 +88,7 @@
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -146,6 +148,12 @@
     </Compile>
     <Compile Include="Forms\AboutBoxUpdateForm.Designer.cs">
       <DependentUpon>AboutBoxUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DebugViewNewSerialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DebugViewNewSerialForm.Designer.cs">
+      <DependentUpon>DebugViewNewSerialForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\EnvironmentVarForm.cs">
       <SubType>Form</SubType>
@@ -303,6 +311,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>AboutBoxUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DebugViewNewSerialForm.resx">
+      <DependentUpon>DebugViewNewSerialForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EnvironmentVarForm.resx">
       <DependentUpon>EnvironmentVarForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -407,6 +418,7 @@
     <None Include="Resources\application_side_tree.bmp" />
     <None Include="Resources\Control_ToolBar.bmp" />
     <None Include="Resources\application_home.bmp" />
+    <None Include="Resources\Critical.png" />
     <Content Include="Resources\database_edit.bmp" />
     <Content Include="Resources\empty.bmp" />
     <None Include="Resources\FillDown.bmp" />
@@ -417,8 +429,10 @@
     <None Include="Resources\lightbulb.bmp" />
     <None Include="Resources\gradient.png" />
     <None Include="Resources\TipsAndTricks.png" />
+    <None Include="Resources\p3oEnetres.PNG" />
     <Content Include="Resources\page_white_edit.bmp" />
     <Content Include="Resources\page_white_star.bmp" />
+    <None Include="Resources\pda.PNG" />
     <Content Include="Resources\tag_blue_edit.bmp" />
     <Content Include="Resources\tag_red.bmp" />
     <Content Include="Resources\VSFolder_open.bmp" />

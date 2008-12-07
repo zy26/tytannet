@@ -6,6 +6,8 @@ using Pretorianie.Tytan.Core.CustomAddIn;
 using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.DbgView;
 using Pretorianie.Tytan.Core.Helpers;
+using Pretorianie.Tytan.Forms;
+using Pretorianie.Tytan.Core.DbgView.Sources;
 
 namespace Pretorianie.Tytan.Tools
 {
@@ -91,6 +93,7 @@ namespace Pretorianie.Tytan.Tools
 
         private SaveFileDialog dlgExport;
         private OpenFileDialog dlgImport;
+        private DebugViewNewSerialForm dlgNewSerial;
         private ListViewItem selectedItem;
         private ProcessItem selectedProcess;
 
@@ -612,6 +615,43 @@ namespace Pretorianie.Tytan.Tools
         public void SetStyle(DbgViewCodeJumpStyle newStyle)
         {
             toolStripCustomColumns.SelectedIndex = (int)newStyle + 1;
+        }
+
+        private void toolStripAddCom_Click(object sender, EventArgs e)
+        {
+            if (dlgNewSerial == null)
+                dlgNewSerial = new DebugViewNewSerialForm();
+
+            dlgNewSerial.InitializeUI();
+
+            // add new serial port connection:
+            if (dlgNewSerial.ShowDialog() == DialogResult.OK)
+            {
+
+                try
+                {
+                    DebugSerialPortSource source = new DebugSerialPortSource(dlgNewSerial.PortName, dlgNewSerial.PortBaudRate, dlgNewSerial.PortEncoding);
+
+                    source.Start();
+                    if (!DebugViewMonitor.AddSource(source, true))
+                        MessageBox.Show("Can not attach given data source.");
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void toolStripAddTCP_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripCloseSource_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

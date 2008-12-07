@@ -88,6 +88,13 @@ namespace Pretorianie.Tytan {
             }
         }
         
+        internal static System.Drawing.Bitmap ComConnection {
+            get {
+                object obj = ResourceManager.GetObject("ComConnection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap CommandConsole {
             get {
                 object obj = ResourceManager.GetObject("CommandConsole", resourceCulture);
@@ -112,6 +119,13 @@ namespace Pretorianie.Tytan {
         internal static System.Drawing.Bitmap Copy {
             get {
                 object obj = ResourceManager.GetObject("Copy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Critical {
+            get {
+                object obj = ResourceManager.GetObject("Critical", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,6 +217,13 @@ namespace Pretorianie.Tytan {
         internal static System.Drawing.Bitmap NavigationForward {
             get {
                 object obj = ResourceManager.GetObject("NavigationForward", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap NetworkConnection {
+            get {
+                object obj = ResourceManager.GetObject("NetworkConnection", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -51,7 +51,7 @@ namespace Pretorianie.Tytan.Core.DbgView
                 isRefreshing = false;
 
                 // by default add listener to standard debug messages:
-                AddSource(new DebugMemorySource());
+                AddSource(new DebugMemorySource(), false);
             }
 
             // and force all data providers to start:
@@ -115,17 +115,71 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// <summary>
         /// Adds reference to new source of debug messages.
         /// </summary>
-        public static void AddSource(IDbgSource s)
+        public static bool AddSource(IDbgSource s, bool overrideExisting)
         {
             lock (syncSources)
             {
-                if (!dataSources.Contains(s))
+                IDbgSource existing;
+                bool canAdd = false;
+
+                // check if there is already an item with the same name:
+                if (s != null)
                 {
-                    s.DataReceived -= SourceDataReceived;
-                    s.DataReceived += SourceDataReceived;
-                    dataSources.Add(s);
+                    existing = Find(s);
+
+                    // if there is one with the same name:
+                    if (existing != null)
+                    {
+                        // override?
+                        if (overrideExisting)
+                        {
+                            RemoveSource(existing);
+                            canAdd = true;
+                        }
+                    }
+                    else
+                    {
+                        canAdd = true;
+                    }
+
+                    // add new data-source element if possible:
+                    if (canAdd)
+                    {
+                        s.DataReceived -= SourceDataReceived;
+                        s.DataReceived += SourceDataReceived;
+                        dataSources.Add(s);
+                        return true;
+                    }
                 }
+
+                return false;
             }
+        }
+
+        /// <summary>
+        /// Checks if given debug data-source is already attached.
+        /// </summary>
+        private static bool ContainsSource(IDbgSource s)
+        {
+            lock (syncSources)
+            {
+                return Find(s) != null;
+            }
+        }
+
+        /// <summary>
+        /// Finds debug source with the same name.
+        /// </summary>
+        private static IDbgSource Find(IDbgSource s)
+        {
+            if (string.IsNullOrEmpty(s.Name))
+                return null;
+
+            foreach (IDbgSource x in dataSources)
+                if (string.Compare(s.Name, x.Name, true) == 0)
+                    return x;
+
+            return null;
         }
 
         /// <summary>
@@ -135,8 +189,12 @@ namespace Pretorianie.Tytan.Core.DbgView
         {
             lock (syncSources)
             {
-                s.DataReceived -= SourceDataReceived;
-                dataSources.Remove(s);
+                if (s != null && dataSources.Contains(s))
+                {
+                    s.Close();
+                    s.DataReceived -= SourceDataReceived;
+                    dataSources.Remove(s);
+                }
             }
         }
 
@@ -167,7 +225,7 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// <summary>
         /// Process received message.
         /// </summary>
-        static void SourceDataReceived(uint pid, string sourceName, string sourceModule, string message)
+        static void SourceDataReceived(IDbgSource source, uint pid, string message)
         {
             lock (syncItems)
             {
@@ -185,10 +243,10 @@ namespace Pretorianie.Tytan.Core.DbgView
                 }
 
                 // check if this element has already the name:
-                if (pid == 0 && (!string.IsNullOrEmpty(sourceName) || !string.IsNullOrEmpty(sourceModule)))
+                if (pid == 0 && (!string.IsNullOrEmpty(source.Name) || !string.IsNullOrEmpty(source.Module)))
                 {
                     foreach (string m in msgs)
-                        storedItems.Enqueue(new DebugViewData(0, sourceName, sourceModule, creation, m.TrimEnd(null)));
+                        storedItems.Enqueue(new DebugViewData(0, source.Name, source.Module, creation, m.TrimEnd(null)));
                 }
                 else
                 {

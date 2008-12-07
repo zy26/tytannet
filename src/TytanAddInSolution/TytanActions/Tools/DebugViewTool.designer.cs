@@ -29,6 +29,7 @@ namespace Pretorianie.Tytan.Tools
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DebugViewTool));
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripFeedback = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -58,6 +59,10 @@ namespace Pretorianie.Tytan.Tools
             this.toolStripStart = new System.Windows.Forms.ToolStripButton();
             this.toolStripScrollDown = new System.Windows.Forms.ToolStripButton();
             this.toolStripScrollNo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripAddCom = new System.Windows.Forms.ToolStripButton();
+            this.toolStripAddTCP = new System.Windows.Forms.ToolStripButton();
+            this.toolStripCloseSource = new System.Windows.Forms.ToolStripButton();
             this.toolStripJump = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
@@ -253,6 +258,10 @@ namespace Pretorianie.Tytan.Tools
             this.toolStripStart,
             this.toolStripScrollDown,
             this.toolStripScrollNo,
+            this.toolStripSeparator6,
+            this.toolStripAddCom,
+            this.toolStripAddTCP,
+            this.toolStripCloseSource,
             this.toolStripSeparator2,
             this.toolStripJump,
             this.toolStripSeparator3,
@@ -348,6 +357,42 @@ namespace Pretorianie.Tytan.Tools
             this.toolStripScrollNo.ToolTipText = "Auto scroll down (disabled)";
             this.toolStripScrollNo.Visible = false;
             this.toolStripScrollNo.Click += new System.EventHandler(this.toolStripScrollNo_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripAddCom
+            // 
+            this.toolStripAddCom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripAddCom.Image = global::Pretorianie.Tytan.SharedIcons.ComConnection;
+            this.toolStripAddCom.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.toolStripAddCom.Name = "toolStripAddCom";
+            this.toolStripAddCom.Size = new System.Drawing.Size(23, 22);
+            this.toolStripAddCom.Text = "Add COM port source";
+            this.toolStripAddCom.Click += new System.EventHandler(this.toolStripAddCom_Click);
+            // 
+            // toolStripAddTCP
+            // 
+            this.toolStripAddTCP.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripAddTCP.Image = global::Pretorianie.Tytan.SharedIcons.NetworkConnection;
+            this.toolStripAddTCP.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.toolStripAddTCP.Name = "toolStripAddTCP";
+            this.toolStripAddTCP.Size = new System.Drawing.Size(23, 22);
+            this.toolStripAddTCP.Text = "Add TCP/IP source";
+            this.toolStripAddTCP.Click += new System.EventHandler(this.toolStripAddTCP_Click);
+            // 
+            // toolStripCloseSource
+            // 
+            this.toolStripCloseSource.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripCloseSource.Enabled = false;
+            this.toolStripCloseSource.Image = ((System.Drawing.Image)(resources.GetObject("toolStripCloseSource.Image")));
+            this.toolStripCloseSource.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.toolStripCloseSource.Name = "toolStripCloseSource";
+            this.toolStripCloseSource.Size = new System.Drawing.Size(23, 22);
+            this.toolStripCloseSource.Text = "Close source";
+            this.toolStripCloseSource.Click += new System.EventHandler(this.toolStripCloseSource_Click);
             // 
             // toolStripJump
             // 
@@ -452,6 +497,10 @@ namespace Pretorianie.Tytan.Tools
         private System.Windows.Forms.ToolStripComboBox toolStripCustomColumns;
         private System.Windows.Forms.ToolStripButton toolStripOpen;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripButton toolStripAddCom;
+        private System.Windows.Forms.ToolStripButton toolStripAddTCP;
+        private System.Windows.Forms.ToolStripButton toolStripCloseSource;
 
 
 

@@ -6,9 +6,10 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
     /// <summary>
     /// Class that reads debug messages from serial port.
     /// </summary>
-    public class SerialPortDebugReader : IDbgSource
+    public class DebugSerialPortSource : IDbgSource
     {
         private readonly string name;
+        private readonly string description;
         private readonly SerialPort port;
 
         /// <summary>
@@ -19,9 +20,10 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         /// <summary>
         /// Init constructor.
         /// </summary>
-        public SerialPortDebugReader(string name, BaudRates baudRate, Encoding encoder)
+        public DebugSerialPortSource(string name, BaudRates baudRate, Encoding encoder)
         {
             this.name = name;
+            description = string.Format("{0} ({1}) Source", name, (int)baudRate);
 
             port = new SerialPort(name, (int)baudRate);
             port.Encoding = encoder;
@@ -31,7 +33,7 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         /// <summary>
         /// Init constructor.
         /// </summary>
-        public SerialPortDebugReader(string name)
+        public DebugSerialPortSource(string name)
             : this(name, BaudRates.X115200, Encoding.ASCII)
         {
         }
@@ -52,6 +54,23 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         public bool IsValid
         {
             get { return port != null && port.IsOpen; }
+        }
+
+
+        /// <summary>
+        /// Gets the module name of given source.
+        /// </summary>
+        public string Module
+        {
+            get { return name; }
+        }
+
+        /// <summary>
+        /// Gets the description of given source.
+        /// </summary>
+        public string Description
+        {
+            get { return description; }
         }
 
         #endregion
@@ -99,7 +118,7 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
             if (DataReceived != null)
                 // read whole data and
                 // convert to the actual message understandable by the user and broadcast it:
-                DataReceived(0, name, name, port.ReadExisting());
+                DataReceived(this, 0, port.ReadExisting());
             else
                 port.DiscardInBuffer();
         }

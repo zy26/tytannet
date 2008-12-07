@@ -117,31 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="contextMenuList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>163, 17</value>
-  </metadata>
-  <metadata name="toolStripMainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="toolStripCloseSource.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAy1JREFUOE9tk/tP
-        U2cYxw9Z4h9gsv0ji8t+X7IMRVppkXKdda1McEZgozjZ5mjERaO7ZIvRIWrYYpaFEOYKFh09lJ7aK8o6
-        Lq2TVkABAXsRLbQ9/eylmOniTnJy3vfkfb6X5/m+RdJLj7qxQXI6LCUCt6XsoyUpr+alzLN1qWj7dun1
-        t3dIb7z1pvTatm1FL9f8u86rKg9sg8ROnyHec4XklUvEv/6W2bZ2gsZ65BoTkZ6r5HM5XgHYZJ4538Vy
-        14/kJ7ww6QdbP9nvz7Hy6RfEDrcwYTqIc28tvs+sZJ6s/RdkrreP1UsX4eEU6yEXT3uvkhH7hLWT+RYL
-        kx98iLe8imDdfmRdJb7jnZDPb4HEJ6eZ6TwJ0XGe+GXGxXpMFMUsFuY/thCq2Yd7n5k7p77BZTyAUlGD
-        fbeeaN+1LYDwhW4eC0Y17CF67geWQ1MkozH8HzXj2qll1FDHwoircDh8+SdGtOXIZQaGTQ1bVrzNbaR/
-        +xWG+khdPE/aJ/wLeam7f+NpPcaiUykUJ4NjjDccRtEbCjauaw0suG4heeoPkRN+1e4LxK0d3G9qYbG3
-        n5xobD6nkgeWZSe360x4BbtbWCgAlFUys2nD/X49yY5OEh1W5j+xcEdXhbvaSCISKTDnslmCRz9HfqcY
-        395qFPEOPwe4J4gk5eAR7jY2MdfcSqh2P0qVkajIQ1b4S01MkVsT39gsgfbjyMWiJ/pKbooeDGoqmOm3
-        IU139whZdUybG/jzSCsLt7wF5uWbw4zVGLl39jvUp2ukH8eJdF0WDazAXqrnur6a1b8mkZ4tLuGoNeMT
-        IGHrSbLJJCuOEQJifJ5dWjw7NUx9eUL8T7DkUrih0fH7e6X42q2oG5mtUc7Z/2CopAy/0URIRNcvgqNo
-        yvEYanHrDDhLdQREJpQDjQyU7GFQV83K2PiLNObSaSI//8JAsYZhcdgpikYrqnCWVzIixubQCdlCja24
-        lGslOmYHhl69E5sgDxxOZPMhIVEr0lbGkFBhF4C2XXvof3c3DnMjD+VRVDGZ/72RmwHKpFLM33AQ/OoM
-        o01tuJqPEjhxivs2O+srqy/uwHOEfwCHgoXnY/6+igAAAABJRU5ErkJggg==
-</value>
-  </data>
 </root>

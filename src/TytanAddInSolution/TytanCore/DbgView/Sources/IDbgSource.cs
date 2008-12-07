@@ -26,5 +26,23 @@
         /// Stops receiving of the data.
         /// </summary>
         void Close();
+
+        /// <summary>
+        /// Gets the name of given source.
+        /// </summary>
+        string Name
+        { get; }
+
+        /// <summary>
+        /// Gets the module name of given source.
+        /// </summary>
+        string Module
+        { get; }
+
+        /// <summary>
+        /// Gets the description of given source.
+        /// </summary>
+        string Description
+        { get; }
     }
 }

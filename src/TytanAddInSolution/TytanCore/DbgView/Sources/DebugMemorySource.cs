@@ -90,7 +90,7 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         {
             // and notify all listeners that new message has arrived:
             if (DataReceived != null)
-                DataReceived(pid, null, null, message);
+                DataReceived(this, pid, message);
         }
 
         /// <summary>
@@ -127,6 +127,34 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
                 sharedMemory.Close();
                 sharedMemory = null;
             }
+        }
+
+        #endregion
+
+        #region IDbgSource Members
+
+        /// <summary>
+        /// Gets the name of given source.
+        /// </summary>
+        public string Name
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Gets the module name of given source.
+        /// </summary>
+        public string Module
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Gets the description of given source.
+        /// </summary>
+        public string Description
+        {
+            get { return "Shared Memory Source"; }
         }
 
         #endregion
