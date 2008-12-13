@@ -3,7 +3,7 @@
 
     <?define DynProductName         = "TytanNET v1.0 - Visual Studio addin" ?>      <!-- 0.19.0.0 -->
     <?define DynManufacturerName    = "Pretorianie 2008" ?>
-    <?define DynProductVersion      = "0.18.0" ?>
+    <?define DynProductVersion      = "0.19.0" ?>
     <?define DynProductLanguage     = "1033" ?>
     <?define DynProductCode         = "91909BCD-77CA-480C-8463-CBEA17427573" ?>     <!-- update each time generating new installer -->
     <?define DynPackageCode         = "11DE7E18-5094-4893-B4F5-4A39E717FD34" ?>     <!-- and also this one -->

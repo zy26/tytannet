@@ -1,6 +1,6 @@
 ﻿namespace Pretorianie.Tytan.Forms
 {
-    partial class DebugViewNewTcpIpForm
+    partial class DebugViewNewNetworkForm
     {
         /// <summary>
         /// Required designer variable.

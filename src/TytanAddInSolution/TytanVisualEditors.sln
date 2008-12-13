@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualEditorDebugView", "VisualEditorDebugView\VisualEditorDebugView.csproj", "{9929F4C0-E3F8-48F0-ABEB-9A2FB8FBBD79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualEditorNativeImage", "VisualEditorNativeImage\VisualEditorNativeImage.csproj", "{DC752419-136B-4A26-87EE-373269C79674}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualEditorRegistry", "VisualEditorRegistry\VisualEditorRegistry.csproj", "{18A730EC-9A36-4938-9AF6-6A532B4900DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanCore", "TytanCore\TytanCore.csproj", "{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanActions", "TytanActions\TytanActions.csproj", "{954C426B-84BE-4F29-B770-0A6253ABD03A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanDatabase", "TytanDatabase\TytanDatabase.csproj", "{76C487D6-0A6D-4C7A-96EA-67286535931D}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs01.codeplex.com/
+		SccLocalPath0 = TytanVisualEditors
+		SccProjectFilePathRelativizedFromConnection0 = ..\\
+		SccProjectUniqueName1 = VisualEditorDebugView\\VisualEditorDebugView.csproj
+		SccProjectName1 = VisualEditorDebugView
+		SccLocalPath1 = VisualEditorDebugView
+		SccProjectUniqueName2 = VisualEditorNativeImage\\VisualEditorNativeImage.csproj
+		SccProjectName2 = VisualEditorNativeImage
+		SccLocalPath2 = VisualEditorNativeImage
+		SccProjectUniqueName3 = VisualEditorRegistry\\VisualEditorRegistry.csproj
+		SccProjectName3 = VisualEditorRegistry
+		SccLocalPath3 = VisualEditorRegistry
+		SccProjectUniqueName4 = TytanCore\\TytanCore.csproj
+		SccProjectName4 = TytanCore
+		SccLocalPath4 = TytanCore
+		SccProjectUniqueName5 = TytanActions\\TytanActions.csproj
+		SccProjectName5 = TytanActions
+		SccLocalPath5 = TytanActions
+		SccProjectUniqueName6 = TytanDatabase\\TytanDatabase.csproj
+		SccProjectName6 = TytanDatabase
+		SccLocalPath6 = TytanDatabase
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9929F4C0-E3F8-48F0-ABEB-9A2FB8FBBD79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9929F4C0-E3F8-48F0-ABEB-9A2FB8FBBD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9929F4C0-E3F8-48F0-ABEB-9A2FB8FBBD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9929F4C0-E3F8-48F0-ABEB-9A2FB8FBBD79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC752419-136B-4A26-87EE-373269C79674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC752419-136B-4A26-87EE-373269C79674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC752419-136B-4A26-87EE-373269C79674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC752419-136B-4A26-87EE-373269C79674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18A730EC-9A36-4938-9AF6-6A532B4900DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18A730EC-9A36-4938-9AF6-6A532B4900DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18A730EC-9A36-4938-9AF6-6A532B4900DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18A730EC-9A36-4938-9AF6-6A532B4900DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

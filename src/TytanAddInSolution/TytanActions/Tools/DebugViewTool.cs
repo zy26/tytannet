@@ -94,7 +94,7 @@ namespace Pretorianie.Tytan.Tools
         private SaveFileDialog dlgExport;
         private OpenFileDialog dlgImport;
         private DebugViewNewSerialForm dlgNewSerial;
-        private DebugViewNewTcpIpForm dlgNewTcp;
+        private DebugViewNewNetworkForm dlgNewTcp;
         private DebugViewCloseForm dlgClose;
 
         private ListViewItem selectedItem;
@@ -655,7 +655,7 @@ namespace Pretorianie.Tytan.Tools
         private void toolStripAddTCP_Click(object sender, EventArgs e)
         {
             if (dlgNewTcp == null)
-                dlgNewTcp = new DebugViewNewTcpIpForm();
+                dlgNewTcp = new DebugViewNewNetworkForm();
 
             if (dlgNewTcp.ShowDialog() == DialogResult.OK)
             {

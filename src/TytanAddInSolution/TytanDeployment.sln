@@ -1,0 +1,109 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlfaTests", "AlfaTests\AlfaTests.csproj", "{F5454179-265C-467A-884A-703C0A5EB413}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TytanWixInstaller", "TytanWixInstaller\TytanWixInstaller.wixproj", "{1846275F-32F4-4A35-813F-52155AC411F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanCore", "TytanCore\TytanCore.csproj", "{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanDatabase", "TytanDatabase\TytanDatabase.csproj", "{76C487D6-0A6D-4C7A-96EA-67286535931D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanActions", "TytanActions\TytanActions.csproj", "{954C426B-84BE-4F29-B770-0A6253ABD03A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1EECBD4D-CE82-4B76-9DD2-2511DAE8C3D6}"
+	ProjectSection(SolutionItems) = preProject
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		TytanAddInSolution.vsmdi = TytanAddInSolution.vsmdi
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs01.codeplex.com/
+		SccLocalPath0 = TytanDeployment
+		SccProjectFilePathRelativizedFromConnection0 = ..\\
+		SccProjectUniqueName1 = AlfaTests\\AlfaTests.csproj
+		SccProjectName1 = AlfaTests
+		SccLocalPath1 = AlfaTests
+		SccProjectUniqueName2 = TytanWixInstaller\\TytanWixInstaller.wixproj
+		SccProjectName2 = TytanWixInstaller
+		SccLocalPath2 = TytanWixInstaller
+		SccProjectUniqueName3 = TytanCore\\TytanCore.csproj
+		SccProjectName3 = TytanCore
+		SccLocalPath3 = TytanCore
+		SccProjectUniqueName4 = TytanDatabase\\TytanDatabase.csproj
+		SccProjectName4 = TytanDatabase
+		SccLocalPath4 = TytanDatabase
+		SccProjectUniqueName5 = TytanActions\\TytanActions.csproj
+		SccProjectName5 = TytanActions
+		SccLocalPath5 = TytanActions
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = TytanAddInSolution.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5454179-265C-467A-884A-703C0A5EB413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F5454179-265C-467A-884A-703C0A5EB413}.Release|x86.ActiveCfg = Release|Any CPU
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|x86.ActiveCfg = Debug|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|x86.Build.0 = Debug|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Any CPU.ActiveCfg = Release|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|x86.ActiveCfg = Release|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|x86.Build.0 = Release|x86
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Release|x86.ActiveCfg = Release|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|x86.ActiveCfg = Release|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
