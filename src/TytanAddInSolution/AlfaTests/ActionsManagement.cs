@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -155,18 +156,23 @@ namespace AlfaTests
 
             var manager = new CustomAddInManager(dte, addIn, null, Assembly.GetExecutingAssembly());
 
+            Trace.WriteLine("Addin two actions.");
             manager.Add(a1);
             manager.Add(a2);
 
             // initialize actions - only the first one should be executed
             // the rest should be discarded by the manager itself:
+            Trace.WriteLine("Calling application init of AddIn manager for the first time.");
             manager.ApplicationInit(true);
+            Trace.WriteLine("Calling for the second time.");
             manager.ApplicationInit(true);
 
             // release manager's resources:
+            Trace.WriteLine("Calling application exit.");
             manager.ApplicationExit(true);
 
             // check if the initialization has been called at most 2-times:
+            Trace.WriteLine("Validating number of calls.");
             ThrowCounterException(2);
         }
     }

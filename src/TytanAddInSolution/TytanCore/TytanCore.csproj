@@ -143,6 +143,7 @@
     <Compile Include="DbgView\Sources\DbgDataEventHandler.cs" />
     <Compile Include="DbgView\Sources\IDbgSource.cs" />
     <Compile Include="DbgView\Sources\DebugMemorySource.cs" />
+    <Compile Include="DbgView\Sources\UserDebugSource.cs" />
     <Compile Include="Execution\IProcessor.cs" />
     <Compile Include="Execution\IQueuedTask.cs" />
     <Compile Include="Execution\QueuedTaskHandler.cs" />
