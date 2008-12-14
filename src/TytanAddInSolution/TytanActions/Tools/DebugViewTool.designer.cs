@@ -381,9 +381,8 @@ namespace Pretorianie.Tytan.Tools
             this.toolStripAddTCP.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.toolStripAddTCP.Name = "toolStripAddTCP";
             this.toolStripAddTCP.Size = new System.Drawing.Size(23, 22);
-            this.toolStripAddTCP.Text = "Add TCP/IP source";
+            this.toolStripAddTCP.Text = "Add network source";
             this.toolStripAddTCP.Visible = false;
-            this.toolStripAddTCP.Click += new System.EventHandler(this.toolStripAddTCP_Click);
             // 
             // toolStripCloseSource
             // 

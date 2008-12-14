@@ -278,4 +278,7 @@ Please click [Download] button to navigate to release page.</value>
   <data name="ReferenceProject_OptionDialogTitle" xml:space="preserve">
     <value>Selecting assembly</value>
   </data>
+  <data name="DebugView_SerialPortReplaced" xml:space="preserve">
+    <value>Updated settings for serial port listener.</value>
+  </data>
 </root>

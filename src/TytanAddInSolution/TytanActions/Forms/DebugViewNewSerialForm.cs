@@ -22,7 +22,7 @@ namespace Pretorianie.Tytan.Forms
 
             // and select the last one:
             if (cmbBaudRate.Items.Count > 0)
-                cmbBaudRate.SelectedIndex = cmbBaudRate.Items.Count - 1;
+                cmbBaudRate.SelectedIndex = cmbBaudRate.Items.Count - 4;
 
             // add encodings:
             encodings = new List<KeyValuePair<string, Encoding>>();
@@ -45,7 +45,7 @@ namespace Pretorianie.Tytan.Forms
             // add stop bits:
             foreach (StopBits s in Enum.GetValues(typeof(StopBits)))
                 cmbStopBits.Items.Add(s);
-            cmbStopBits.SelectedIndex = 0;
+            cmbStopBits.SelectedIndex = 1;
 
             // add data bits:
             cmbDataBits.Items.Add("7");
@@ -67,6 +67,8 @@ namespace Pretorianie.Tytan.Forms
             // select the last one:
             if (cmbPortNames.Items.Count > 0)
                 cmbPortNames.SelectedIndex = 0;
+
+            ActiveControl = cmbPortNames;
         }
 
         #region Properties

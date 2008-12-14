@@ -1,5 +1,6 @@
 ﻿using System.IO.Ports;
 using System.Text;
+using System.Threading;
 
 namespace Pretorianie.Tytan.Core.DbgView.Sources
 {
@@ -11,6 +12,9 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         private readonly string name;
         private readonly string description;
         private readonly SerialPort port;
+        private readonly StringBuilder message;
+        private readonly Timer timer;
+        private char lastNewLine;
 
         /// <summary>
         /// Definition of the callback function that will receive debug messages.
@@ -24,13 +28,18 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         {
             this.name = name;
             description = string.Format("{0} ({1} / {2}) Source", name, (int)baudRate, encoder.EncodingName);
+            message = new StringBuilder(4096);
+            timer = new Timer(InternalDataFlush);
 
             if (stopBits == StopBits.None)
                 port = new SerialPort(name, (int)baudRate, parity, dataBits);
             else
                 port = new SerialPort(name, (int)baudRate, parity, dataBits, stopBits);
             port.Encoding = encoder;
+            port.DiscardNull = true;
+            port.NewLine = "\n";
             port.DataReceived += InternalDataReceived;
+            port.Handshake = Handshake.None;
         }
 
         /// <summary>
@@ -109,21 +118,59 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         public void Close()
         {
             if (port != null)
+            {
+                port.DiscardInBuffer();
+                port.DiscardOutBuffer();
                 port.Close();
+            }
         }
 
         private void InternalDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             // end of transmission ?
             if (e.EventType == SerialData.Eof)
+            {
+                port.DiscardInBuffer();
                 return;
+            }
 
             if (DataReceived != null)
-                // read whole data and
-                // convert to the actual message understandable by the user and broadcast it:
-                DataReceived(this, 0, port.ReadExisting());
+            {
+                while (port.BytesToRead > 0)
+                    AppendLine((char) port.ReadChar());
+            }
             else
                 port.DiscardInBuffer();
+        }
+
+        private void AppendLine(char data)
+        {
+            // flush the data:
+            if (data == '\r' || data == '\n')
+            {
+                if (lastNewLine != '\0' && lastNewLine != data)
+                {
+                    lastNewLine = '\0';
+                    return;
+                }
+                lastNewLine = data;
+
+                // stop the timer:
+                timer.Change(Timeout.Infinite, Timeout.Infinite);
+                InternalDataFlush(null);
+            }
+            else
+            {
+                lastNewLine = '\0';
+                message.Append(data);
+                timer.Change(500, Timeout.Infinite);
+            }
+        }
+
+        private void InternalDataFlush(object state)
+        {
+            DataReceived(this, 0, message.ToString());
+            message.Remove(0, message.Length);
         }
     }
 }

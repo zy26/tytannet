@@ -189,6 +189,7 @@
             // 
             // cmbBaudRate
             // 
+            this.cmbBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBaudRate.FormattingEnabled = true;
             this.cmbBaudRate.Location = new System.Drawing.Point(104, 57);
             this.cmbBaudRate.MaxDropDownItems = 20;

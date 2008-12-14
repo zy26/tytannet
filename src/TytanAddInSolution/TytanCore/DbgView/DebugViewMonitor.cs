@@ -30,6 +30,7 @@ namespace Pretorianie.Tytan.Core.DbgView
         private static object syncItems;
         private static object syncSources;
         private static bool isRefreshing;
+        private static bool isStarted;
 
         private const string TabReplace = "    ";
 
@@ -51,12 +52,13 @@ namespace Pretorianie.Tytan.Core.DbgView
                 isRefreshing = false;
 
                 // by default add listener to standard debug messages:
-                AddSource(new DebugMemorySource(), false);
+                AddSource(new DebugMemorySource(), false, false);
             }
 
             // and force all data providers to start:
             lock (syncSources)
             {
+                isStarted = true;
                 foreach (IDbgSource s in dataSources)
                 {
                     try
@@ -97,6 +99,8 @@ namespace Pretorianie.Tytan.Core.DbgView
         {
             lock (syncSources)
             {
+                isStarted = false;
+
                 foreach (IDbgSource s in dataSources)
                 {
                     try
@@ -109,13 +113,24 @@ namespace Pretorianie.Tytan.Core.DbgView
                         Trace.WriteLine(ex.StackTrace);
                     }
                 }
+
+                // kill the timer:
+                lock (syncItems)
+                {
+                    if (isRefreshing)
+                    {
+                        refreshTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                        if (storedItems != null && storedItems.Count < 0)
+                            InternalDataRefresh(null);
+                    }
+                }
             }
         }
 
         /// <summary>
         /// Adds reference to new source of debug messages.
         /// </summary>
-        public static bool AddSource(IDbgSource s, bool overrideExisting)
+        public static bool AddSource(IDbgSource s, bool overrideExisting, bool autoStart)
         {
             lock (syncSources)
             {
@@ -150,6 +165,10 @@ namespace Pretorianie.Tytan.Core.DbgView
                         s.DataReceived -= SourceDataReceived;
                         s.DataReceived += SourceDataReceived;
                         dataSources.Add(s);
+                        cachedDataSources = null;
+
+                        if (isStarted && autoStart)
+                            s.Start();
                     }
                 }
 
@@ -160,7 +179,7 @@ namespace Pretorianie.Tytan.Core.DbgView
         /// <summary>
         /// Checks if given debug data-source is already attached.
         /// </summary>
-        private static bool ContainsSource(IDbgSource s)
+        public static bool ContainsSource(IDbgSource s)
         {
             lock (syncSources)
             {
@@ -195,6 +214,7 @@ namespace Pretorianie.Tytan.Core.DbgView
                     s.Close();
                     s.DataReceived -= SourceDataReceived;
                     dataSources.Remove(s);
+                    cachedDataSources = null;
                 }
             }
         }

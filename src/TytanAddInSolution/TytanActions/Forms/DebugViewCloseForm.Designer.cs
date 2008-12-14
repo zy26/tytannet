@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.sources = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.bttStop = new System.Windows.Forms.Button();
+            this.bttStopAll = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // linkFeedback
@@ -57,41 +57,43 @@
             this.sources.Size = new System.Drawing.Size(399, 251);
             this.sources.TabIndex = 3;
             // 
-            // button1
+            // bttStop
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button1.Location = new System.Drawing.Point(136, 274);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "&Stop";
-            this.button1.UseVisualStyleBackColor = true;
+            this.bttStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.bttStop.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.bttStop.Location = new System.Drawing.Point(136, 274);
+            this.bttStop.Name = "bttStop";
+            this.bttStop.Size = new System.Drawing.Size(75, 23);
+            this.bttStop.TabIndex = 4;
+            this.bttStop.Text = "&Stop";
+            this.bttStop.UseVisualStyleBackColor = true;
+            this.bttStop.Click += new System.EventHandler(this.bttStop_Click);
             // 
-            // button2
+            // bttStopAll
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button2.Location = new System.Drawing.Point(217, 274);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Stop &all";
-            this.button2.UseVisualStyleBackColor = true;
+            this.bttStopAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.bttStopAll.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.bttStopAll.Location = new System.Drawing.Point(217, 274);
+            this.bttStopAll.Name = "bttStopAll";
+            this.bttStopAll.Size = new System.Drawing.Size(75, 23);
+            this.bttStopAll.TabIndex = 5;
+            this.bttStopAll.Text = "Stop &all";
+            this.bttStopAll.UseVisualStyleBackColor = true;
+            this.bttStopAll.Click += new System.EventHandler(this.bttStopAll_Click);
             // 
             // DebugViewCloseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(423, 306);
             this.Controls.Add(this.sources);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.bttStopAll);
+            this.Controls.Add(this.bttStop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "DebugViewCloseForm";
             this.Text = "Closing data-source connection";
-            this.Controls.SetChildIndex(this.button1, 0);
+            this.Controls.SetChildIndex(this.bttStop, 0);
             this.Controls.SetChildIndex(this.bttOK, 0);
-            this.Controls.SetChildIndex(this.button2, 0);
+            this.Controls.SetChildIndex(this.bttStopAll, 0);
             this.Controls.SetChildIndex(this.sources, 0);
             this.Controls.SetChildIndex(this.linkFeedback, 0);
             this.Controls.SetChildIndex(this.bttCancel, 0);
@@ -103,7 +105,7 @@
         #endregion
 
         private System.Windows.Forms.ListBox sources;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button bttStop;
+        private System.Windows.Forms.Button bttStopAll;
     }
 }

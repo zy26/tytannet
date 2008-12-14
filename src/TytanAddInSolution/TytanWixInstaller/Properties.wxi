@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
 
-    <?define DynProductName         = "TytanNET v1.0 - Visual Studio addin" ?>      <!-- 0.19.0.0 -->
+    <?define DynProductName         = "TytanNET v0.19 - Visual Studio addin" ?>      <!-- 0.19.0.0 -->
     <?define DynManufacturerName    = "Pretorianie 2008" ?>
     <?define DynProductVersion      = "0.19.0" ?>
     <?define DynProductLanguage     = "1033" ?>

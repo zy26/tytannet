@@ -20,6 +20,9 @@
 
         #region Implementation of IDbgSource
 
+        /// <summary>
+        /// Event fired when new data is received.
+        /// </summary>
         public event DbgDataEventHandler DataReceived;
 
         /// <summary>

@@ -638,11 +638,10 @@ namespace Pretorianie.Tytan.Tools
                         dlgNewSerial.PortBaudRate, dlgNewSerial.PortEncoding, dlgNewSerial.PortParity,
                         dlgNewSerial.PortDataBits, dlgNewSerial.PortStopBits);
 
-                    // try to start listening:
-                    source.Start();
-                    if (DebugViewMonitor.AddSource(source, true))
-                        MessageBox.Show("Existing listener has been replaced.", DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                    // try to start listening and overwrite existing settings of already opened port:
+                    if (DebugViewMonitor.AddSource(source, true, true))
+                        MessageBox.Show(SharedStrings.DebugView_SerialPortReplaced, DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
                     toolStripCloseSource.Enabled = DebugViewMonitor.Sources.Count > 0;
                 }
                 catch (Exception ex)
@@ -668,10 +667,27 @@ namespace Pretorianie.Tytan.Tools
             if (dlgClose == null)
                 dlgClose = new DebugViewCloseForm();
 
-            dlgClose.InitializeUI(DebugViewMonitor.Sources);
+            dlgClose.InitializeUI(ProvideListOfSources, StopGivenSource);
             dlgClose.ShowDialog();
 
             toolStripCloseSource.Enabled = DebugViewMonitor.Sources.Count > 0;
+        }
+
+        private void StopGivenSource(IDbgSource s)
+        {
+            try
+            {
+                DebugViewMonitor.RemoveSource(s);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, DialogTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private IList<IDbgSource> ProvideListOfSources()
+        {
+            return DebugViewMonitor.Sources;
         }
     }
 }

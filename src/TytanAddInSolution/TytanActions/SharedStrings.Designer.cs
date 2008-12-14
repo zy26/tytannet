@@ -189,6 +189,15 @@ namespace Pretorianie.Tytan {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Updated settings for serial port listener..
+        /// </summary>
+        internal static string DebugView_SerialPortReplaced {
+            get {
+                return ResourceManager.GetString("DebugView_SerialPortReplaced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exporting file binary content.
         /// </summary>
         internal static string InsertionPath_ContentExportTitle {

@@ -38,24 +38,22 @@ namespace Pretorianie.Tytan.Core.Comparers
             if (string.IsNullOrEmpty(y))
                 return 1;
 
-            string[] namespaces_x = x.Split(separator);
-            string[] namespaces_y = y.Split(separator);
+            string[] namespacesX = x.Split(separator);
+            string[] namespacesY = y.Split(separator);
 
-            int min = Math.Min(namespaces_x.Length, namespaces_y.Length);
+            int min = Math.Min(namespacesX.Length, namespacesY.Length);
 
             for (int i = 0; i < min; i++)
             {
-                int result = string.Compare(namespaces_x[i], namespaces_y[i]);
+                int result = string.Compare(namespacesX[i], namespacesY[i]);
                 if (result != 0)
                     return result;
             }
 
-            if (namespaces_x.Length < namespaces_y.Length)
+            if (namespacesX.Length < namespacesY.Length)
                 return -2;
-            else if (namespaces_x.Length > namespaces_y.Length)
-                return 2;
-
-            return 0;
+            
+            return namespacesX.Length > namespacesY.Length ? 2 : 0;
         }
 
         #endregion
