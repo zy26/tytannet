@@ -46,6 +46,15 @@ Check for new releases at: http://www.codeplex.com/tytannet
 --------------------------------------------------------------------------------------------
 [Change Log]:
 
+TytanNET - v0.19 - (19-December-2008) 
+ - added support for C# 3.0 properties to generate InitConstructor (PR #19382)
+ - added support for memory mapped files to read and analize binary files
+ - fixed minor issue with close-solution events handling internal order
+ - fixed issue with capturing debug messages on virtual machines
+ - added support for serial port (COM1, COM2, ...) debug messages
+ - improved IDE responsiveness when updating menus of QuickProjectReference 
+
+
 TytanNET - v0.18 - (15-November-2008)
  - added icons and shortcuts for "insertion" refactorings
  - improved text insertion for Guid attribute and raw string
