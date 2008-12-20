@@ -51,9 +51,10 @@ namespace Pretorianie.Tytan.Forms
             // lblText
             // 
             this.lblText.AutoSize = true;
+            this.lblText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lblText.Location = new System.Drawing.Point(26, 31);
             this.lblText.Name = "lblText";
-            this.lblText.Size = new System.Drawing.Size(36, 13);
+            this.lblText.Size = new System.Drawing.Size(44, 13);
             this.lblText.TabIndex = 0;
             this.lblText.Text = "- text -";
             // 
@@ -68,6 +69,7 @@ namespace Pretorianie.Tytan.Forms
             this.bttClose.TabIndex = 1;
             this.bttClose.Text = "&Close";
             this.bttClose.UseVisualStyleBackColor = true;
+            this.bttClose.Click += new System.EventHandler(this.bttClose_Click);
             // 
             // bttDownload
             // 

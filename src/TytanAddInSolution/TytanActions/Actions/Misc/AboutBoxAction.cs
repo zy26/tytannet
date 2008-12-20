@@ -16,7 +16,7 @@ namespace Pretorianie.Tytan.Actions.Misc
     public class AboutBoxAction : IPackageAction
     {
         private const string PersistantStorageName = "AboutInfo";
-        private const int SleepTimeBeforeUpdateCheck = 5 * 60 * 1000; // wait 5 minutes before first check of new version
+        private const uint SleepTimeBeforeUpdateCheck = 5 * 60; // wait 5 minutes before first check of new version
         private const int PeriodBeforeUpdateCheck = 7; // perform a version check each week
 
         private IPackageEnvironment parent;
@@ -26,6 +26,7 @@ namespace Pretorianie.Tytan.Actions.Misc
         private AboutBoxForm dlgAbout;
         private TipsProvider tips;
         private DateTime lastUpdateCheck = DateTime.MinValue;
+        private int sleepTime;
 
         #region State Management
 
@@ -38,6 +39,7 @@ namespace Pretorianie.Tytan.Actions.Misc
             {
                 // get the last update date from the registry:
                 lastUpdateCheck = data.GetDateTime("LastUpdateDate");
+                sleepTime = (int)data.GetUInt("SleepTimeBeforeUpdateCheck", SleepTimeBeforeUpdateCheck) * 1000;
 
                 // check if update-check was performed at least one week ago:
                 if (lastUpdateCheck.AddDays(PeriodBeforeUpdateCheck) < DateTime.Today)
@@ -55,7 +57,7 @@ namespace Pretorianie.Tytan.Actions.Misc
                 executeCheck = true;
             }
 
-            if (executeCheck)
+            if (executeCheck && sleepTime != 0)
             {
                 // start asynchronously new thread that will perform check and update the registry:
                 Thread threadCheck = new Thread(PerformUpdateCheck);
@@ -84,7 +86,7 @@ namespace Pretorianie.Tytan.Actions.Misc
             try
             {
                 // sleep some time, to give the Visual Studio possibility to load correctly:
-                Thread.Sleep(SleepTimeBeforeUpdateCheck);
+                Thread.Sleep(sleepTime);
                 VersionHelper.CheckVersion(ReceivedVersionInfo);
             }
             catch (Exception ex)
@@ -105,7 +107,7 @@ namespace Pretorianie.Tytan.Actions.Misc
 
                     // and update the dialog with proper content:
                     dlgNewVersion.SetUI(newVersion.ToString(VersionHelper.NumberOfDigits), navigationURL);
-                    dlgNewVersion.Show();
+                    dlgNewVersion.ShowDialog();
                 }
 
                 lastUpdateCheck = DateTime.Today;

@@ -27,7 +27,19 @@ namespace Pretorianie.Tytan.Forms
 
         private void bttDownload_Click(object sender, EventArgs e)
         {
+            EventHandler async = InternalOpenBrowser;
+            async.BeginInvoke(this, e, null, null);
+            Close();
+        }
+
+        private void InternalOpenBrowser(object sender, EventArgs e)
+        {
             CallHelper.OpenBrowser(releasePageURL);
+        }
+
+        private void bttClose_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

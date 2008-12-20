@@ -33,7 +33,7 @@ namespace Pretorianie.Tytan.Core.Helpers
         /// <summary>
         /// Name of the parameter that brings the version info.
         /// </summary>
-        private const string ParamVersionName = "Version";
+        private const string ParamVersionName = "Release";
 
         /// <summary>
         /// Number of digits for version to display.

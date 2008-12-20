@@ -27,6 +27,7 @@
         public const int toolAction_AbouxBoxRequestFeature = 0x183;
         public const int toolAction_AbouxBoxVisit = 0x184;
         public const int toolAction_AbouxBoxInfo = 0x185;
+        public const int toolAction_AbouxAutoCheckUpdate = 0x186;
 
         public const int toolAction_Insertion = 0x190;
         public const int toolAction_InsertGuid = 0x191;

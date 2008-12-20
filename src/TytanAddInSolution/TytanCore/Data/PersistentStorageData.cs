@@ -142,6 +142,9 @@ namespace Pretorianie.Tytan.Core.Data
             string text = GetString(name);
             try
             {
+                if (string.IsNullOrEmpty(text))
+                    return DateTime.MinValue;
+                    
                 return DateTime.Parse(text);
             }
             catch (Exception ex)
