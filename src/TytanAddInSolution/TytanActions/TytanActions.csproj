@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\AssignReorderRefactor.cs" />
+    <Compile Include="Actions\ExpandEnumRefactor.cs" />
     <Compile Include="Actions\ExtractPropertyRefactor.cs" />
     <Compile Include="Actions\ExtractResourceRefactor.cs" />
     <Compile Include="Actions\InitConstructorRefactor.cs" />
@@ -172,6 +173,12 @@
     </Compile>
     <Compile Include="Forms\EnvironmentVarForm.designer.cs">
       <DependentUpon>EnvironmentVarForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExpandEnumForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExpandEnumForm.Designer.cs">
+      <DependentUpon>ExpandEnumForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\InitConstructorRefactorForm.cs">
       <SubType>Form</SubType>
@@ -336,6 +343,9 @@
       <DependentUpon>EnvironmentVarForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ExpandEnumForm.resx">
+      <DependentUpon>ExpandEnumForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\InitConstructorRefactorForm.resx">
       <DependentUpon>InitConstructorRefactorForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -453,6 +463,7 @@
     <None Include="Resources\pda.PNG" />
     <Content Include="Resources\tag_blue_edit.bmp" />
     <Content Include="Resources\tag_red.bmp" />
+    <Content Include="Resources\text_indent.bmp" />
     <Content Include="Resources\VSFolder_open.bmp" />
     <None Include="Resources\VSObject_Event.bmp" />
     <None Include="Resources\VSFolder_closed.bmp" />

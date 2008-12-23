@@ -17,6 +17,7 @@
         public const int toolRefactor_ExtractResource = 0x152;
         public const int toolRefactor_InitConstructor = 0x153;
         public const int toolRefactor_MultiRename = 0x154;
+        public const int toolRefactor_ExpandEnum = 0x155;
 
         public const int toolAction_ReferenceProject = 0x250;
         public const int toolAction_QuitQuestion = 0x251;

@@ -1,5 +1,6 @@
 using EnvDTE;
 using EnvDTE80;
+using Pretorianie.Tytan.Core.Data.Specialized;
 using Pretorianie.Tytan.Core.Helpers;
 using Pretorianie.Tytan.Core.Interfaces;
 
@@ -15,6 +16,7 @@ namespace Pretorianie.Tytan.Core.Data
         private readonly VirtualPoint virtualStartEditPoint;
         private EditPoint startEditPoint;
         private readonly ProjectItem projectItem;
+        private CodeExtractor codeExtractor;
 
         /// <summary>
         /// Init constructor.
@@ -60,6 +62,14 @@ namespace Pretorianie.Tytan.Core.Data
         }
 
         /// <summary>
+        /// Gets the project of currently edited project item.
+        /// </summary>
+        public Project Project
+        {
+            get { return projectItem.ContainingProject; }
+        }
+
+        /// <summary>
         /// Gets the currently edited project item.
         /// </summary>
         public ProjectItem ProjectItem
@@ -73,6 +83,33 @@ namespace Pretorianie.Tytan.Core.Data
         public FileCodeModel CodeModel
         {
             get { return projectItem.FileCodeModel; }
+        }
+
+        /// <summary>
+        /// Gets the helper class specialized in providing parsed information from current code file.
+        /// </summary>
+        public CodeExtractor CodeExtractor
+        {
+            get
+            {
+                if(codeExtractor == null)
+                {
+                    switch(CodeLanguage)
+                    {
+                        case CodeModelLanguages.VisualCSharp:
+                            codeExtractor = new CodeExtractorCSharp(this);
+                            break;
+                        case CodeModelLanguages.VisualBasic:
+                            codeExtractor = new CodeExtractorVBasic(this);
+                            break;
+                        //default:
+                        //    codeExtractor = new CodeExtractorDummy(this);
+                        //    break;
+                    }
+                }
+
+                return codeExtractor;
+            }
         }
 
         /// <summary>
@@ -157,6 +194,22 @@ namespace Pretorianie.Tytan.Core.Data
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Gets info about type specified by full name.
+        /// </summary>
+        public CodeType GetTypeInfo(string fullName)
+        {
+            try
+            {
+                return projectItem.ContainingProject.CodeModel.CodeTypeFromFullName(fullName);
+            }
+            catch
+            {
+                return null;
+            }
+            
         }
 
         #endregion

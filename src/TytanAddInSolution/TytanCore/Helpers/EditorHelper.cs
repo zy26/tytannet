@@ -141,22 +141,10 @@ namespace Pretorianie.Tytan.Core.Helpers
         }
 
         /// <summary>
-        /// Gets the currently selected variables inside the code editor.
+        /// Gets the parent class or structure for given cursor location in file.
         /// </summary>
-        public static Data.CodeEditSelection GetSelectedVariables(Data.CodeEditPoint editorEditPoint)
+        public static bool GetParent(Data.CodeEditPoint editorEditPoint, out CodeClass codeClass, out CodeStruct codeStruct)
         {
-            CodeVariable codeVariable;
-            CodeProperty codeProperty;
-            CodeClass codeClass;
-            CodeStruct codeStruct;
-            bool partialSelection = true;
-
-            IList<CodeVariable> vars = null;
-            IList<CodeProperty> props = null;
-
-            // get the variable and class at cursor in the IDE:
-            codeVariable = editorEditPoint.GetCurrentCodeElement<CodeVariable>(vsCMElement.vsCMElementVariable);
-            codeProperty = editorEditPoint.GetCurrentCodeElement<CodeProperty>(vsCMElement.vsCMElementProperty);
             codeClass = editorEditPoint.GetCurrentCodeElement<CodeClass>(vsCMElement.vsCMElementClass);
             codeStruct = editorEditPoint.GetCurrentCodeElement<CodeStruct>(vsCMElement.vsCMElementStruct);
 
@@ -169,6 +157,28 @@ namespace Pretorianie.Tytan.Core.Helpers
                         codeStruct = null;
             }
 
+            return codeClass != null || codeStruct != null;
+        }
+
+        /// <summary>
+        /// Gets the currently selected variables inside the code editor.
+        /// </summary>
+        public static Data.CodeEditSelection GetSelectedVariables(Data.CodeEditPoint editorEditPoint)
+        {
+            CodeClass codeClass;
+            CodeStruct codeStruct;
+            bool partialSelection = true;
+
+            IList<CodeVariable> vars = null;
+            IList<CodeProperty> props = null;
+
+            // get the variable and class at cursor in the IDE:
+            CodeVariable codeVariable = editorEditPoint.GetCurrentCodeElement<CodeVariable>(vsCMElement.vsCMElementVariable);
+            CodeProperty codeProperty = editorEditPoint.GetCurrentCodeElement<CodeProperty>(vsCMElement.vsCMElementProperty);
+
+            // get parent objects:
+            GetParent(editorEditPoint, out codeClass, out codeStruct);
+
             // if text selected:
             if (editorEditPoint.Selection.TopLine != editorEditPoint.Selection.BottomLine)
             {
@@ -180,7 +190,7 @@ namespace Pretorianie.Tytan.Core.Helpers
                     if (vars != null)
                         codeClass = vars[0].Parent as CodeClass;
                     if (codeClass == null && props != null)
-                        codeClass = props[0].Parent as CodeClass;
+                        codeClass = props[0].Parent;
                 }
                 else
                     if (codeStruct != null)
@@ -246,7 +256,6 @@ namespace Pretorianie.Tytan.Core.Helpers
         /// </summary>
         public static Data.CodeEditSelection GetSelectedMethods(Data.CodeEditPoint editorEditPoint, bool oneMethodAllowed)
         {
-            CodeFunction codeMethod;
             CodeClass codeClass;
             CodeStruct codeStruct;
             bool partialSelection = true;
@@ -254,18 +263,11 @@ namespace Pretorianie.Tytan.Core.Helpers
             IList<CodeFunction> methods = null;
 
             // get the method and class at cursor in the IDE:
-            codeMethod = editorEditPoint.GetCurrentCodeElement<CodeFunction>(vsCMElement.vsCMElementFunction);
-            codeClass = editorEditPoint.GetCurrentCodeElement<CodeClass>(vsCMElement.vsCMElementClass);
-            codeStruct = editorEditPoint.GetCurrentCodeElement<CodeStruct>(vsCMElement.vsCMElementStruct);
+            CodeFunction codeMethod = editorEditPoint.GetCurrentCodeElement<CodeFunction>(vsCMElement.vsCMElementFunction);
 
-            if (codeClass != null && codeStruct != null)
-            {
-                if (codeClass.GetStartPoint(vsCMPart.vsCMPartBody).Line < codeStruct.GetStartPoint(vsCMPart.vsCMPartBody).Line)
-                    codeClass = null;
-                else
-                    if (codeStruct.GetStartPoint(vsCMPart.vsCMPartBody).Line < codeClass.GetStartPoint(vsCMPart.vsCMPartBody).Line)
-                        codeStruct = null;
-            }
+            // get parent objects:
+            GetParent(editorEditPoint, out codeClass, out codeStruct);
+
 
             // if there is only one method is selected:
             if (oneMethodAllowed && codeMethod != null && (codeMethod.StartPoint.Line <= editorEditPoint.Selection.TopPoint.Line && codeMethod.EndPoint.Line >= editorEditPoint.Selection.BottomPoint.Line))
