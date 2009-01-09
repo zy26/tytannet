@@ -97,6 +97,24 @@ namespace Pretorianie.Tytan.Core.Helpers
         }
 
         /// <summary>
+        /// Gets the data received from the remote server.
+        /// </summary>
+        private static string GetResult(DownloadStringCompletedEventArgs e)
+        {
+            try
+            {
+                return e.Result;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.Message);
+                Trace.WriteLine(ex.StackTrace);
+
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Operate on a raw-file received from code.google.com site.
         /// </summary>
         private static void RemoteGoogleVersionCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -109,9 +127,10 @@ namespace Pretorianie.Tytan.Core.Helpers
         /// </summary>
         private static void RemoteCodeplexVersionCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            string data = e.Result;
+            string data = GetResult(e);
 
-            if (!string.IsNullOrEmpty(e.Result))
+            // parse the data:
+            if (!string.IsNullOrEmpty(data))
             {
                 int start = data.IndexOf(StartVersionSection);
                 int end = data.IndexOf(EndVersionSection);
