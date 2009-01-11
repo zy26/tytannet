@@ -68,7 +68,7 @@ namespace AlfaTests
         /// Ask for the version info from the remote server and then validate if it is valid.
         /// </summary>
         [TestMethod]
-        [Timeout(5000)]
+        [Timeout(11000)]
         [Description("Asks for the latest version on the server.")]
         public void VersionHelper_GetVersion()
         {
@@ -78,7 +78,7 @@ namespace AlfaTests
                           "Invalid version of current add-in. It should be greater!");
 
             VersionHelper.CheckVersion(GetVersionFromServer);
-            manualEvent.WaitOne(4000);
+            manualEvent.WaitOne(10000);
 
             Trace.WriteLine(string.Format("Current version: {0}", VersionHelper.CurrentVersion));
             Trace.WriteLine(string.Format("Version on the server: {0}", remoteVersion));

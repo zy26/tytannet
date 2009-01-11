@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlfaTests", "AlfaTests\AlfaTests.csproj", "{F5454179-265C-467A-884A-703C0A5EB413}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TytanWixInstaller", "TytanWixInstaller\TytanWixInstaller.wixproj", "{1846275F-32F4-4A35-813F-52155AC411F2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanCore", "TytanCore\TytanCore.csproj", "{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanDatabase", "TytanDatabase\TytanDatabase.csproj", "{76C487D6-0A6D-4C7A-96EA-67286535931D}"
@@ -15,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		TytanDeployment.vsmdi = TytanDeployment.vsmdi
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanParsers", "TytanParsers\TytanParsers.csproj", "{51BBD7FF-5C7B-4F82-9F42-522401227DFA}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TytanWixInstaller", "TytanWixInstaller\TytanWixInstaller.wixproj", "{1846275F-32F4-4A35-813F-52155AC411F2}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -57,11 +59,6 @@ Global
 		{F5454179-265C-467A-884A-703C0A5EB413}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5454179-265C-467A-884A-703C0A5EB413}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F5454179-265C-467A-884A-703C0A5EB413}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Any CPU.ActiveCfg = Release|x86
-		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Mixed Platforms.Build.0 = Release|x86
 		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -86,6 +83,20 @@ Global
 		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{954C426B-84BE-4F29-B770-0A6253ABD03A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{51BBD7FF-5C7B-4F82-9F42-522401227DFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51BBD7FF-5C7B-4F82-9F42-522401227DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51BBD7FF-5C7B-4F82-9F42-522401227DFA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{51BBD7FF-5C7B-4F82-9F42-522401227DFA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{51BBD7FF-5C7B-4F82-9F42-522401227DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51BBD7FF-5C7B-4F82-9F42-522401227DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51BBD7FF-5C7B-4F82-9F42-522401227DFA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{51BBD7FF-5C7B-4F82-9F42-522401227DFA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Any CPU.ActiveCfg = Release|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1846275F-32F4-4A35-813F-52155AC411F2}.Release|Mixed Platforms.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

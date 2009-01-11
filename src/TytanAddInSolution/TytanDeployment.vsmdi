@@ -13,6 +13,7 @@
   </TestList>
   <TestList name="DebugView" id="6f124671-2430-4c02-b55f-dee477f96edd" parentListId="786c9599-547d-4fa7-ac88-9c8aa5dba541">
     <TestLinks>
+      <TestLink id="bba85664-508d-8120-f487-14e33e90a646" name="AddRemoveSources" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="1ed64eed-77a1-91da-94c1-f48aa5ced2de" name="TraceCapture" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="d9623fcb-5098-50f8-2b15-06b9a32a583a" name="CaptureEmptyMessage" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="3fcacfbe-c46f-78cf-695d-973842323f15" name="CaptureMessageFromCustomSource" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
@@ -21,5 +22,11 @@
   <TestList name="Actions" id="786c9599-547d-4fa7-ac88-9c8aa5dba541" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6" />
   <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
     <RunConfiguration id="86fa3d08-4f12-4af4-ad80-297bc57fa9a9" name="Local Test Run" storage="localtestrun.testrunconfig" type="Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration, Microsoft.VisualStudio.QualityTools.Common,   PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestList>
+  <TestList name="Parsers" id="f75b980c-2893-4763-ab1d-9ee65dcc53ee" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <TestLinks>
+      <TestLink id="6b185696-ddd5-af7a-b64f-3778115f4c6d" name="LoadDLL_NanoHooks" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="af8805d8-99f0-d313-ebf2-7d44ebdf17d4" name="LoadDLL_Kernell32" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    </TestLinks>
   </TestList>
 </TestLists>

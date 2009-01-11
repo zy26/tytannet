@@ -105,9 +105,8 @@ namespace AlfaTests
         public void CaptureMessageFromCustomSource()
         {
             UserDebugSource s = new UserDebugSource("Custom Broadcaster", "My custom source");
-            DebugViewMonitor.AddSource(s, false);
+            DebugViewMonitor.AddSource(s, false, true);
 
-            s.Start();
             s.Write("Message1");
             s.Write("Message2\r\nMessage2a\r\n\r\nMessage2b");
             WaitForResults();
@@ -123,9 +122,10 @@ namespace AlfaTests
             UserDebugSource s3 = new UserDebugSource("S3", "Dummy source 3");
 
             // add sources without overriding the existing ones:
-            DebugViewMonitor.AddSource(s1, false);
-            DebugViewMonitor.AddSource(s2, false);
-            DebugViewMonitor.AddSource(s3, false);
+            DebugViewMonitor.RemoveSources();
+            DebugViewMonitor.AddSource(s1, false, false);
+            DebugViewMonitor.AddSource(s2, false, false);
+            DebugViewMonitor.AddSource(s3, false, false);
 
             IList<IDbgSource> sources = DebugViewMonitor.Sources;
             Assert.IsNotNull(sources, "Number of sources can not be null, because 3 of them has been just added.");
@@ -142,16 +142,16 @@ namespace AlfaTests
             // override, so it will replace the existing element,
             // the detection is based on name:
             UserDebugSource s4 = new UserDebugSource("S3", "Dummy source 3");
-            DebugViewMonitor.AddSource(s4, true);
+            DebugViewMonitor.AddSource(s4, true, false);
             sources = DebugViewMonitor.Sources;
             Assert.IsNotNull(sources, "Number of sources can not be null, because there is still one added.");
             Assert.IsTrue(sources.Count == 1, "Not 1 source added!");
 
             // add once again the same instance:
-            DebugViewMonitor.AddSource(s3, false);
+            DebugViewMonitor.AddSource(s3, false, false);
             sources = DebugViewMonitor.Sources;
-            Assert.IsNotNull(sources, "Number of sources can not be null, because there are still two added.");
-            Assert.IsTrue(sources.Count == 2, "Not 2 sources added!");
+            Assert.IsNotNull(sources, "Number of sources can not be null, because there is still one added.");
+            Assert.IsTrue(sources.Count == 1, "Not 1 sources added!");
         }
     }
 }
