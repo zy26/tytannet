@@ -29,22 +29,38 @@ namespace Pretorianie.Tytan.Core.Mapping
         #endregion
 
         /// <summary>
-        /// Init constructor for read/write access to given file.
+        /// Init constructor for access to given file.
         /// </summary>
-        public FileSharedMemory(string fileName, string name, uint size, ulong offset)
+        public FileSharedMemory(string fileName, string name, uint size, ulong offset, AccessTypes access)
         {
             this.fileName = Path.GetFullPath(fileName);
             viewName = name;
 
             // and try to creaet file mapping:
-            Create(size, name, offset, SectionTypes.SecNone, AccessTypes.ReadWrite);
+            Create(size, name, offset, SectionTypes.SecNone, access);
+        }
+
+        /// <summary>
+        /// Init constructor for read/write access to given file.
+        /// </summary>
+        public FileSharedMemory(string fileName, string name, uint size, ulong offset)
+            : this(fileName, name, size, offset, AccessTypes.ReadWrite)
+        {
+        }
+
+        /// <summary>
+        /// Init constructor. Maps the whole file into memory.
+        /// </summary>
+        public FileSharedMemory(string fileName, AccessTypes access)
+            : this(fileName, null, 0, 0, access)
+        {
         }
 
         /// <summary>
         /// Init constructor. Maps the whole file into memory.
         /// </summary>
         public FileSharedMemory(string fileName)
-            : this(fileName, null, 0, 0)
+            : this(fileName, null, 0, 0, AccessTypes.ReadWrite)
         {
         }
 

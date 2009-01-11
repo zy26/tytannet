@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{51BBD7FF-5C7B-4F82-9F42-522401227DFA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pretorianie.Tytan</RootNamespace>
+    <AssemblyName>Tytan.Parsers</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\output\AddIns\TytanNET\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\output\AddIns\TytanNET\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Parsers\Coff\AdvancedCharacteristics.cs" />
+    <Compile Include="Parsers\Coff\Characteristics.cs" />
+    <Compile Include="Parsers\Coff\DataHeaderSection.cs" />
+    <Compile Include="Parsers\Coff\DataSectionDescription.cs" />
+    <Compile Include="Parsers\Coff\DataSectionFlags.cs" />
+    <Compile Include="Parsers\Coff\DirectoryEntry.cs" />
+    <Compile Include="Parsers\Coff\DosHeaderSection.cs" />
+    <Compile Include="Parsers\Coff\ExportFunctionDescription.cs" />
+    <Compile Include="Parsers\Coff\ExportFunctionSection.cs" />
+    <Compile Include="Parsers\Coff\LoaderFlags.cs" />
+    <Compile Include="Parsers\Coff\MachineType.cs" />
+    <Compile Include="Parsers\Coff\NtHeaderSection.cs" />
+    <Compile Include="Parsers\Coff\NtOptionalHeaderSection.cs" />
+    <Compile Include="Parsers\Coff\SubSystems.cs" />
+    <Compile Include="Parsers\Coff\WindowsPE.cs" />
+    <Compile Include="Parsers\Model\BinaryFile.cs" />
+    <Compile Include="Parsers\Model\BinaryLoadArgs.cs" />
+    <Compile Include="Parsers\Model\BinarySection.cs" />
+    <Compile Include="Parsers\Model\BinarySectionChangedEventHandler.cs" />
+    <Compile Include="Parsers\Model\IBinaryAppender.cs" />
+    <Compile Include="Parsers\Model\IBinaryConverter.cs" />
+    <Compile Include="Parsers\Model\ReaderWithOffsetArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TytanCore\TytanCore.csproj">
+      <Project>{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}</Project>
+      <Name>TytanCore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

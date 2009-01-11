@@ -51,8 +51,7 @@ namespace Pretorianie.Tytan.Core.DbgView
                 refreshTimer = new Timer(InternalDataRefresh);
                 isRefreshing = false;
 
-                // by default add listener to standard debug messages:
-                AddSource(new DebugMemorySource(), false, false);
+                AddDefaultSources();
             }
 
             // and force all data providers to start:
@@ -177,6 +176,15 @@ namespace Pretorianie.Tytan.Core.DbgView
         }
 
         /// <summary>
+        /// Adds the default set of sources.
+        /// </summary>
+        private static void AddDefaultSources()
+        {
+            // by default add listener to standard debug messages:
+            AddSource(new DebugMemorySource(), false, false);
+        }
+
+        /// <summary>
         /// Checks if given debug data-source is already attached.
         /// </summary>
         public static bool ContainsSource(IDbgSource s)
@@ -216,6 +224,34 @@ namespace Pretorianie.Tytan.Core.DbgView
                     dataSources.Remove(s);
                     cachedDataSources = null;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Removes all the debug messages sources.
+        /// </summary>
+        public static void RemoveSources()
+        {
+            lock(syncSources)
+            {
+                List<IDbgSource> result = new List<IDbgSource>();
+
+                foreach(IDbgSource s in dataSources)
+                {
+                    if (s.CanConfigureAtRuntime)
+                    {
+                        s.Close();
+                        s.DataReceived -= SourceDataReceived;
+                    }
+                    else
+                    {
+                        result.Add(s);
+                    }
+                }
+
+                // and now remove all unwanted sources from monitoring collection:
+                dataSources = result;
+                cachedDataSources = null;
             }
         }
 
