@@ -8,6 +8,13 @@ namespace Pretorianie.Tytan.Parsers.Coff
     /// </summary>
     public class ExportFunctionSection : BinarySection, IBinaryConverter<ExportFunctionSection.ImageExportDirectory>
     {
+        /// <summary>
+        /// Name of this section.
+        /// </summary>
+        public const string DefaultName = "Export";
+
+        #region Type Definitions
+
         internal struct ImageExportDirectory
         {
             public uint Characteristics;
@@ -23,6 +30,10 @@ namespace Pretorianie.Tytan.Parsers.Coff
             public uint AddressOfNameOrdinals;  // RVA from base of image
         }
 
+        #endregion
+
+        #region Properties
+
         public string ModuleName { get; private set; }
         protected uint ModuleNameAddress { get; private set; }
         protected uint NameAddress { get; private set; }
@@ -31,6 +42,23 @@ namespace Pretorianie.Tytan.Parsers.Coff
         protected uint OrdinalBase { get; private set; }
         public uint Count { get; private set; }
         public IList<ExportFunctionDescription> Functions { get; private set; }
+        private IDictionary<string, ExportFunctionDescription> HashFunctions { get; set; }
+
+        #endregion
+
+        /// <summary>
+        /// Gets the exported function by name.
+        /// </summary>
+        public ExportFunctionDescription this[string name]
+        {
+            get
+            {
+                if (HashFunctions == null)
+                    return null;
+
+                return HashFunctions[name];
+            }
+        }
 
 
         #region IBinaryConverter<ImageExportDirectory> Members
@@ -44,7 +72,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
             Count = s.NumberOfNames;
             ModuleNameAddress = s.Name;
 
-            UpdateFileInfo("Export", startOffset, size);
+            UpdateFileInfo(DefaultName, startOffset, size);
             return true;
         }
 
@@ -78,18 +106,27 @@ namespace Pretorianie.Tytan.Parsers.Coff
                     // check if this function has an associated name exported:
                     for (uint j = 0; j < Count; j++)
                     {
-                        if (e.Source.ReadUInt16At(OrdinalAddress + sizeOfUInt16 * j) == i)
+                        if (e.Source.ReadUInt16At(OrdinalAddress + sizeOfUInt16*j) == i)
                         {
                             nameAddress = e.Source.ReadUInt32At(NameAddress + sizeOfUInt32*j) - e.Delta;
-                            forwardedName = ContainsVirtual(entryPointRVA) ? e.Source.ReadStringAnsiAt(entryPointRVA - e.Delta) : null;
-                            r.Add(new ExportFunctionDescription(e.Source.ReadStringAnsiAt(nameAddress), forwardedName, ordinal,
-                                                                entryPointRVA));
+                            forwardedName = ContainsVirtual(entryPointRVA)
+                                                ? e.Source.ReadStringAnsiAt(entryPointRVA - e.Delta)
+                                                : null;
+                            r.Add(new ExportFunctionDescription(e.Source.ReadStringAnsiAt(nameAddress),
+                                                                forwardedName, ordinal, entryPointRVA));
                         }
                     }
                 }
             }
 
             Functions = r;
+
+            // calculate the function dictionary by names:
+            HashFunctions = new Dictionary<string, ExportFunctionDescription>();
+            foreach (ExportFunctionDescription f in r)
+                if (!HashFunctions.ContainsKey(f.Name))
+                    HashFunctions.Add(f.Name, f);
+
             return true;
         }
     }

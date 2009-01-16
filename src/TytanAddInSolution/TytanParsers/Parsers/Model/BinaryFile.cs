@@ -18,7 +18,7 @@ namespace Pretorianie.Tytan.Parsers.Model
 
         private string fullPath;
         private string name;
-        private IList<BinarySection> sections;
+        private IList<BinarySection> sections = new List<BinarySection>();
 
         /// <summary>
         /// Default constructor.
@@ -69,9 +69,6 @@ namespace Pretorianie.Tytan.Parsers.Model
         {
             get
             {
-                if(sections == null)
-                    return null;
-
                 foreach(BinarySection b in sections)
                     if(b.Name == section)
                         return b;
@@ -89,8 +86,6 @@ namespace Pretorianie.Tytan.Parsers.Model
         /// </summary>
         protected void Add(BinarySection s)
         {
-            if(sections == null)
-                sections = new List<BinarySection>();
             sections.Add(s);
 
             // and notify listeners:
@@ -101,7 +96,7 @@ namespace Pretorianie.Tytan.Parsers.Model
         /// <summary>
         /// Reads given structure from specified source.
         /// </summary>
-        protected S Read<T, S>(UnmanagedDataReader source)
+        protected S Read<T, S>(UnmanagedDataReader source, bool canStore)
             where T : struct
             where S : BinarySection, IBinaryConverter<T>, new()
         {
@@ -113,13 +108,24 @@ namespace Pretorianie.Tytan.Parsers.Model
                 S section = new S();
                 if (section.Convert(ref headerNativeType, source.LastReadStartOffset, source.LastReadSize))
                 {
-                    Add(section);
+                    if (canStore)
+                        Add(section);
                     return section;
                 }
             }
 
             // return failure in reading:
             return null;
+        }
+
+        /// <summary>
+        /// Reads given structure from specified source.
+        /// </summary>
+        protected S Read<T, S>(UnmanagedDataReader source)
+            where T : struct
+            where S : BinarySection, IBinaryConverter<T>, new()
+        {
+            return Read<T, S>(source, true);
         }
 
         /// <summary>

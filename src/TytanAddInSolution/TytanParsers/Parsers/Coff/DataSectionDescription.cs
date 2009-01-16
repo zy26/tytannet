@@ -2,6 +2,9 @@
 
 namespace Pretorianie.Tytan.Parsers.Coff
 {
+    /// <summary>
+    /// Description of custom data/code sections from Windows' COFF binary.
+    /// </summary>
     public class DataSectionDescription : IBinaryConverter<DataSectionDescription.ImageDataDirectory>
     {
         /// <summary>
@@ -13,9 +16,13 @@ namespace Pretorianie.Tytan.Parsers.Coff
             Size = size;
         }
 
+        #region Properties
+
         public uint VirtualAddress { get; private set; }
         public uint Size { get; private set; }
         public uint VirtualAddressEnd { get { return VirtualAddress + Size; } }
+
+        #endregion
 
         #region Type Definitions
 

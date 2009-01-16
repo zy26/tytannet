@@ -9,10 +9,14 @@ namespace Pretorianie.Tytan.Parsers.Coff
     {
         #region Consts
 
-        private const ushort DosSignature = 0x5A4D;
-        private const ushort ObjSignature = 0x014C;
+        private const ushort ExecutableSignature = 0x5A4D;
+        private const ushort ObjectSignature = 0x014C;
+        private const ushort Object64Signature = 0x0184;
+        private const ushort DebugSignature = 0x4944;
 
         #endregion
+
+        #region Type Definitions
 
         internal struct ImageDosHeader
         {
@@ -49,6 +53,8 @@ namespace Pretorianie.Tytan.Parsers.Coff
             public uint e_lfanew;                       // File address of new exe header
         }
 
+        #endregion
+
         #region Properties
 
         public ushort Checksum { get; private set; }
@@ -60,6 +66,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
         public ushort ReallocationCount { get; private set; }
         public uint ReallocationHeaderAddress { get; private set; }
         public uint MsDosStubProgram { get; private set; }
+        private ushort StackPointer { get; set; }
 
         #endregion
 
@@ -67,34 +74,22 @@ namespace Pretorianie.Tytan.Parsers.Coff
 
         bool IBinaryConverter<ImageDosHeader>.Convert(ref ImageDosHeader s, uint startOffset, uint size)
         {
-            bool result = false;
-
-            // parse EXE/DLL file:
-            if (s.e_magic == DosSignature)
-            {
-                UpdateFileInfo(GetSignature(s.e_magic), startOffset, size);
-                result = true;
-            }
-
-            // parse OBJ file:
-            if (s.e_magic == ObjSignature && s.e_sp == 0)
-            {
-                UpdateFileInfo("Object", startOffset, size);
-                result = true;
-            }
-
-            UpdateVirtualInfo(startOffset, size);
             Checksum = s.e_csum;
             Type = s.e_magic;
             NtHeaderAddress = s.e_lfanew;
             OemID = s.e_oemid;
             OemInfo = s.e_oeminfo;
             PagesCount = s.e_cp;
+            StackPointer = s.e_sp;
             ReallocationCount = s.e_crlc;
             ReallocationHeaderAddress = s.e_lfarlc;
             MsDosStubProgram = startOffset + size;
 
-            return result;
+            UpdateVirtualInfo(startOffset, size);
+            if (IsExecutable)
+                UpdateFileInfo(GetSignature(s.e_magic), startOffset, size);
+
+            return true;
         }
 
         /// <summary>
@@ -106,11 +101,31 @@ namespace Pretorianie.Tytan.Parsers.Coff
         }
 
         /// <summary>
-        /// Returns true when given section describes EXE or DLL file.
+        /// Returns true when given section describes .EXE or .DLL file.
         /// </summary>
         public bool IsExecutable
         {
-            get { return Checksum == DosSignature; }
+            get { return Type == ExecutableSignature; }
+        }
+
+        /// <summary>
+        /// Returns true when given section describes .DBG file.
+        /// </summary>
+        public bool IsDebugBinary
+        {
+            get { return Type == DebugSignature; }
+        }
+
+        /// <summary>
+        /// Returns true when given section describes .OBJ file.
+        /// </summary>
+        public bool IsObjectBinary
+        {
+            get
+            {
+                return (Type == ObjectSignature || Type == Object64Signature)
+                            && StackPointer == 0;
+            }
         }
 
         #endregion

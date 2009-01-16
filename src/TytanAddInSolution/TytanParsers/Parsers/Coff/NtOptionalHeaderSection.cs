@@ -15,20 +15,23 @@ namespace Pretorianie.Tytan.Parsers.Coff
         #region Consts
 
         private const uint DefaultDataDirectoryCount = 16;
-        private const string DefaultName = "NtOptionalHeader";
+        /// <summary>
+        /// Name of this section.
+        /// </summary>
+        public const string DefaultName = "NtOptionalHeader";
 
         /// <summary>
         /// Magic number for PE optional header.
         /// </summary>
-        public const ushort OptionalHeader32Magic = 0x10b;
+        internal const ushort OptionalHeader32Magic = 0x10b;
         /// <summary>
         /// Magic number for PE+ optional header.
         /// </summary>
-        public const ushort OptionalHeader64Magic = 0x20;
+        internal const ushort OptionalHeader64Magic = 0x20;
         /// <summary>
         /// Magic number for ROM files optional header.
         /// </summary>
-        public const ushort OptionalRomHeaderMagic = 0x107;
+        internal const ushort OptionalRomHeaderMagic = 0x107;
 
         #endregion
 

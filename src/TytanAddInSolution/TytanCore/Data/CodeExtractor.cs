@@ -12,7 +12,9 @@ namespace Pretorianie.Tytan.Core.Data
     /// </summary>
     public abstract class CodeExtractor
     {
-        private const string Operators = "./:*->_;";
+        private const string Operators = "./:*-_<>[]();";
+        private const string Identifiers = "_@";
+        private readonly static char[] TemplateOperators = new char[] {'<', '>', '(', ')', '[', ']'};
 
         /// <summary>
         /// Current editor cursor location.
@@ -148,26 +150,6 @@ namespace Pretorianie.Tytan.Core.Data
             bool isFirstOper;
             string w;
 
-            //if ((w = word.NextWord(out isPrevOper)) != null)
-            //{
-            //    if (isPrevOper)
-            //        result.Append(NamespaceSeparator);
-            //    else result.Append(w);
-
-            //    while ((w = word.NextWord(out isOper)) != null && isOper != isPrevOper)
-            //    {
-            //        if (isOper)
-            //        {
-            //            if (w == ";")
-            //                break;
-            //            result.Append(NamespaceSeparator);
-            //        }
-            //        else result.Append(w);
-
-            //        isPrevOper = isOper;
-            //    }
-            //}
-
             // get all the language tokens on the right side of cursor:
             if ((w = word.NextWord(out isPrevOper)) != null)
             {
@@ -176,7 +158,7 @@ namespace Pretorianie.Tytan.Core.Data
                     if (!IsValidSeparator(w))
                         return result.ToString();
 
-                    if (forceNamespaceSeparator)
+                    if (forceNamespaceSeparator && !IsTemplateOperator(w))
                         result.Append(NamespaceSeparator);
                     else result.Append(w);
                 }
@@ -185,7 +167,7 @@ namespace Pretorianie.Tytan.Core.Data
                 isFirstOper = isPrevOper;
 
                 while ((w = word.NextWord(out isOper)) != null &&
-                    (isOper != isPrevOper || !isOper && CanSkipNamespaceSeparator(w)))
+                    (isOper != isPrevOper || IsTemplateOperator(w) || !isOper && CanSkipNamespaceSeparator(w)))
                 {
                     // is special operator that looks like an identifier? (VB specific - '_')
                     if (!isOper && CanSkipNamespaceSeparator(w))
@@ -200,7 +182,7 @@ namespace Pretorianie.Tytan.Core.Data
                             if (!IsValidSeparator(w))
                                 return result.ToString();
 
-                            if (forceNamespaceSeparator)
+                            if (forceNamespaceSeparator && !IsTemplateOperator(w))
                                 result.Append(NamespaceSeparator);
                             else result.Append(w);
                             isPrevOper = true;
@@ -219,7 +201,7 @@ namespace Pretorianie.Tytan.Core.Data
                 // read all the words on left:
                 isPrevOper = isFirstOper;
                 while ((w = word.PreviousWord(out isOper)) != null &&
-                    (isOper != isPrevOper || (!isOper && CanSkipNamespaceSeparator(w))))
+                    (isOper != isPrevOper || IsTemplateOperator(w) || (!isOper && CanSkipNamespaceSeparator(w))))
                 {
                     // is special operator that looks like an identifier? (VB specific - '_')
                     if (!isOper && CanSkipNamespaceSeparator(w))
@@ -252,55 +234,25 @@ namespace Pretorianie.Tytan.Core.Data
             return result.ToString();
         }
 
-        ///// <summary>
-        ///// Gets the name of identifier from current location.
-        ///// </summary>
-        //private string GetCurrentIdentifier()
-        //{
-        //    int offsetStart = editPoint.EditPoint.LineCharOffset;
-        //    int offsetEnd = offsetStart;
-        //    int line = editPoint.EditPoint.Line;
-        //    StringBuilder result;
-        //    string text;
-        //    int length, index;
-
-        //    // get current line:
-        //    text = editPoint.EditPoint.GetLines(line, line + 1);
-
-        //    // check if it is inside a comment:
-        //    index = GetCommentIndex(text);
-        //    if (index > 0)
-        //        text = text.Substring(0, index);
-        //    if (string.IsNullOrEmpty(text) || (index >= 0 && index < offsetStart))
-        //        return null;
-
-        //    // parse forward:
-        //    result = new StringBuilder();
-        //    length = text.Length;
-        //    if (IsIdentifierChar(text[offsetStart]))
-        //        while (offsetStart > 0 && IsIdentifierChar(text[offsetStart - 1]))
-        //            offsetStart--;
-        //    while (offsetEnd < length - 1 && IsIdentifierChar(text[offsetEnd]))
-        //        offsetEnd++;
-
-        //    if (offsetStart == offsetEnd)
-        //        return null;
-
-        //    // copy the name into buffer:
-        //    result.Append(text.Substring(offsetStart, offsetEnd - offsetStart));
-        //    //            offsetEnd += MeasureItemAccessOperatorLength(text, offsetEnd, length - offsetEnd);
-
-        //    return result.ToString();
-        //}
-
+        /// <summary>
+        /// Checks if given character is a part of an identifier.
+        /// </summary>
         public bool IsIdentifierChar(char c)
         {
-            return char.IsLetterOrDigit(c) || c == '_';
+            return char.IsLetterOrDigit(c) || Identifiers.IndexOf(c) >= 0;
         }
 
+        /// <summary>
+        /// Checks if given character is a part of operator.
+        /// </summary>
         public bool IsOperatorChar(char c)
         {
             return Operators.IndexOf(c) >= 0;
+        }
+
+        public bool IsTemplateOperator(string separator)
+        {
+            return separator.IndexOfAny(TemplateOperators) >= 0;
         }
 
         /// <summary>
@@ -395,7 +347,7 @@ namespace Pretorianie.Tytan.Core.Data
         /// </summary>
         public virtual bool IsValidSeparator(string separator)
         {
-            return separator == NamespaceSeparator;
+            return separator == NamespaceSeparator || IsTemplateOperator(separator);
         }
 
         /// <summary>

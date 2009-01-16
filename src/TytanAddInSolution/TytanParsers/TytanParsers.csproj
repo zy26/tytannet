@@ -44,6 +44,10 @@
   <ItemGroup>
     <Compile Include="Parsers\Coff\AdvancedCharacteristics.cs" />
     <Compile Include="Parsers\Coff\Characteristics.cs" />
+    <Compile Include="Parsers\Coff\ImportFunctionDescription.cs" />
+    <Compile Include="Parsers\Coff\ImportFunctionSection.cs" />
+    <Compile Include="Parsers\Coff\ImportFunctionModule.cs" />
+    <Compile Include="Parsers\Coff\WindowsPortableExecutableLoadArgs.cs" />
     <Compile Include="Parsers\Coff\DataHeaderSection.cs" />
     <Compile Include="Parsers\Coff\DataSectionDescription.cs" />
     <Compile Include="Parsers\Coff\DataSectionFlags.cs" />
@@ -56,7 +60,8 @@
     <Compile Include="Parsers\Coff\NtHeaderSection.cs" />
     <Compile Include="Parsers\Coff\NtOptionalHeaderSection.cs" />
     <Compile Include="Parsers\Coff\SubSystems.cs" />
-    <Compile Include="Parsers\Coff\WindowsPE.cs" />
+    <Compile Include="Parsers\Coff\WindowsPortableExecutable.cs" />
+    <Compile Include="Parsers\Model\BaseFunctionDescription.cs" />
     <Compile Include="Parsers\Model\BinaryFile.cs" />
     <Compile Include="Parsers\Model\BinaryLoadArgs.cs" />
     <Compile Include="Parsers\Model\BinarySection.cs" />

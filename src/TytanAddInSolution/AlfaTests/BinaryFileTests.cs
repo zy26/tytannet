@@ -49,7 +49,7 @@ namespace AlfaTests
                 return;
 
             // get export section:
-            ExportFunctionSection export = file["Export"] as ExportFunctionSection;
+            ExportFunctionSection export = file[ExportFunctionSection.DefaultName] as ExportFunctionSection;
 
             if (export != null)
             {
@@ -58,6 +58,29 @@ namespace AlfaTests
                     Trace.WriteLine(string.Format("Function found: \"{0}\" (@{2}) at address: 0x{1:X8}{3}", f.Name,
                                                   f.VirtualAddress, f.Ordinal,
                                                   f.IsForwarded ? " (forwarded to: " + f.ForwardedName + ")" : string.Empty));
+            }
+        }
+
+        private static void DumpImportSection(BinaryFile file)
+        {
+            if (file == null)
+                return;
+
+            // get import section:
+            ImportFunctionSection import = file[ImportFunctionSection.DefaultName] as ImportFunctionSection;
+
+            if (import != null)
+            {
+                Trace.WriteLine("Imported functions:");
+                foreach (ImportFunctionModule m in import.Modules)
+                {
+                    Trace.WriteLine(string.Format("Module: {0} ({1})", m.Name, m.BindDate));
+                    foreach (ImportFunctionDescription f in m.Functions)
+                    {
+                        Trace.WriteLine(string.Format("  Function: {0} (@{1}, H{2}) at address: 0x{3:X8}", f.Name,
+                                                      f.Ordinal, f.Hint, f.VirtualAddress));
+                    }
+                }
             }
         }
 
@@ -76,14 +99,13 @@ namespace AlfaTests
         }
 
         [TestMethod]
-        [DeploymentItem("DataSources/NanoStorm.exe")]
-        [DeploymentItem("DataSources/AdvSection.obj")]
         [DeploymentItem("DataSources/NanoHooks.dll")]
         public void LoadDLL_NanoHooks()
         {
-            BinaryFile file = new WindowsPE();
+            BinaryFile file = new WindowsPortableExecutable();
+            BinaryLoadArgs arg = new WindowsPortableExecutableLoadArgs(true);
 
-            file.Load("NanoHooks.dll", null);
+            file.Load("NanoHooks.dll", arg);
             //file.Load("NanoStorm.exe", null);
             //file.Load("AdvSection.obj", null);
             //file.Load(@"E:\a.txt", null);
@@ -91,6 +113,7 @@ namespace AlfaTests
             // dump sections:
             DumpSections(file);
             DumpExportSection(file);
+            DumpImportSection(file);
 
             // validate if something has been read:
             Assert.IsNotNull(file.Sections);
@@ -100,13 +123,52 @@ namespace AlfaTests
         [TestMethod]
         public void LoadDLL_Kernell32()
         {
-            BinaryFile file = new WindowsPE();
+            BinaryFile file = new WindowsPortableExecutable();
+            BinaryLoadArgs arg = new WindowsPortableExecutableLoadArgs(true);
 
-            file.Load(@"C:\windows\system32\KERNEL32.DLL", null);
+            file.Load(@"C:\windows\system32\KERNEL32.DLL", arg);
+
+            // dump all data:
+            DumpSections(file);
+            //DumpExportSection(file);
+            DumpImportSection(file);
+
+            // validate:
+            Assert.IsNotNull(file.Sections);
+            ValidateSections(file);
+        }
+
+        [TestMethod]
+        public void LoadDLL_NtDLL()
+        {
+            BinaryFile file = new WindowsPortableExecutable();
+            BinaryLoadArgs arg = new WindowsPortableExecutableLoadArgs(true);
+
+            file.Load(@"c:\windows\system32\NTDLL.DLL", arg);
 
             // dump all data:
             DumpSections(file);
             DumpExportSection(file);
+            DumpImportSection(file);
+
+            // validate:
+            Assert.IsNotNull(file.Sections);
+            ValidateSections(file);
+        }
+
+        [TestMethod]
+        [DeploymentItem("DataSources/NanoStorm.exe")]
+        public void LoadDLL_NanoStorm()
+        {
+            BinaryFile file = new WindowsPortableExecutable();
+            BinaryLoadArgs arg = new WindowsPortableExecutableLoadArgs(true);
+
+            file.Load("NanoStorm.exe", arg);
+
+            // dump all data:
+            DumpSections(file);
+            DumpExportSection(file);
+            DumpImportSection(file);
 
             // validate:
             Assert.IsNotNull(file.Sections);

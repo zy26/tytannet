@@ -57,6 +57,8 @@ namespace Pretorianie.Tytan.Parsers.Coff
 
         #endregion
 
+        #region Auxiliary Functions
+
         /// <summary>
         /// Converts given 8-byte array into string.
         /// </summary>
@@ -68,7 +70,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
             for (int i = 0; i < 8; i++)
             {
                 c = (char) (text & 0xFF);
-                if(c == '\0')
+                if (c == '\0')
                     break;
                 r.Append(c);
                 text >>= 8;
@@ -76,5 +78,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
 
             return r.ToString();
         }
+
+        #endregion
     }
 }

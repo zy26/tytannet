@@ -16,7 +16,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
         /// <summary>
         /// Intel I386 (same ID used for 486 and 586)
         /// </summary>
-        Intel_i386 = 0x014c,
+        Intel_x86 = 0x014c,
         /// <summary>
         /// MIPS R3000, MIPS little-endian, 0x160 big-endian
         /// </summary>
@@ -79,7 +79,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
         /// <summary>
         /// Intel x64
         /// </summary>
-        IA64 = 0x0200,
+        Intel_x64 = 0x0200,
         /// <summary>
         /// MIPS
         /// </summary>

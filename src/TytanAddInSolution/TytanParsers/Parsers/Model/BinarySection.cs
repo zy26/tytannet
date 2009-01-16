@@ -104,6 +104,14 @@
             }
         }
 
+        /// <summary>
+        /// Gets the indication if given section is valid.
+        /// </summary>
+        public bool IsValid
+        {
+            get { return virtualAddress != 0 || virtualSize != 0; }
+        }
+
         #endregion
 
         /// <summary>

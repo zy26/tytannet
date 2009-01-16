@@ -10,7 +10,7 @@ namespace Pretorianie.Tytan.Parsers.Model
         private readonly UnmanagedDataReader source;
         private readonly uint offset;
         private readonly uint delta;
-        private readonly object tag;
+        private object tag;
 
         /// <summary>
         /// Init constructor of ReaderWithOffset.
@@ -66,6 +66,10 @@ namespace Pretorianie.Tytan.Parsers.Model
             get
             {
                 return tag;
+            }
+            set
+            {
+                tag = value;
             }
         }
 

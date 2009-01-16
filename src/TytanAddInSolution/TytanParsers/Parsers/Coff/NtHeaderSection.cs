@@ -13,8 +13,14 @@ namespace Pretorianie.Tytan.Parsers.Coff
         #region Consts
 
         private const ushort NtSignature = 0x4550;
+        /// <summary>
+        /// Name of this section.
+        /// </summary>
+        public const string DefaultName = "NtHeader";
 
         #endregion
+
+        #region Type Definitions
 
         internal struct ImageNtHeader
         {
@@ -32,6 +38,8 @@ namespace Pretorianie.Tytan.Parsers.Coff
             public ushort SizeOfOptionalHeader;
             public ushort Characteristics;
         }
+
+        #endregion
 
         #region Properties
 
@@ -57,7 +65,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
 
             bool result = ((IBinaryConverter<ImageFileHeader>) this).Convert(ref s.FileHeader, startOffset + 4, size - 4);
 
-            UpdateFileInfo("NtHeader", startOffset, size);
+            UpdateFileInfo(DefaultName, startOffset, size);
             UpdateVirtualInfo(startOffset, size);
             return result;
         }
