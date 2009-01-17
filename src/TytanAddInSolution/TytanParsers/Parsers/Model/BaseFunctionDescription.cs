@@ -8,15 +8,17 @@
         private readonly string name;
         private readonly uint ordinal;
         private readonly ulong address;
+        private readonly ulong hint;
 
         /// <summary>
         /// Init constructor of BaseFunctionDescription.
         /// </summary>
-        public BaseFunctionDescription(string name, uint ordinal, ulong address)
+        public BaseFunctionDescription(string name, uint ordinal, ulong address, ulong hint)
         {
             this.name = name;
             this.ordinal = ordinal;
             this.address = address;
+            this.hint = hint;
         }
 
         #region Properties
@@ -51,6 +53,17 @@
             get
             {
                 return address;
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of Hint.
+        /// </summary>
+        public ulong Hint
+        {
+            get
+            {
+                return hint;
             }
         }
 

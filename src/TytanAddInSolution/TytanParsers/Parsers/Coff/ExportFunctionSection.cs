@@ -113,7 +113,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
                                                 ? e.Source.ReadStringAnsiAt(entryPointRVA - e.Delta)
                                                 : null;
                             r.Add(new ExportFunctionDescription(e.Source.ReadStringAnsiAt(nameAddress),
-                                                                forwardedName, ordinal, entryPointRVA));
+                                                                forwardedName, ordinal, entryPointRVA, j));
                         }
                     }
                 }

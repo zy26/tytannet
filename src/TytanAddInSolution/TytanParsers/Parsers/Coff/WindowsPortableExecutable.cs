@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pretorianie.Tytan.Core.Mapping;
 using Pretorianie.Tytan.Parsers.Model;
 
@@ -13,7 +14,9 @@ namespace Pretorianie.Tytan.Parsers.Coff
                              IBinaryAppender<ExportFunctionSection.ImageExportDirectory, ReaderWithOffsetArgs>,
                              IBinaryAppender<ImportFunctionModule.ImageImportDescriptor, ReaderWithOffsetArgs>,
                              IBinaryAppender<ImportFunctionModule.ImageImportData32, ReaderWithOffsetArgs>,
-                             IBinaryAppender<ImportFunctionModule.ImageImportData64, ReaderWithOffsetArgs>
+                             IBinaryAppender<ImportFunctionModule.ImageImportData64, ReaderWithOffsetArgs>,
+                             IBinaryAppender<ImportFunctionModule.ImageBoundImportDescription, ReaderWithOffsetArgs>
+
     {
         private Dictionary<DirectoryEntry, DataSectionDescription> knownSections =
             new Dictionary<DirectoryEntry, DataSectionDescription>();
@@ -132,7 +135,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
             {
                 for (uint i = 0; i < ntOptionalSection.DataDirectoryCount; i++)
                     if (!Append<DataSectionDescription.ImageDataDirectory, WindowsPortableExecutable, DirectoryEntry>
-                             (s, this, (DirectoryEntry)i))
+                             (s, this, (DirectoryEntry) i))
                         return;
             }
 
@@ -160,9 +163,22 @@ namespace Pretorianie.Tytan.Parsers.Coff
                 {
                     // add import information section:
                     DataSectionDescription importSection;
+                    DataSectionDescription importBoundSection;
 
                     if (knownSections.TryGetValue(DirectoryEntry.Import, out importSection))
-                        AppendImportSection(s, importSection, ntSection);
+                    {
+                        knownSections.TryGetValue(DirectoryEntry.BoundImport, out importBoundSection);
+                        AppendImportSection(s, importSection, importBoundSection, ntSection);
+                    }
+                }
+
+                if(e.LoadResources)
+                {
+                    // add resources information section:
+                    DataSectionDescription resourceSection;
+
+                    if (knownSections.TryGetValue(DirectoryEntry.Resource, out resourceSection))
+                        AppendResourceSection(s, resourceSection);
                 }
             }
 
@@ -215,7 +231,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
         /// <summary>
         /// Extracts info about Import section.
         /// </summary>
-        private void AppendImportSection(UnmanagedDataReader s, DataSectionDescription importSection, NtHeaderSection ntSection)
+        private void AppendImportSection(UnmanagedDataReader s, DataSectionDescription importSection, DataSectionDescription importBoundSection, NtHeaderSection ntSection)
         {
             ImportFunctionSection ifs = new ImportFunctionSection();
             uint delta;
@@ -245,6 +261,17 @@ namespace Pretorianie.Tytan.Parsers.Coff
                 // restore the offset:
                 s.Jump(offset);
                 arg.Tag = ifs;
+            }
+
+            // check if there is additional bound-import infor available and read it:
+            if (importBoundSection != null)
+            {
+                ReaderWithOffsetArgs iArg = new ReaderWithOffsetArgs(s, importBoundSection.VirtualAddress, 0, ifs);
+
+                s.Jump(importBoundSection.VirtualAddress);
+                while(Append<ImportFunctionModule.ImageBoundImportDescription, WindowsPortableExecutable, ReaderWithOffsetArgs>(s, this, iArg))
+                {
+                }
             }
 
             // if import section was correctly filled by at least one element then store it:
@@ -297,7 +324,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
                 ImportFunctionModule.ImageImportData32 thunk = new ImportFunctionModule.ImageImportData32();
 
                 if (s.ReadAt(ref thunk, m.FirstThunk - delta))
-                    m.Functions.Add(new ImportFunctionDescription(r.Ordinal, m.IsBound ? thunk.OrdinalOrAddressOfData : 0));
+                    m.Add(new ImportFunctionDescription(r.Ordinal, m.IsBinded ? thunk.OrdinalOrAddressOfData : 0));
             }
             else
             {
@@ -306,11 +333,10 @@ namespace Pretorianie.Tytan.Parsers.Coff
 
                 if (s.ReadAt(ref thunk, m.FirstThunk - delta))
                     if (s.ReadAt(ref funName, r.OrdinalOrAddressOfData - delta))
-                        m.Functions.Add(
-                            new ImportFunctionDescription(
-                                s.ReadStringAnsiAt(r.OrdinalOrAddressOfData - delta + sizeof (short)),
-                                m.IsBound ? thunk.OrdinalOrAddressOfData : 0,
-                                (uint) funName.Hint));
+                        m.Add(new ImportFunctionDescription(
+                                  s.ReadStringAnsiAt(r.OrdinalOrAddressOfData - delta + sizeof (short)),
+                                  m.IsBinded ? thunk.OrdinalOrAddressOfData : 0,
+                                  (uint) funName.Hint));
             }
 
             return true;
@@ -333,8 +359,8 @@ namespace Pretorianie.Tytan.Parsers.Coff
                 ImportFunctionModule.ImageImportData64 thunk = new ImportFunctionModule.ImageImportData64();
 
                 if (s.ReadAt(ref thunk, m.FirstThunk - delta))
-                    m.Functions.Add(new ImportFunctionDescription(r.Ordinal,
-                                                                  m.IsBound ? thunk.OrdinalOrAddressOfData : 0));
+                    m.Add(new ImportFunctionDescription(r.Ordinal,
+                                                                  m.IsBinded ? thunk.OrdinalOrAddressOfData : 0));
             }
             else
             {
@@ -343,14 +369,22 @@ namespace Pretorianie.Tytan.Parsers.Coff
 
                 if (s.ReadAt(ref thunk, m.FirstThunk - delta))
                     if (s.ReadAt(ref funName, (uint) r.OrdinalOrAddressOfData - delta))
-                        m.Functions.Add(
-                            new ImportFunctionDescription(
-                                s.ReadStringAnsiAt((uint) r.OrdinalOrAddressOfData - delta + sizeof (short)),
-                                m.IsBound ? thunk.OrdinalOrAddressOfData : 0,
-                                (uint) funName.Hint));
+                        m.Add(new ImportFunctionDescription(
+                                  s.ReadStringAnsiAt((uint) r.OrdinalOrAddressOfData - delta + sizeof (short)),
+                                  m.IsBinded ? thunk.OrdinalOrAddressOfData : 0,
+                                  (uint) funName.Hint));
             }
 
             return true;
+        }
+
+        private void AppendResourceSection (UnmanagedDataReader s, DataSectionDescription resourceSection)
+        {
+            uint delta;
+            uint offset = GetVirtualRelativeAddress(resourceSection.VirtualAddress, out delta);
+
+            if (offset == 0)
+                return;
         }
 
         #endregion
@@ -430,6 +464,39 @@ namespace Pretorianie.Tytan.Parsers.Coff
         bool IBinaryAppender<ImportFunctionModule.ImageImportData64, ReaderWithOffsetArgs>.Attach(ref ImportFunctionModule.ImageImportData64 s, uint size, ReaderWithOffsetArgs arg)
         {
             return AttachImportData(ref s, arg.Source, arg.Delta, arg.Tag as ImportFunctionModule);
+        }
+
+        #endregion
+
+        #region IBinaryAppender<ImageBoundImportDescription,ReaderWithOffsetArgs> Members
+
+        bool IBinaryAppender<ImportFunctionModule.ImageBoundImportDescription, ReaderWithOffsetArgs>.Attach(ref ImportFunctionModule.ImageBoundImportDescription s, uint size, ReaderWithOffsetArgs arg)
+        {
+            if (s.TimeDateStamp == 0)
+                return false;
+
+            ImportFunctionSection ifs = arg.Tag as ImportFunctionSection;
+
+            string name = arg.Source.ReadStringAnsiAt(arg.Offset + s.OffsetModuleName);
+            ImportFunctionModule ifm = ifs[name];
+
+            // we there is a module to update:
+            if (ifm != null)
+            {
+                ReaderWithOffsetArgs mArg = new ReaderWithOffsetArgs(arg.Source, arg.Offset, 0, null);
+                ifm.BoundDate = new DateTime(1970, 1, 1).AddSeconds(s.TimeDateStamp);
+
+                // append given number of forwarders, having the same size as the current structure
+                // and lying just after:
+                for (ushort i = 0; i < s.NumberOfModuleForwarderRefs; i++)
+                {
+                    Append
+                        <ImportFunctionModule.ImageBoundImportForwarderRef, ImportFunctionModule, ReaderWithOffsetArgs>(
+                        arg.Source, ifm, mArg);
+                }
+            }
+
+            return true;
         }
 
         #endregion

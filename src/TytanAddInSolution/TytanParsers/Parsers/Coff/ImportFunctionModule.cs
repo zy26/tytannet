@@ -7,7 +7,8 @@ namespace Pretorianie.Tytan.Parsers.Coff
     /// <summary>
     /// Set of elements building one import section.
     /// </summary>
-    public class ImportFunctionModule : IBinaryAppender<ImportFunctionModule.ImageImportDescriptor, ReaderWithOffsetArgs>
+    public class ImportFunctionModule : IBinaryAppender<ImportFunctionModule.ImageImportDescriptor, ReaderWithOffsetArgs>,
+                                        IBinaryAppender<ImportFunctionModule.ImageBoundImportForwarderRef, ReaderWithOffsetArgs>
     {
         #region Type Definitions
 
@@ -56,15 +57,31 @@ namespace Pretorianie.Tytan.Parsers.Coff
             public uint Name;
         }
 
+        internal struct ImageBoundImportDescription
+        {
+            public uint TimeDateStamp;
+            public ushort OffsetModuleName;
+            public ushort NumberOfModuleForwarderRefs;
+        }
+
+        internal struct ImageBoundImportForwarderRef
+        {
+            public uint TimeDateStamp;
+            public ushort OffsetModuleName;
+            public ushort Reserved;
+        }
+
         #endregion
 
         private IList<ImportFunctionDescription> functions = new List<ImportFunctionDescription>();
-        private bool isBound;
+        private IList<ImportBoundForwarderDescription> forwarders = new List<ImportBoundForwarderDescription>();
+        private bool isBinded;
 
         #region Properties
 
         public string Name { get; private set; }
         public DateTime BindDate { get; private set; }
+        public DateTime BoundDate { get; internal set; }
         internal uint ForwarderChain { get; private set; }
         internal uint NextModuleAddress { get; private set; }
         internal uint FirstThunk { get; set; }
@@ -74,17 +91,38 @@ namespace Pretorianie.Tytan.Parsers.Coff
             get { return functions; }
         }
 
+        public IList<ImportBoundForwarderDescription> Forwarders
+        {
+            get { return forwarders; }
+        }
+
         public int Count
         {
             get { return functions.Count; }
         }
 
-        public bool IsBound
+        public bool IsBinded
         {
-            get { return isBound; }
+            get { return isBinded; }
         }
 
         #endregion
+
+        /// <summary>
+        /// Adds new function to the collection.
+        /// </summary>
+        public void Add(ImportFunctionDescription f)
+        {
+            functions.Add(f);
+        }
+
+        /// <summary>
+        /// Adds new forwarder description to the collection.
+        /// </summary>
+        public void Add(ImportBoundForwarderDescription f)
+        {
+            forwarders.Add(f);
+        }
 
         #region IBinaryAppender<ImageImportDescriptor,ReaderWithOffsetArgs> Members
 
@@ -99,12 +137,12 @@ namespace Pretorianie.Tytan.Parsers.Coff
             if (s.TimeDateStamp == uint.MaxValue)
             {
                 BindDate = DateTime.Now;
-                isBound = true;
+                isBinded = true;
             }
             else
             {
                 BindDate = new DateTime(1970, 1, 1).AddSeconds(s.TimeDateStamp);
-                isBound = s.TimeDateStamp != 0;
+                isBinded = s.TimeDateStamp != 0;
             }
 
             ForwarderChain = s.ForwarderChain;
@@ -113,6 +151,20 @@ namespace Pretorianie.Tytan.Parsers.Coff
                 NextModuleAddress = s.FirstThunk;
             FirstThunk = s.FirstThunk;
 
+            return true;
+        }
+
+        #endregion
+
+        #region IBinaryAppender<ImageBoundImportForwarderRef,ReaderWithOffsetArgs> Members
+
+        bool IBinaryAppender<ImageBoundImportForwarderRef, ReaderWithOffsetArgs>.Attach(ref ImageBoundImportForwarderRef s, uint size, ReaderWithOffsetArgs arg)
+        {
+            ImportBoundForwarderDescription x =
+                new ImportBoundForwarderDescription(arg.Source.ReadStringAnsiAt(arg.Offset + s.OffsetModuleName),
+                                                    new DateTime(1970, 1, 1).AddSeconds(s.TimeDateStamp));
+
+            Add(x);
             return true;
         }
 

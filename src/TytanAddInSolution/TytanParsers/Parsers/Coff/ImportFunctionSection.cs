@@ -37,7 +37,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
             get
             {
                 foreach (ImportFunctionModule m in modules)
-                    if (m.Name == name)
+                    if (string.Compare(m.Name, name, true) == 0)
                         return m;
 
                 return null;

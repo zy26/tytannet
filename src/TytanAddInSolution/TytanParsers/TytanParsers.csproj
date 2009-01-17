@@ -44,9 +44,11 @@
   <ItemGroup>
     <Compile Include="Parsers\Coff\AdvancedCharacteristics.cs" />
     <Compile Include="Parsers\Coff\Characteristics.cs" />
+    <Compile Include="Parsers\Coff\ImportBoundForwarderDescription.cs" />
     <Compile Include="Parsers\Coff\ImportFunctionDescription.cs" />
     <Compile Include="Parsers\Coff\ImportFunctionSection.cs" />
     <Compile Include="Parsers\Coff\ImportFunctionModule.cs" />
+    <Compile Include="Parsers\Coff\ResourceSection.cs" />
     <Compile Include="Parsers\Coff\WindowsPortableExecutableLoadArgs.cs" />
     <Compile Include="Parsers\Coff\DataHeaderSection.cs" />
     <Compile Include="Parsers\Coff\DataSectionDescription.cs" />

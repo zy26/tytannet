@@ -25,7 +25,9 @@
   </TestList>
   <TestList name="Parsers" id="f75b980c-2893-4763-ab1d-9ee65dcc53ee" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
     <TestLinks>
+      <TestLink id="b5f31148-e171-d9bc-ca1f-8c8517c1b7f4" name="LoadDLL_NanoStorm" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="6b185696-ddd5-af7a-b64f-3778115f4c6d" name="LoadDLL_NanoHooks" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="a2389713-36d3-1c81-e81a-4b77d0ed5c72" name="LoadDLL_NtDLL" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
       <TestLink id="af8805d8-99f0-d313-ebf2-7d44ebdf17d4" name="LoadDLL_Kernell32" storage="alfatests\bin\debug\alfatests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
     </TestLinks>
   </TestList>

@@ -12,16 +12,16 @@ namespace Pretorianie.Tytan.Parsers.Coff
         /// <summary>
         /// Init constructor of ExportFunctionDescription.
         /// </summary>
-        public ExportFunctionDescription(string name, uint ordinal, ulong address)
-            : base(name, ordinal, address)
+        public ExportFunctionDescription(string name, uint ordinal, ulong address, ulong hint)
+            : base(name, ordinal, address, hint)
         {
         }
 
         /// <summary>
         /// Init constructor of ExportFunctionDescription.
         /// </summary>
-        public ExportFunctionDescription(string name, string forwardedName, uint ordinal, ulong address)
-            : base(name, ordinal, address)
+        public ExportFunctionDescription(string name, string forwardedName, uint ordinal, ulong address, ulong hint)
+            : base(name, ordinal, address, hint)
         {
             this.forwardedName = forwardedName;
         }
