@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Pretorianie.Tytan.Core.Mapping;
 using Pretorianie.Tytan.Parsers.Model;
 
@@ -15,7 +16,8 @@ namespace Pretorianie.Tytan.Parsers.Coff
                              IBinaryAppender<ImportFunctionModule.ImageImportDescriptor, ReaderWithOffsetArgs>,
                              IBinaryAppender<ImportFunctionModule.ImageImportData32, ReaderWithOffsetArgs>,
                              IBinaryAppender<ImportFunctionModule.ImageImportData64, ReaderWithOffsetArgs>,
-                             IBinaryAppender<ImportFunctionModule.ImageBoundImportDescription, ReaderWithOffsetArgs>
+                             IBinaryAppender<ImportFunctionModule.ImageBoundImportDescription, ReaderWithOffsetArgs>,
+                             IBinaryAppender<RelocationSection.ImageBaseRelocation, ReaderWithOffsetArgs>
 
     {
         private Dictionary<DirectoryEntry, DataSectionDescription> knownSections =
@@ -172,13 +174,22 @@ namespace Pretorianie.Tytan.Parsers.Coff
                     }
                 }
 
-                if(e.LoadResources)
+                if (e.LoadResources)
                 {
                     // add resources information section:
                     DataSectionDescription resourceSection;
 
                     if (knownSections.TryGetValue(DirectoryEntry.Resource, out resourceSection))
                         AppendResourceSection(s, resourceSection);
+                }
+
+                if (e.LoadBaseRelocations)
+                {
+                    // add relocation information section:
+                    DataSectionDescription relocationSection;
+
+                    if (knownSections.TryGetValue(DirectoryEntry.BaseRelocationTable, out relocationSection))
+                        AppendRelocationSection(s, relocationSection);
                 }
             }
 
@@ -387,6 +398,37 @@ namespace Pretorianie.Tytan.Parsers.Coff
                 return;
         }
 
+        private void AppendRelocationSection(UnmanagedDataReader s, DataSectionDescription relocationSection)
+        {
+            uint delta;
+            uint offset = GetVirtualRelativeAddress(relocationSection.VirtualAddress, out delta);
+            ReaderWithOffsetArgs arg;
+            RelocationSection section;
+
+            if (offset == 0)
+                return;
+
+            // read the info:
+            s.Jump(offset);
+
+            // add all sections:
+            section = new RelocationSection();
+            arg = new ReaderWithOffsetArgs(s, offset, delta, section);
+            while (Append<RelocationSection.ImageBaseRelocation, WindowsPortableExecutable, ReaderWithOffsetArgs>
+                (s, this, arg))
+            {
+            }
+
+            // append relocation section when any data was read from file:
+            if (section.Count > 0)
+            {
+                section.UpdateFileInfo(RelocationSection.DefaultName, offset, s.CurrentOffset - offset);
+                section.UpdateVirtualInfo(offset, s.CurrentOffset - offset);
+
+                Add(section);
+            }
+        }
+
         #endregion
 
         #region IBinaryAppender<ImageDataDirectory, DirectoryEntry> Members
@@ -476,6 +518,8 @@ namespace Pretorianie.Tytan.Parsers.Coff
                 return false;
 
             ImportFunctionSection ifs = arg.Tag as ImportFunctionSection;
+            if (ifs == null)
+                return false;
 
             string name = arg.Source.ReadStringAnsiAt(arg.Offset + s.OffsetModuleName);
             ImportFunctionModule ifm = ifs[name];
@@ -494,6 +538,62 @@ namespace Pretorianie.Tytan.Parsers.Coff
                         <ImportFunctionModule.ImageBoundImportForwarderRef, ImportFunctionModule, ReaderWithOffsetArgs>(
                         arg.Source, ifm, mArg);
                 }
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #region IBinaryAppender<ImageBaseRelocation,ReaderWithOffsetArgs> Members
+
+        bool IBinaryAppender<RelocationSection.ImageBaseRelocation, ReaderWithOffsetArgs>.Attach(ref RelocationSection.ImageBaseRelocation s, uint size, ReaderWithOffsetArgs arg)
+        {
+            UnmanagedDataReader r = arg.Source;
+            RelocationSection section = arg.Tag as RelocationSection;
+            RelocationDescription desc;
+            ushort data = 0;
+            RelocationType type;
+            uint count;
+            uint offset;
+
+            // validate input data:
+            if (s.SizeOfBlock == 0 || s.VirtualAddress == 0 || section == null)
+                return false;
+
+            // append data to section:
+            count = (s.SizeOfBlock - (uint) Marshal.SizeOf(typeof (RelocationSection.ImageBaseRelocation)))/
+                                (uint) Marshal.SizeOf(typeof (ushort));
+
+            if (count > 0)
+            {
+                desc = new RelocationDescription(s.VirtualAddress, s.SizeOfBlock);
+
+                for (uint i = 0; i < count; i++)
+                {
+                    if (r.Read(ref data))
+                    {
+                        type = (RelocationType) ((data & 0xF000) >> 12);
+                        offset = (uint) (data & 0x0FFF);
+
+                        if (type == RelocationType.BasedHighAdjust)
+                        {
+                            if (r.Read(ref data))
+                            {
+                                offset += ((uint) data) << 12;
+                                count--;
+                            }
+                        }
+
+                        desc.Add(new RelocationItem(type, offset));
+                    }
+                    else
+                        break;
+                }
+
+                // if data is defined inside the given description:
+                if (desc.Count > 0)
+                    section.Add(desc);
             }
 
             return true;

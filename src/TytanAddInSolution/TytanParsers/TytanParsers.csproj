@@ -48,6 +48,10 @@
     <Compile Include="Parsers\Coff\ImportFunctionDescription.cs" />
     <Compile Include="Parsers\Coff\ImportFunctionSection.cs" />
     <Compile Include="Parsers\Coff\ImportFunctionModule.cs" />
+    <Compile Include="Parsers\Coff\RelocationDescription.cs" />
+    <Compile Include="Parsers\Coff\RelocationItem.cs" />
+    <Compile Include="Parsers\Coff\RelocationType.cs" />
+    <Compile Include="Parsers\Coff\RelocationSection.cs" />
     <Compile Include="Parsers\Coff\ResourceSection.cs" />
     <Compile Include="Parsers\Coff\WindowsPortableExecutableLoadArgs.cs" />
     <Compile Include="Parsers\Coff\DataHeaderSection.cs" />
