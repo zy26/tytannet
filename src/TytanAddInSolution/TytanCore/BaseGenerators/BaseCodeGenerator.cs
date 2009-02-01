@@ -45,26 +45,29 @@ namespace Pretorianie.Tytan.Core.BaseGenerators
             inputFilePath = wszInputFilePath;
             inputFileNamespace = wszDefaultNamespace;
             codeGeneratorProgress = pGenerateProgress;
+            byte[] bytes = null;
 
-            byte[] bytes = GenerateByteCode(bstrInputFileContents);
+            try
+            {
+                bytes = GenerateByteCode(bstrInputFileContents);
+            }
+            catch
+            {
+            }
 
             if (bytes == null)
             {
-                // This signals that GenerateCode() has failed. Tasklist items have been put up in GenerateCode()
+                // signal that code generation has failed:
                 pcbOutputFileContentsSize = 0;
-
-                // Return E_FAIL to inform Visual Studio that the generator has failed (so that no file gets generated)
                 return E_FAIL;
             }
 
-            // user of IVsSingleFileGenerator expects that output returned from Generate() method is returned through 
-            // memory allocated via CoTaskMemAlloc()...
+            // user of IVsSingleFileGenerator expects data returned via CoTaskMemAlloc()...
 
             int outputLength = bytes.Length;
             rgbOutputFileContents[0] = Marshal.AllocCoTaskMem(outputLength);
             Marshal.Copy(bytes, 0, rgbOutputFileContents[0], outputLength);
-            pcbOutputFileContentsSize = (uint)outputLength;
-
+            pcbOutputFileContentsSize = (uint) outputLength;
             return S_OK;
         }
 

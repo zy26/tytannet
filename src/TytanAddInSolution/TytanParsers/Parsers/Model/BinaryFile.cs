@@ -63,6 +63,14 @@ namespace Pretorianie.Tytan.Parsers.Model
         }
 
         /// <summary>
+        /// Gets the number of stored sections.
+        /// </summary>
+        public int Count
+        {
+            get { return sections.Count; }
+        }
+
+        /// <summary>
         /// Gets the section with specifed name.
         /// </summary>
         public BinarySection this[string section]
@@ -74,6 +82,17 @@ namespace Pretorianie.Tytan.Parsers.Model
                         return b;
 
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the section from given index.
+        /// </summary>
+        public BinarySection this[int index]
+        {
+            get
+            {
+                return sections[index];
             }
         }
 

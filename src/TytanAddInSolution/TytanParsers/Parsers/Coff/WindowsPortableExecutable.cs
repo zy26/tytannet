@@ -524,7 +524,7 @@ namespace Pretorianie.Tytan.Parsers.Coff
             string name = arg.Source.ReadStringAnsiAt(arg.Offset + s.OffsetModuleName);
             ImportFunctionModule ifm = ifs[name];
 
-            // we there is a module to update:
+            // if there is a module to update:
             if (ifm != null)
             {
                 ReaderWithOffsetArgs mArg = new ReaderWithOffsetArgs(arg.Source, arg.Offset, 0, null);

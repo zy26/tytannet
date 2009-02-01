@@ -494,7 +494,6 @@ namespace Pretorianie.Tytan.Actions.Misc
                                         SharedStrings.ActionDialogTitle_ReferenceProject,
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Error);
-
                                 }
                             }
                         }

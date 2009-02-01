@@ -35,7 +35,7 @@ namespace Pretorianie.Tytan.Core.Data
         }
 
         /// <summary>
-        /// Gets the locaiton inside active document.
+        /// Gets the location inside active document.
         /// </summary>
         public EditPoint EditPoint
         {

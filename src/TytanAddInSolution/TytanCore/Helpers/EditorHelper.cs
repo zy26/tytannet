@@ -1,5 +1,9 @@
 using System.Collections.Generic;
 using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Pretorianie.Tytan.Core.Helpers
 {
@@ -15,7 +19,6 @@ namespace Pretorianie.Tytan.Core.Helpers
         {
             if (members == null)
                 return null;
-
 
             try
             {
@@ -221,7 +224,7 @@ namespace Pretorianie.Tytan.Core.Helpers
                         props = new List<CodeProperty>();
                         props.Add(codeProperty);
 
-                        codeClass = codeProperty.Parent as CodeClass;
+                        codeClass = codeProperty.Parent;
                         codeStruct = codeProperty.Parent as CodeStruct;
                     }
                     else
@@ -365,6 +368,70 @@ namespace Pretorianie.Tytan.Core.Helpers
                     return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// Gets the code window associated with given window of DTE object.
+        /// </summary>
+        public static IVsCodeWindow GetCodeWindow(DTE2 appObject, Window window)
+        {
+            return GetCodeWindow(GetWindowFrame(appObject, window));
+        }
+
+        /// <summary>
+        /// Gets the code window associated with given frame.
+        /// </summary>
+        public static IVsCodeWindow GetCodeWindow(IVsWindowFrame frame)
+        {
+            object pvar;
+
+            if (frame == null)
+                return null;
+
+            ErrorHandler.ThrowOnFailure(frame.GetProperty((int) __VSFPROPID.VSFPROPID_DocView, out pvar));
+            return pvar as IVsCodeWindow;
+        }
+
+        /// <summary>
+        /// Gets the <c>IVsWindowFrame</c> associated with given window of an DTE object.
+        /// </summary>
+        public static IVsWindowFrame GetWindowFrame(DTE2 appObject, Window window)
+        {
+            IEnumWindowFrames frames;
+            uint count = (uint) appObject.Windows.Count;
+            IVsWindowFrame[] elems = new IVsWindowFrame[count];
+            IVsUIShell shell = ShellHelper.GetShellService(appObject) as IVsUIShell;
+
+            if (shell == null)
+                return null;
+
+            // get handles for all currently opened documents:
+            ErrorHandler.ThrowOnFailure(shell.GetDocumentWindowEnum(out frames));
+            frames.Next(count, elems, out count);
+
+            // visit all active frames:
+            for (uint i = 0; i < count; i++)
+            {
+                // and check if they are associated with given window:
+                if (window == GetWindowForFrame(elems[i]))
+                    return elems[i];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the Window object associated with given frame otherwise returns null.
+        /// </summary>
+        public static Window GetWindowForFrame(IVsWindowFrame windowFrame)
+        {
+            object pvar;
+
+            if (windowFrame == null)
+                return null;
+
+            ErrorHandler.ThrowOnFailure(windowFrame.GetProperty((int) __VSFPROPID.VSFPROPID_ExtWindowObject, out pvar));
+            return pvar as Window;
         }
     }
 }

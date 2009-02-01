@@ -81,6 +81,8 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Microsoft.NET\Primary Interop Assemblies\stdole.dll</HintPath>
@@ -143,6 +145,7 @@
     <Compile Include="Data\Specialized\CodeExtractorCSharp.cs" />
     <Content Include="Data\Specialized\CodeExtractorDummy.cs" />
     <Compile Include="Data\Specialized\CodeExtractorVBasic.cs" />
+    <Compile Include="Data\XmlDocumentWrapper.cs" />
     <Compile Include="DbgView\CodeJumpStyle.cs" />
     <Compile Include="DbgView\Sources\BaudRates.cs" />
     <Compile Include="DbgView\Sources\DebugSerialPortSource.cs" />
@@ -154,6 +157,10 @@
     <Compile Include="Execution\IQueuedTask.cs" />
     <Compile Include="Execution\QueuedTaskHandler.cs" />
     <Compile Include="Helpers\ComHelper.cs" />
+    <Compile Include="Helpers\XmlHelper.cs" />
+    <Compile Include="Interfaces\IXmlConvertible.cs" />
+    <Compile Include="Interfaces\IXmlConvertibleExt.cs" />
+    <Compile Include="Interfaces\IXmlDocument.cs" />
     <Compile Include="Mapping\DebugSharedMemory.cs" />
     <Compile Include="DbgView\DebugViewData.cs" />
     <Compile Include="DbgView\DebugViewFilteredListData.cs" />

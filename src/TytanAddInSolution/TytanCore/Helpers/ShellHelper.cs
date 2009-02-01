@@ -14,6 +14,18 @@ namespace Pretorianie.Tytan.Core.Helpers
     /// </summary>
     public static class ShellHelper
     {
+        private static IServiceProvider serviceProvider;
+        private static IVsUIShell2 shell;
+
+        /// <summary>
+        /// Gets the instance of service provider for given DTE object.
+        /// </summary>
+        public static IServiceProvider GetServiceProvider(DTE2 appObject)
+        {
+            return serviceProvider ??
+                   (serviceProvider = new ServiceProvider((Microsoft.VisualStudio.OLE.Interop.IServiceProvider) appObject));
+        }
+
         /// <summary>
         /// Gets the specified service from known service provider and for given GUID.
         /// </summary>
@@ -39,11 +51,30 @@ namespace Pretorianie.Tytan.Core.Helpers
         }
 
         /// <summary>
+        /// Gets the Visual Studio Shell main interface.
+        /// </summary>
+        public static IVsUIShell2 GetShellService(IServiceProvider provider)
+        {
+            if(serviceProvider == null)
+                return null;
+
+            return shell ?? (shell = provider.GetService(typeof(SVsUIShell)) as IVsUIShell2);
+        }
+
+        /// <summary>
+        /// Gets the Visual Studio Shell main interface for givien DTE object.
+        /// </summary>
+        public static IVsUIShell2 GetShellService(DTE2 appObject)
+        {
+            return shell ?? GetShellService(GetServiceProvider(appObject));
+        }
+
+        /// <summary>
         /// Gets the specified service of given type from known service provider.
         /// </summary>
-        public static object GetService(Microsoft.VisualStudio.OLE.Interop.IServiceProvider serviceProvider, Type serviceType)
+        public static object GetService(Microsoft.VisualStudio.OLE.Interop.IServiceProvider provider, Type serviceType)
         {
-            return GetService(serviceProvider, serviceType.GUID);
+            return GetService(provider, serviceType.GUID);
         }
 
         /// <summary>

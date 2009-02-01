@@ -10,6 +10,28 @@ namespace Pretorianie.Tytan.Parsers.Coff
         /// <summary>
         /// Name of this section.
         /// </summary>
-        public const string DefaultName = "Resource";
+        public const string DefaultName = "Resources";
+
+        #region Type Definitions
+
+        internal struct ImageResourceDirectory
+        {
+            public uint Characteristics;
+            public uint TimeDateStamp;
+            public ushort MajorVersion;
+            public ushort MinorVersion;
+            public ushort NumberOfNamedEntries;
+            public ushort NumberOfIdEntries;
+        }
+
+        internal struct ImageResourceDataEntry
+        {
+            public uint OffsetToData;
+            public uint Size;
+            public uint CodePage;
+            public uint Reserved;
+        }
+
+        #endregion
     }
 }

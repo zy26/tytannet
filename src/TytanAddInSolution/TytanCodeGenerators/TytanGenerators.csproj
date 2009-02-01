@@ -64,6 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Coff2Xml\CoffCodeGenerator.cs" />
+    <Compile Include="Code\Coff2Xml\CoffComments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CoffComments.resx</DependentUpon>
+    </Compile>
     <Compile Include="Code\Header2Cs\Header2CsCodeGenerator.cs" />
     <Compile Include="Code\VSCT\NamedValue.cs" />
     <Compile Include="Code\VSCT\VsctCodeGenerator.cs" />
@@ -85,20 +91,15 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Code\Coff2Xml\CoffComments.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CoffComments.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Code\VSCT\VsctComments.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>VsctComments1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TytanCore\TytanCore.csproj">
-      <Project>{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}</Project>
-      <Name>TytanCore</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -126,6 +127,19 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TytanCore\TytanCore.csproj">
+      <Project>{4BE5DAB0-BA1C-4763-9355-8A0FECFEBD9F}</Project>
+      <Name>TytanCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TytanParsers\TytanParsers.csproj">
+      <Project>{51BBD7FF-5C7B-4F82-9F42-522401227DFA}</Project>
+      <Name>TytanParsers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
