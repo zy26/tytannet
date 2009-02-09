@@ -3,9 +3,10 @@ namespace Pretorianie.Tytan.Code.VSCT
     /// <summary>
     /// Type storing the value of its name.
     /// </summary>
-    class NamedValue
+    internal class NamedValue
     {
         private readonly string name;
+        private string supporter;
         private readonly string value;
         private readonly NamedValue parent;
 
@@ -25,6 +26,12 @@ namespace Pretorianie.Tytan.Code.VSCT
         public string Name
         {
             get { return name; }
+        }
+
+        public string Supporter
+        {
+            get { return supporter; }
+            set { supporter = value; }
         }
 
         public string Value

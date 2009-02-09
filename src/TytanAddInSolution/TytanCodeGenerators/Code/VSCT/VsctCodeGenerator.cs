@@ -23,19 +23,21 @@ namespace Pretorianie.Tytan.Code.VSCT
     {
         protected override string GenerateStringCode(string inputFileContent)
         {
-            string[] args = (string.IsNullOrEmpty(FileNamespace) ? null : FileNamespace.Split(';'));
-            string className_GuidList = (args == null || args.Length < 2 || string.IsNullOrEmpty(args[1])
-                                             ? VsctComments.DefaultGuidListClassName
-                                             : args[1]);
-            string className_PkgCmdIDList = (args == null || args.Length < 3 || string.IsNullOrEmpty(args[2])
-                                             ? VsctComments.DefaultPkgCmdIDListClassName
-                                             : args[2]);
-            CodeTypeDeclaration classGuideList = CreateClass(className_GuidList, VsctComments.ClassGuideListComment);
-            CodeTypeDeclaration classPkgCmdIDList = CreateClass(className_PkgCmdIDList, VsctComments.ClassPkgCmdIDListComments);
-            
-            CodeNamespace globalNamespace = (args == null || args.Length == 0 || string.IsNullOrEmpty(args[0])
-                                                 ? new CodeNamespace(GetProject().Properties.Item("DefaultNamespace").Value as string)
-                                                 : new CodeNamespace(args[0]));
+            string globalNamespaceName;
+            string guidListClassName;
+            string cmdIdListClassName;
+            string supporterPostfix;
+            bool isPublic;
+
+            // get parameters passed as 'FileNamespace' inside properties of the file generator:
+            InterpreteArguments((string.IsNullOrEmpty(FileNamespace) ? null : FileNamespace.Split(';')),
+                                out globalNamespaceName, out guidListClassName, out cmdIdListClassName,
+                                out supporterPostfix, out isPublic);
+
+            // create support CodeDOM classes:
+            CodeNamespace globalNamespace = new CodeNamespace(globalNamespaceName);
+            CodeTypeDeclaration classGuideList = CreateClass(guidListClassName, VsctComments.ClassGuideListComment, isPublic);
+            CodeTypeDeclaration classPkgCmdIDList = CreateClass(cmdIdListClassName, VsctComments.ClassPkgCmdIDListComments, isPublic);
             CodeModelLanguages currentLanguage = CodeHelper.GetCodeLanguage(GetProject().CodeModel.Language);
             IList<NamedValue> guids;
             IList<NamedValue> ids;
@@ -46,8 +48,14 @@ namespace Pretorianie.Tytan.Code.VSCT
             // generate members describing GUIDs:
             if (guids != null)
             {
+                foreach (NamedValue s in guids)
+                {
+                    s.Supporter = s.Name + supporterPostfix;
+                    classGuideList.Members.Add(CreateConstField("System.String", s.Supporter, s.Value, true));
+                }
+
                 foreach (NamedValue g in guids)
-                    classGuideList.Members.Add(CreateStaticField("Guid", g.Name, g.Value));
+                    classGuideList.Members.Add(CreateStaticField("Guid", g.Name, g.Supporter, true));
             }
 
             // generate members describing IDs:
@@ -55,7 +63,8 @@ namespace Pretorianie.Tytan.Code.VSCT
             {
                 foreach (NamedValue i in ids)
                     classPkgCmdIDList.Members.Add(CreateConstField("System.UInt32", i.Name,
-                                                                   ConversionHelper.ToHex(i.Value, currentLanguage)));
+                                                                   ConversionHelper.ToHex(i.Value, currentLanguage),
+                                                                   false));
             }
 
             // add all members to final namespace:
@@ -67,12 +76,40 @@ namespace Pretorianie.Tytan.Code.VSCT
             return CodeHelper.GenerateFromNamespace(GetCodeProvider(), globalNamespace, true);
         }
 
+        private void InterpreteArguments(string[] args, out string globalNamespaceName, out string guidClassName, out string cmdIdListClassName, out string supporterPostfix, out bool isPublic)
+        {
+            globalNamespaceName = GetProject().Properties.Item("DefaultNamespace").Value as string;
+            guidClassName = VsctComments.DefaultGuidListClassName;
+            cmdIdListClassName = VsctComments.DefaultPkgCmdIDListClassName;
+            supporterPostfix = "String";
+            isPublic = false;
+
+            if (args != null && args.Length == 0)
+            {
+                if (!string.IsNullOrEmpty(args[0]))
+                    globalNamespaceName = args[0];
+
+                if (!(args.Length < 2 || string.IsNullOrEmpty(args[1])))
+                    guidClassName = args[1];
+
+                if (!(args.Length < 3 || string.IsNullOrEmpty(args[2])))
+                    cmdIdListClassName = args[2];
+
+                if (!(args.Length < 4 || string.IsNullOrEmpty(args[3])))
+                    supporterPostfix = args[3];
+
+                if (!((args.Length < 5 || string.IsNullOrEmpty(args[4])
+                       || string.Compare(args[4], "public", true) != 0)))
+                    isPublic = true;
+            }
+        }
+
         #region Code Definition
 
         /// <summary>
         /// Creates new static/partial class definition.
         /// </summary>
-        protected static CodeTypeDeclaration CreateClass (string name, string comment)
+        protected static CodeTypeDeclaration CreateClass(string name, string comment, bool isPublic)
         {
             CodeTypeDeclaration item = new CodeTypeDeclaration(name);
 
@@ -81,7 +118,9 @@ namespace Pretorianie.Tytan.Code.VSCT
             item.Comments.Add(new CodeCommentStatement("</summary>", true));
             item.IsClass = true;
             item.IsPartial = true;
-            item.TypeAttributes = TypeAttributes.BeforeFieldInit | TypeAttributes.Class;
+            if (isPublic)
+                item.TypeAttributes = TypeAttributes.Sealed | TypeAttributes.Public | TypeAttributes.Abstract;
+            item.TypeAttributes |= TypeAttributes.BeforeFieldInit | TypeAttributes.Class;
 
             return item;
         }
@@ -89,12 +128,19 @@ namespace Pretorianie.Tytan.Code.VSCT
         /// <summary>
         /// Creates new constant field with given name and value.
         /// </summary>
-        private static CodeMemberField CreateConstField(string type, string name, string value)
+        private static CodeMemberField CreateConstField(string type, string name, string value, bool fieldRef)
         {
             CodeMemberField item = new CodeMemberField(new CodeTypeReference(type), name);
 
             item.Attributes = MemberAttributes.Const | MemberAttributes.Public;
-            item.InitExpression = new CodeSnippetExpression(value); // CodePrimitiveExpression(value);
+            if (fieldRef)
+            {
+                item.InitExpression = new CodePrimitiveExpression(value);
+            }
+            else
+            {
+                item.InitExpression = new CodeSnippetExpression(value);
+            }
 
             return item;
         }
@@ -102,12 +148,14 @@ namespace Pretorianie.Tytan.Code.VSCT
         /// <summary>
         /// Creates new static/read-only field with given name and value.
         /// </summary>
-        private static CodeMemberField CreateStaticField(string type, string name, object value)
+        private static CodeMemberField CreateStaticField(string type, string name, object value, bool fieldRef)
         {
             CodeMemberField item = new CodeMemberField(new CodeTypeReference(type), name);
+            CodeExpression param = fieldRef
+                                       ? (CodeExpression) new CodeSnippetExpression((string) value)
+                                       : new CodePrimitiveExpression(value);
             item.Attributes = MemberAttributes.Static | MemberAttributes.Public;
-            item.InitExpression = new CodeObjectCreateExpression(new CodeTypeReference(type),
-                                                              new CodePrimitiveExpression(value));
+            item.InitExpression = new CodeObjectCreateExpression(new CodeTypeReference(type), param);
 
             return item;
         }

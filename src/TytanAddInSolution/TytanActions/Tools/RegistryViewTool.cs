@@ -11,9 +11,13 @@ using Pretorianie.Tytan.Forms;
 
 namespace Pretorianie.Tytan.Tools
 {
+    /// <summary>
+    /// User control providing all functionalities required by registry editor.
+    /// </summary>
     public partial class RegistryViewTool : UserControl
     {
         protected const string PlaceholderName = "-- placeholder --";
+        private static readonly char[] PathSeparators = new char[] {'\\', '|', '/'};
 
         private RegistryNewValueForm dlgNewValue;
         private RegistryAddFavorite dlgAddFavorite;
@@ -184,7 +188,7 @@ namespace Pretorianie.Tytan.Tools
         /// </summary>
         private void UpdateViewByPath(string path)
         {
-            string[] items = (string.IsNullOrEmpty(path) ? null : ClearPath(path).Split(new char[] { '\\', '|', '/' }, StringSplitOptions.RemoveEmptyEntries));
+            string[] items = (string.IsNullOrEmpty(path) ? null : ClearPath(path).Split(PathSeparators, StringSplitOptions.RemoveEmptyEntries));
 
             if (items != null && items.Length > 0)
             {
@@ -405,6 +409,7 @@ namespace Pretorianie.Tytan.Tools
             ListViewItem item;
             string[] values = (key != null ? key.GetValueNames() : null);
             RegistryValueKind kind;
+            string textValue;
 
             listView.Items.Clear();
 
@@ -421,7 +426,9 @@ namespace Pretorianie.Tytan.Tools
                         item.SubItems.Add(kind.ToString().ToUpper());
                         item.ImageIndex = GetImageIndex(kind);
 
-                        item.SubItems.Add(GetValueString(key, v, kind));
+                        textValue = GetValueString(key, v, kind);
+                        item.SubItems.Add(textValue);
+                        item.ToolTipText = string.Format("Name: {0}\r\nValue: {1}", item.Text, textValue);
                         listView.Items.Add(item);
                     }
                     catch
@@ -1145,6 +1152,12 @@ namespace Pretorianie.Tytan.Tools
                 Clipboard.SetText(treeView.SelectedNode.Text);
         }
 
+        private void copyfullNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(treeView.SelectedNode != null)
+                Clipboard.SetText(CurrentNavigationPath);
+        }
+
         private void toolStripNavBack_Click(object sender, EventArgs e)
         {
             string path;
@@ -1252,5 +1265,6 @@ namespace Pretorianie.Tytan.Tools
                 }
             }
         }
+
     }
 }

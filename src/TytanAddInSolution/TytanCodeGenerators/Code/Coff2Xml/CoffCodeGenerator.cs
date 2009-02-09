@@ -29,7 +29,7 @@ namespace Pretorianie.Tytan.Code.Coff2Xml
         private const string CurrentVersion = "1.0";
 
         private const string NodeMainName = "coff2xml";
-        
+
         private const string NodeInfo = "info";
         private const string NodeInfoVersion = "version";
         private const string NodeInfoGenerator = "generator";
@@ -97,7 +97,7 @@ namespace Pretorianie.Tytan.Code.Coff2Xml
                 AppendSection(xml, mainNode, file[ImportFunctionSection.DefaultName] as ImportFunctionSection);
 
                 // and return data as a string:
-                return XmlHelper.ToString(xml);
+                return XmlHelper.ToString(xml, true);
             }
             catch (Exception ex)
             {

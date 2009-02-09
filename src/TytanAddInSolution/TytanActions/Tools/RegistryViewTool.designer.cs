@@ -62,6 +62,7 @@ namespace Pretorianie.Tytan.Tools
             this.newKeyToolMenuTree = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyfullNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuTree = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,7 +122,7 @@ namespace Pretorianie.Tytan.Tools
             this.toolStripFeedback.IsLink = true;
             this.toolStripFeedback.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.toolStripFeedback.Name = "toolStripFeedback";
-            this.toolStripFeedback.Size = new System.Drawing.Size(78, 22);
+            this.toolStripFeedback.Size = new System.Drawing.Size(80, 22);
             this.toolStripFeedback.Text = "Send feedback";
             this.toolStripFeedback.Click += new System.EventHandler(this.toolStripFeedback_Click);
             // 
@@ -149,7 +150,7 @@ namespace Pretorianie.Tytan.Tools
             this.keyToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.FolderKey;
             this.keyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.keyToolStripMenuItem.Name = "keyToolStripMenuItem";
-            this.keyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.keyToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.keyToolStripMenuItem.Text = "&Key...";
             this.keyToolStripMenuItem.ToolTipText = "Add new key into the tree";
             this.keyToolStripMenuItem.Click += new System.EventHandler(this.newKeyToolMenuTree_Click);
@@ -157,14 +158,14 @@ namespace Pretorianie.Tytan.Tools
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(136, 6);
             // 
             // binaryDataToolStripMenuItem
             // 
             this.binaryDataToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.RegistryBinary;
             this.binaryDataToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.binaryDataToolStripMenuItem.Name = "binaryDataToolStripMenuItem";
-            this.binaryDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.binaryDataToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.binaryDataToolStripMenuItem.Text = "&Binary data...";
             this.binaryDataToolStripMenuItem.ToolTipText = "Add new binary data value";
             this.binaryDataToolStripMenuItem.Click += new System.EventHandler(this.newBinaryDataToolStripMenuItem_Click);
@@ -174,7 +175,7 @@ namespace Pretorianie.Tytan.Tools
             this.stringDataToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.RegistryString;
             this.stringDataToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.stringDataToolStripMenuItem.Name = "stringDataToolStripMenuItem";
-            this.stringDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.stringDataToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.stringDataToolStripMenuItem.Text = "&String data...";
             this.stringDataToolStripMenuItem.ToolTipText = "Add new string data value";
             this.stringDataToolStripMenuItem.Click += new System.EventHandler(this.newStringDataToolStripMenuItem_Click);
@@ -182,32 +183,32 @@ namespace Pretorianie.Tytan.Tools
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(136, 6);
             // 
             // collapseAllToolStripMenuItem1
             // 
             this.collapseAllToolStripMenuItem1.Name = "collapseAllToolStripMenuItem1";
-            this.collapseAllToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.collapseAllToolStripMenuItem1.Size = new System.Drawing.Size(139, 22);
             this.collapseAllToolStripMenuItem1.Text = "Collapse all";
             this.collapseAllToolStripMenuItem1.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
             // 
             // expandAllToolStripMenuItem1
             // 
             this.expandAllToolStripMenuItem1.Name = "expandAllToolStripMenuItem1";
-            this.expandAllToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.expandAllToolStripMenuItem1.Size = new System.Drawing.Size(139, 22);
             this.expandAllToolStripMenuItem1.Text = "Expand all";
             this.expandAllToolStripMenuItem1.Click += new System.EventHandler(this.expandAllToolStripMenuItem_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(136, 6);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.RegistryExport;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.exportToolStripMenuItem.Text = "Export...";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
@@ -284,7 +285,7 @@ namespace Pretorianie.Tytan.Tools
             // 
             this.addToFavoritesToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.Plus;
             this.addToFavoritesToolStripMenuItem.Name = "addToFavoritesToolStripMenuItem";
-            this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.addToFavoritesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.addToFavoritesToolStripMenuItem.Text = "Add to favorites...";
             this.addToFavoritesToolStripMenuItem.Click += new System.EventHandler(this.addToFavoritesToolStripMenuItem_Click);
             // 
@@ -292,14 +293,14 @@ namespace Pretorianie.Tytan.Tools
             // 
             this.deleteFromFavoritesToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.Minus;
             this.deleteFromFavoritesToolStripMenuItem.Name = "deleteFromFavoritesToolStripMenuItem";
-            this.deleteFromFavoritesToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.deleteFromFavoritesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.deleteFromFavoritesToolStripMenuItem.Text = "Delete from favorites...";
             this.deleteFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.deleteFromFavoritesToolStripMenuItem_Click);
             // 
             // toolStripMenuFavouritesSeparator
             // 
             this.toolStripMenuFavouritesSeparator.Name = "toolStripMenuFavouritesSeparator";
-            this.toolStripMenuFavouritesSeparator.Size = new System.Drawing.Size(196, 6);
+            this.toolStripMenuFavouritesSeparator.Size = new System.Drawing.Size(180, 6);
             this.toolStripMenuFavouritesSeparator.Visible = false;
             // 
             // toolStripFind
@@ -377,6 +378,7 @@ namespace Pretorianie.Tytan.Tools
             this.newKeyToolMenuTree,
             this.toolStripMenuItem2,
             this.copyToolStripMenuItem,
+            this.copyfullNameToolStripMenuItem,
             this.deleteToolStripMenuTree,
             this.toolStripMenuItem5,
             this.collapseAllToolStripMenuItem,
@@ -384,69 +386,76 @@ namespace Pretorianie.Tytan.Tools
             this.toolStripMenuItem8,
             this.exportToolStripMenuItem1});
             this.contextMenuTree.Name = "contextMenuTree";
-            this.contextMenuTree.Size = new System.Drawing.Size(139, 154);
+            this.contextMenuTree.Size = new System.Drawing.Size(147, 176);
             // 
             // newKeyToolMenuTree
             // 
             this.newKeyToolMenuTree.Image = global::Pretorianie.Tytan.SharedIcons.FolderKey;
             this.newKeyToolMenuTree.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.newKeyToolMenuTree.Name = "newKeyToolMenuTree";
-            this.newKeyToolMenuTree.Size = new System.Drawing.Size(138, 22);
+            this.newKeyToolMenuTree.Size = new System.Drawing.Size(146, 22);
             this.newKeyToolMenuTree.Text = "&New key...";
             this.newKeyToolMenuTree.Click += new System.EventHandler(this.newKeyToolMenuTree_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(135, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(143, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.Copy;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // copyfullNameToolStripMenuItem
+            // 
+            this.copyfullNameToolStripMenuItem.Name = "copyfullNameToolStripMenuItem";
+            this.copyfullNameToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.copyfullNameToolStripMenuItem.Text = "Copy &full name";
+            this.copyfullNameToolStripMenuItem.Click += new System.EventHandler(this.copyfullNameToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuTree
             // 
             this.deleteToolStripMenuTree.Image = global::Pretorianie.Tytan.SharedIcons.Cross;
             this.deleteToolStripMenuTree.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.deleteToolStripMenuTree.Name = "deleteToolStripMenuTree";
-            this.deleteToolStripMenuTree.Size = new System.Drawing.Size(138, 22);
+            this.deleteToolStripMenuTree.Size = new System.Drawing.Size(146, 22);
             this.deleteToolStripMenuTree.Text = "&Delete";
             this.deleteToolStripMenuTree.Click += new System.EventHandler(this.deleteToolStripMenuTree_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(135, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(143, 6);
             // 
             // collapseAllToolStripMenuItem
             // 
             this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
-            this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.collapseAllToolStripMenuItem.Text = "Collapse all";
+            this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.collapseAllToolStripMenuItem.Text = "C&ollapse all";
             this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
             // 
             // expandAllToolStripMenuItem
             // 
             this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
-            this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.expandAllToolStripMenuItem.Text = "Expand all";
+            this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.expandAllToolStripMenuItem.Text = "&Expand all";
             this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.expandAllToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(135, 6);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(143, 6);
             // 
             // exportToolStripMenuItem1
             // 
             this.exportToolStripMenuItem1.Image = global::Pretorianie.Tytan.SharedIcons.RegistryExport;
             this.exportToolStripMenuItem1.Name = "exportToolStripMenuItem1";
-            this.exportToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
-            this.exportToolStripMenuItem1.Text = "Export...";
+            this.exportToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
+            this.exportToolStripMenuItem1.Text = "E&xport...";
             this.exportToolStripMenuItem1.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // imageList
@@ -475,6 +484,7 @@ namespace Pretorianie.Tytan.Tools
             this.listView.Location = new System.Drawing.Point(0, 0);
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
+            this.listView.ShowItemToolTips = true;
             this.listView.Size = new System.Drawing.Size(489, 420);
             this.listView.SmallImageList = this.imageList;
             this.listView.Sorting = System.Windows.Forms.SortOrder.Ascending;
@@ -515,21 +525,21 @@ namespace Pretorianie.Tytan.Tools
             this.toolStripMenuItem3,
             this.jumpToolStripMenuItem});
             this.contextMenuList.Name = "contextMenuList";
-            this.contextMenuList.Size = new System.Drawing.Size(177, 214);
+            this.contextMenuList.Size = new System.Drawing.Size(164, 214);
             // 
             // editToolStripMenu
             // 
             this.editToolStripMenu.Image = global::Pretorianie.Tytan.SharedIcons.Edit;
             this.editToolStripMenu.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.editToolStripMenu.Name = "editToolStripMenu";
-            this.editToolStripMenu.Size = new System.Drawing.Size(176, 22);
+            this.editToolStripMenu.Size = new System.Drawing.Size(163, 22);
             this.editToolStripMenu.Text = "&Edit...";
             this.editToolStripMenu.Click += new System.EventHandler(this.editToolStripMenu_Click);
             // 
             // renameToolStripMenu
             // 
             this.renameToolStripMenu.Name = "renameToolStripMenu";
-            this.renameToolStripMenu.Size = new System.Drawing.Size(176, 22);
+            this.renameToolStripMenu.Size = new System.Drawing.Size(163, 22);
             this.renameToolStripMenu.Text = "&Rename";
             this.renameToolStripMenu.Click += new System.EventHandler(this.renameToolStripMenu_Click);
             // 
@@ -537,7 +547,7 @@ namespace Pretorianie.Tytan.Tools
             // 
             this.copyNameToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("copyNameToolStripMenuItem1.Image")));
             this.copyNameToolStripMenuItem1.Name = "copyNameToolStripMenuItem1";
-            this.copyNameToolStripMenuItem1.Size = new System.Drawing.Size(176, 22);
+            this.copyNameToolStripMenuItem1.Size = new System.Drawing.Size(163, 22);
             this.copyNameToolStripMenuItem1.Text = "&Copy name";
             this.copyNameToolStripMenuItem1.Click += new System.EventHandler(this.copyNameToolStripMenuItem1_Click);
             // 
@@ -545,7 +555,7 @@ namespace Pretorianie.Tytan.Tools
             // 
             this.copyvalueToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyvalueToolStripMenuItem.Image")));
             this.copyvalueToolStripMenuItem.Name = "copyvalueToolStripMenuItem";
-            this.copyvalueToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.copyvalueToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.copyvalueToolStripMenuItem.Text = "Copy &value";
             this.copyvalueToolStripMenuItem.Click += new System.EventHandler(this.copyvalueToolStripMenuItem_Click);
             // 
@@ -554,21 +564,21 @@ namespace Pretorianie.Tytan.Tools
             this.deleteToolStripMenu.Image = global::Pretorianie.Tytan.SharedIcons.Cross;
             this.deleteToolStripMenu.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.deleteToolStripMenu.Name = "deleteToolStripMenu";
-            this.deleteToolStripMenu.Size = new System.Drawing.Size(176, 22);
+            this.deleteToolStripMenu.Size = new System.Drawing.Size(163, 22);
             this.deleteToolStripMenu.Text = "&Delete";
             this.deleteToolStripMenu.Click += new System.EventHandler(this.deleteToolStripMenu_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(173, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(160, 6);
             // 
             // newkeyToolStripMenuItem
             // 
             this.newkeyToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.FolderKey;
             this.newkeyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
             this.newkeyToolStripMenuItem.Name = "newkeyToolStripMenuItem";
-            this.newkeyToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.newkeyToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.newkeyToolStripMenuItem.Text = "New &key...";
             this.newkeyToolStripMenuItem.Click += new System.EventHandler(this.newKeyToolMenuTree_Click);
             // 
@@ -577,7 +587,7 @@ namespace Pretorianie.Tytan.Tools
             this.newBinaryDataToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newBinaryDataToolStripMenuItem.Image")));
             this.newBinaryDataToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.newBinaryDataToolStripMenuItem.Name = "newBinaryDataToolStripMenuItem";
-            this.newBinaryDataToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.newBinaryDataToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.newBinaryDataToolStripMenuItem.Text = "New &binary data...";
             this.newBinaryDataToolStripMenuItem.Click += new System.EventHandler(this.newBinaryDataToolStripMenuItem_Click);
             // 
@@ -586,21 +596,21 @@ namespace Pretorianie.Tytan.Tools
             this.newStringDataToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.RegistryString;
             this.newStringDataToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.newStringDataToolStripMenuItem.Name = "newStringDataToolStripMenuItem";
-            this.newStringDataToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.newStringDataToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.newStringDataToolStripMenuItem.Text = "New &string data...";
             this.newStringDataToolStripMenuItem.Click += new System.EventHandler(this.newStringDataToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(173, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(160, 6);
             // 
             // jumpToolStripMenuItem
             // 
             this.jumpToolStripMenuItem.Image = global::Pretorianie.Tytan.SharedIcons.RegistryJump;
             this.jumpToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.jumpToolStripMenuItem.Name = "jumpToolStripMenuItem";
-            this.jumpToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.jumpToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.jumpToolStripMenuItem.Text = "&Navigate to key";
             this.jumpToolStripMenuItem.Click += new System.EventHandler(this.jumpToolStripMenuItem_Click);
             // 
@@ -683,5 +693,6 @@ namespace Pretorianie.Tytan.Tools
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem copyfullNameToolStripMenuItem;
     }
 }
