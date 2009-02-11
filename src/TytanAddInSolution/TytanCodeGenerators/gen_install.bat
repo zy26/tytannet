@@ -1,1 +1,1 @@
-regasm /codebase Tytan.Generators.dll
+regasm /codebase Tytan.Generators.dll /silent /nologo

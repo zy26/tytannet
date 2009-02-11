@@ -1,1 +1,1 @@
-regasm /unregister Tytan.Generators.dll
+regasm /unregister Tytan.Generators.dll /silent /nologo

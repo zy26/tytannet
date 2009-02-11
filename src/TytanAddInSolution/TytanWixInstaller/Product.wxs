@@ -220,8 +220,8 @@
 
 
         <!-- custom actions -->
-        <CustomAction Id="RegisterGenerators" Property="REGASMPATH" ExeCommand='/codebase "[INSTALLLOCATION]Tytan.Generators.dll"' Return="asyncWait" />
-        <CustomAction Id="UnregisterGenerators" Property="REGASMPATH" ExeCommand='/unregister "[INSTALLLOCATION]Tytan.Generators.dll"' Return="asyncWait" />
+        <CustomAction Id="RegisterGenerators" Property="REGASMPATH" ExeCommand='/codebase "[INSTALLLOCATION]Tytan.Generators.dll /silent /nologo"' Return="asyncWait" />
+        <CustomAction Id="UnregisterGenerators" Property="REGASMPATH" ExeCommand='/unregister "[INSTALLLOCATION]Tytan.Generators.dll /silent /nologo"' Return="asyncWait" />
         <CustomAction Id="ResetVS2005" Property="VS2005DEVENV" ExeCommand="/resetaddin Pretorianie.Tytan.Connect" Return="asyncNoWait" />
         <CustomAction Id="ResetVS2008" Property="VS90DEVENV" ExeCommand="/resetaddin Pretorianie.Tytan.Connect" Return="asyncNoWait" />
 

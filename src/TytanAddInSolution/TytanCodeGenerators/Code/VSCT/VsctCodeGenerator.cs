@@ -84,7 +84,7 @@ namespace Pretorianie.Tytan.Code.VSCT
             supporterPostfix = "String";
             isPublic = false;
 
-            if (args != null && args.Length == 0)
+            if (args != null && args.Length != 0)
             {
                 if (!string.IsNullOrEmpty(args[0]))
                     globalNamespaceName = args[0];
@@ -98,8 +98,8 @@ namespace Pretorianie.Tytan.Code.VSCT
                 if (!(args.Length < 4 || string.IsNullOrEmpty(args[3])))
                     supporterPostfix = args[3];
 
-                if (!((args.Length < 5 || string.IsNullOrEmpty(args[4])
-                       || string.Compare(args[4], "public", true) != 0)))
+                if (args.Length >= 5 && !string.IsNullOrEmpty(args[4])
+                    && string.Compare(args[4], "public", true) == 0)
                     isPublic = true;
             }
         }
@@ -118,10 +118,13 @@ namespace Pretorianie.Tytan.Code.VSCT
             item.Comments.Add(new CodeCommentStatement("</summary>", true));
             item.IsClass = true;
             item.IsPartial = true;
-            if (isPublic)
-                item.TypeAttributes = TypeAttributes.Sealed | TypeAttributes.Public | TypeAttributes.Abstract;
-            item.TypeAttributes |= TypeAttributes.BeforeFieldInit | TypeAttributes.Class;
 
+            if (isPublic)
+                item.TypeAttributes = TypeAttributes.Sealed | TypeAttributes.Public;
+            else
+                item.TypeAttributes = TypeAttributes.Sealed | TypeAttributes.NestedFamANDAssem;
+
+            item.TypeAttributes |= TypeAttributes.BeforeFieldInit | TypeAttributes.Class;
             return item;
         }
 

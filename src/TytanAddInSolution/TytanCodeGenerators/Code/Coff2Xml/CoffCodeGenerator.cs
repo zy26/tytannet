@@ -76,6 +76,7 @@ namespace Pretorianie.Tytan.Code.Coff2Xml
                 WindowsPortableExecutableLoadArgs args = new WindowsPortableExecutableLoadArgs(false);
                 XmlDocumentWrapper xml;
                 XmlNode mainNode;
+                bool[] externalParams;
 
                 args.LoadImports = true;
                 args.LoadExports = true;
@@ -92,9 +93,16 @@ namespace Pretorianie.Tytan.Code.Coff2Xml
                 xml.DeclareDocument();
                 xml.Append(mainNode = DefineMainElement(xml));
 
+                // interprete extenal parameters:
+                InterpreteArguments((string.IsNullOrEmpty(FileNamespace) ? null : FileNamespace.Split(';')),
+                                    out externalParams);
+
                 // serialize proper sections:
-                AppendSection(xml, mainNode, file[ExportFunctionSection.DefaultName] as ExportFunctionSection);
-                AppendSection(xml, mainNode, file[ImportFunctionSection.DefaultName] as ImportFunctionSection);
+                if (externalParams == null || externalParams.Length == 0 || externalParams[0])
+                    AppendSection(xml, mainNode, file[ExportFunctionSection.DefaultName] as ExportFunctionSection);
+
+                if (externalParams == null || externalParams.Length <= 1 || externalParams[1])
+                    AppendSection(xml, mainNode, file[ImportFunctionSection.DefaultName] as ImportFunctionSection);
 
                 // and return data as a string:
                 return XmlHelper.ToString(xml, true);
@@ -102,6 +110,22 @@ namespace Pretorianie.Tytan.Code.Coff2Xml
             catch (Exception ex)
             {
                 return string.Format(CoffComments.InvalidOperation, inputFileContent, ex.Message);
+            }
+        }
+
+        private void InterpreteArguments(string[] args, out bool[] externalParams)
+        {
+            externalParams = null;
+
+            if (args != null && args.Length > 0)
+            {
+                int i = 0;
+
+                externalParams = new bool[args.Length];
+
+                // check if given parameter can be somehow interprete as bool value:
+                foreach (string a in args)
+                    externalParams[i++] = string.IsNullOrEmpty(a) || a == "1" || bool.Parse(a);
             }
         }
 
