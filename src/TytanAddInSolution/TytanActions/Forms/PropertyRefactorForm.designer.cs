@@ -39,6 +39,7 @@ namespace Pretorianie.Tytan.Forms
             this.checkComments = new System.Windows.Forms.CheckBox();
             this.checkRegion = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkUpdateNames = new System.Windows.Forms.CheckBox();
             this.dataVars = new System.Windows.Forms.DataGridView();
             this.columnEnabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.columnVariable = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,15 +52,15 @@ namespace Pretorianie.Tytan.Forms
             // 
             // linkFeedback
             // 
-            this.linkFeedback.Location = new System.Drawing.Point(12, 362);
+            this.linkFeedback.Location = new System.Drawing.Point(12, 403);
             // 
             // bttOK
             // 
-            this.bttOK.Location = new System.Drawing.Point(533, 357);
+            this.bttOK.Location = new System.Drawing.Point(533, 398);
             // 
             // bttCancel
             // 
-            this.bttCancel.Location = new System.Drawing.Point(614, 357);
+            this.bttCancel.Location = new System.Drawing.Point(614, 398);
             // 
             // groupBox2
             // 
@@ -75,7 +76,7 @@ namespace Pretorianie.Tytan.Forms
             this.groupBox2.Controls.Add(this.checkComments);
             this.groupBox2.Controls.Add(this.checkRegion);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.groupBox2.Location = new System.Drawing.Point(12, 234);
+            this.groupBox2.Location = new System.Drawing.Point(12, 275);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(677, 117);
             this.groupBox2.TabIndex = 4;
@@ -201,14 +202,29 @@ namespace Pretorianie.Tytan.Forms
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.checkUpdateNames);
             this.groupBox1.Controls.Add(this.dataVars);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(677, 216);
+            this.groupBox1.Size = new System.Drawing.Size(677, 257);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Variables -> Properties";
+            // 
+            // checkUpdateNames
+            // 
+            this.checkUpdateNames.AutoSize = true;
+            this.checkUpdateNames.Checked = true;
+            this.checkUpdateNames.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkUpdateNames.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.checkUpdateNames.Location = new System.Drawing.Point(115, 17);
+            this.checkUpdateNames.Name = "checkUpdateNames";
+            this.checkUpdateNames.Size = new System.Drawing.Size(101, 18);
+            this.checkUpdateNames.TabIndex = 0;
+            this.checkUpdateNames.Text = "Update names";
+            this.checkUpdateNames.UseVisualStyleBackColor = true;
+            this.checkUpdateNames.CheckedChanged += new System.EventHandler(this.checkUpdateNames_CheckedChanged);
             // 
             // dataVars
             // 
@@ -228,13 +244,13 @@ namespace Pretorianie.Tytan.Forms
             this.columnProperty});
             this.dataVars.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataVars.GridColor = System.Drawing.SystemColors.Control;
-            this.dataVars.Location = new System.Drawing.Point(6, 19);
+            this.dataVars.Location = new System.Drawing.Point(6, 40);
             this.dataVars.MultiSelect = false;
             this.dataVars.Name = "dataVars";
             this.dataVars.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataVars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataVars.Size = new System.Drawing.Size(665, 181);
-            this.dataVars.TabIndex = 0;
+            this.dataVars.Size = new System.Drawing.Size(665, 201);
+            this.dataVars.TabIndex = 1;
             // 
             // columnEnabled
             // 
@@ -268,7 +284,7 @@ namespace Pretorianie.Tytan.Forms
             // PropertyRefactorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(701, 389);
+            this.ClientSize = new System.Drawing.Size(701, 430);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "PropertyRefactorForm";
@@ -281,6 +297,7 @@ namespace Pretorianie.Tytan.Forms
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataVars)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -305,6 +322,7 @@ namespace Pretorianie.Tytan.Forms
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbProp;
+        private System.Windows.Forms.CheckBox checkUpdateNames;
 
     }
 }

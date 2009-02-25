@@ -105,8 +105,6 @@ namespace Pretorianie.Tytan.Actions
 
                 // remove the variables from the list for which the properties exist:
                 FindExistingProperties(vars, props, language, out toDisable, false);
-                // generate output names:
-                NameHelper.GetVariableNames(vars, out varNames, out propNames, language);
 
                 // add additional disabled variables:
                 if (disabledVars != null)
@@ -131,7 +129,8 @@ namespace Pretorianie.Tytan.Actions
                 }
 
                 // show dialog with possibility to change:
-                cfgDialog.InitializeInterface(vars, varNames, toDisable, propNames);
+                cfgDialog.InitializeInterface(vars, toDisable, language);
+
                 if (cfgDialog.ShowDialog() == DialogResult.OK && cfgDialog.ReadInterface(out vars, out varNames, out propNames))
                 {
                     // generate code based on user modifications:

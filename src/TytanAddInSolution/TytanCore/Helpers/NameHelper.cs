@@ -91,11 +91,8 @@ namespace Pretorianie.Tytan.Core.Helpers
         /// <summary>
         /// Gets the list of new variables' names and new propertys' names without the name conflicts.
         /// </summary>
-        public static void GetVariableNames(IList<CodeVariable> vars, out IList<string> varNames, out IList<string> propNames, CodeModelLanguages language)
+        public static void GetVariableNames(IList<CodeVariable> vars, out IList<string> varNames, out IList<string> propNames, bool canChangeVarName, CodeModelLanguages language)
         {
-            string propName;
-            string varName;
-
             if (vars == null || vars.Count == 0)
             {
                 varNames = null;
@@ -109,7 +106,7 @@ namespace Pretorianie.Tytan.Core.Helpers
                 // generate the names:
                 foreach (CodeVariable v in vars)
                 {
-                    propName = GetPropertyName(v.Name, language);
+                    string propName = GetPropertyName(v.Name, language);
 
                     // generate unique property name:
                     while (propNames.Contains(propName))
@@ -117,20 +114,31 @@ namespace Pretorianie.Tytan.Core.Helpers
                     propNames.Add(propName);
 
                     // try to generate unique variable name:
-                    varName = GetVariableName(GetPropertyName(v.Name, language), language);
-                    if (string.Compare(propName, varName, language == CodeModelLanguages.VisualBasic) == 0)
+                    if (canChangeVarName)
                     {
-                        do
+                        // new variable name will be based on property:
+                        string varName = GetVariableName(GetPropertyName(v.Name, language), language);
+                        if (string.Compare(propName, varName, language == CodeModelLanguages.VisualBasic) == 0)
                         {
-                            varName = "_" + GetVariableName(varName, language);
+                            do
+                            {
+                                varName = "_" + GetVariableName(varName, language);
+                            } while (string.Compare(propName, varName, true) == 0);
                         }
-                        while (string.Compare(propName, varName, true) == 0);
+
+                        // and if there are already variables with the same name,
+                        // it will be prefixed with underline:
+                        while (varNames.Contains(varName))
+                            varName = "_" + varName;
+
+                        varNames.Add(varName);
                     }
-
-                    while (varNames.Contains(varName))
-                        varName = "_" + varName;
-
-                    varNames.Add(varName);
+                    else
+                    {
+                        // in case no one allowed variable name manipulations,
+                        // the name will remain untouched:
+                        varNames.Add(v.Name);
+                    }
                 }
             }
         }

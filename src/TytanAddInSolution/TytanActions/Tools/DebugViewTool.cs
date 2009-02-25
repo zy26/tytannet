@@ -250,15 +250,21 @@ namespace Pretorianie.Tytan.Tools
 
         void ReceivedMessage(IList<DebugViewData> newItems)
         {
-            int count = items.Count;
-            int filteredCount = items.FilteredCount;
+            try
+            {
+                int count = items.Count;
+                int filteredCount = items.FilteredCount;
 
-            items.Add(newItems, FilterPID, filter);
+                items.Add(newItems, FilterPID, filter);
 
-            if (InvokeRequired)
-                Invoke(new EventHandler(EnableMoreItems), this, new InternalItemEventArgs(count, filteredCount));
-            else
-                EnableMoreItems(this, new InternalItemEventArgs(count, filteredCount));
+                if (InvokeRequired)
+                    Invoke(new EventHandler(EnableMoreItems), this, new InternalItemEventArgs(count, filteredCount));
+                else
+                    EnableMoreItems(this, new InternalItemEventArgs(count, filteredCount));
+            }
+            catch
+            {
+            }
         }
 
         private void EnableMoreItems(object sender, EventArgs e)

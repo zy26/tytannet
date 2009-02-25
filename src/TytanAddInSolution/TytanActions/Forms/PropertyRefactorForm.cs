@@ -4,12 +4,16 @@ using System.Windows.Forms;
 using EnvDTE;
 using Pretorianie.Tytan.Core.BaseForms;
 using Pretorianie.Tytan.Core.Data;
+using Pretorianie.Tytan.Core.Helpers;
+using Pretorianie.Tytan.Core.Interfaces;
 
 namespace Pretorianie.Tytan.Forms
 {
     public partial class PropertyRefactorForm : BasePackageForm
     {
         private IList<CodeVariable> storedVars;
+        private bool[] modifiedVars;
+        private CodeModelLanguages storedLanguage;
 
         /// <summary>
         /// Default constructor.
@@ -17,21 +21,32 @@ namespace Pretorianie.Tytan.Forms
         public PropertyRefactorForm()
         {
             InitializeComponent();
+            dataVars.CellValueChanged += CellValueChanged;
         }
-        
+
         /// <summary>
         /// Sets the info on the GUI.
-        /// Some of this parameters can be edited by user so use ReadInterface method
+        /// Some of this parameters can be edited by user so use <c>ReadInterface</c> method
         /// to gather all changed names or disabled variables.
         /// </summary>
-        public void InitializeInterface(IList<CodeVariable> vars, IList<string> varNames, IList<CodeVariable> toDisable, IList<string> propNames)
+        public void InitializeInterface(IList<CodeVariable> vars, IList<CodeVariable> toDisable, CodeModelLanguages language)
         {
             int i = 0;
+            IList<string> varNames;
+            IList<string> propNames;
+
+            // generate output names:
+            storedLanguage = language;
+            NameHelper.GetVariableNames(vars, out varNames, out propNames, checkUpdateNames.Checked, language);
 
             dataVars.Rows.Clear();
             if (vars != null)
             {
                 storedVars = vars;
+
+                // create array to store 2 states for each row:
+                modifiedVars = new bool[2 * vars.Count];
+
                 foreach (CodeVariable v in vars)
                 {
                     dataVars.Rows.Add( (toDisable != null && toDisable.Contains(v)? false: true), v.Name, varNames[i], propNames[i]);
@@ -189,9 +204,47 @@ namespace Pretorianie.Tytan.Forms
             set { textRegionName.Text = value; }
         }
 
+        void CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if ((e.ColumnIndex == 2 || e.ColumnIndex == 3) && e.RowIndex >= 0 && e.RowIndex < modifiedVars.Length)
+                modifiedVars[2*e.RowIndex + e.ColumnIndex - 2] = true;
+        }
+
         private void checkRegion_CheckedChanged(object sender, EventArgs e)
         {
             textRegionName.Enabled = checkRegion.Checked;
+        }
+
+        private void checkUpdateNames_CheckedChanged(object sender, EventArgs e)
+        {
+            int i = 0;
+            IList<string> varNames;
+            IList<string> propNames;
+
+            // reset the values on the interface:
+            NameHelper.GetVariableNames(storedVars, out varNames, out propNames, checkUpdateNames.Checked,
+                                        storedLanguage);
+
+            // visit all unmodified rows and update the variable and property names:
+            if (varNames != null && varNames.Count == dataVars.Rows.Count)
+            {
+                // disable value change notifications:
+                dataVars.CellValueChanged -= CellValueChanged;
+
+                // update values if needed, based on stored state for each row:
+                foreach (DataGridViewRow r in dataVars.Rows)
+                {
+                    if (!modifiedVars[2*i])
+                        r.Cells[2].Value = varNames[i];
+                    if (!modifiedVars[2*i + 1])
+                        r.Cells[3].Value = propNames[i];
+
+                    i++;
+                }
+
+                // enable value change notifications again:
+                dataVars.CellValueChanged += CellValueChanged;
+            }
         }
     }
 }
