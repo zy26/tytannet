@@ -94,14 +94,14 @@ namespace Pretorianie.Tytan.Code.Coff2Xml
                 xml.Append(mainNode = DefineMainElement(xml));
 
                 // interprete extenal parameters:
-                InterpreteArguments((string.IsNullOrEmpty(FileNamespace) ? null : FileNamespace.Split(';')),
+                InterpreteArguments((string.IsNullOrEmpty(FileNamespace.Trim()) ? null : FileNamespace.Split(';')),
                                     out externalParams);
 
                 // serialize proper sections:
-                if (externalParams == null || externalParams.Length == 0 || externalParams[0])
+                if (externalParams == null || externalParams.Length <= 1 || externalParams[1])
                     AppendSection(xml, mainNode, file[ExportFunctionSection.DefaultName] as ExportFunctionSection);
 
-                if (externalParams == null || externalParams.Length <= 1 || externalParams[1])
+                if (externalParams == null || externalParams.Length <= 2 || externalParams[2])
                     AppendSection(xml, mainNode, file[ImportFunctionSection.DefaultName] as ImportFunctionSection);
 
                 // and return data as a string:
@@ -109,7 +109,7 @@ namespace Pretorianie.Tytan.Code.Coff2Xml
             }
             catch (Exception ex)
             {
-                return string.Format(CoffComments.InvalidOperation, inputFileContent, ex.Message);
+                return string.Format(CoffComments.InvalidOperation, InputFilePath, ex.Message);
             }
         }
 
@@ -120,12 +120,17 @@ namespace Pretorianie.Tytan.Code.Coff2Xml
             if (args != null && args.Length > 0)
             {
                 int i = 0;
+                bool isSet;
 
-                externalParams = new bool[args.Length];
+                externalParams = new bool[args.Length + 1];
+                externalParams[args.Length] = true;
 
                 // check if given parameter can be somehow interprete as bool value:
                 foreach (string a in args)
-                    externalParams[i++] = string.IsNullOrEmpty(a) || a == "1" || bool.Parse(a);
+                {
+                    string v = a.Trim();
+                    externalParams[i++] = string.IsNullOrEmpty(v) || v == "1" || (bool.TryParse(v, out isSet) && isSet);
+                }
             }
         }
 
