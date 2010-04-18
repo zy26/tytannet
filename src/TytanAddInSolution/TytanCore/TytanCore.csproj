@@ -153,6 +153,11 @@
     <Compile Include="DbgView\Sources\IDbgSource.cs" />
     <Compile Include="DbgView\Sources\DebugMemorySource.cs" />
     <Compile Include="DbgView\Sources\UserDebugSource.cs" />
+    <Compile Include="EnvVarView\Tracking\EnvironmentSession.cs" />
+    <Compile Include="EnvVarView\Tracking\EnvironmentSessionChangedHandler.cs" />
+    <Compile Include="EnvVarView\Tracking\EnvironmentSessionEventArgs.cs" />
+    <Compile Include="EnvVarView\Tracking\EnvironmentSessionItem.cs" />
+    <Compile Include="EnvVarView\Tracking\EnvironmentSessionProvider.cs" />
     <Compile Include="Execution\IProcessor.cs" />
     <Compile Include="Execution\IQueuedTask.cs" />
     <Compile Include="Execution\QueuedTaskHandler.cs" />

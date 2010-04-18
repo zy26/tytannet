@@ -88,5 +88,32 @@ namespace Pretorianie.Tytan.Core.Helpers
                 file.Close();
             }
         }
+
+        /// <summary>
+        /// Opens Windows Explorer pointing given file.
+        /// </summary>
+        public static void OpenFolder(FileInfo info)
+        {
+            if (info != null && info.Directory != null
+                && !string.IsNullOrEmpty(info.Directory.FullName))
+            {
+                string args;
+                if (string.IsNullOrEmpty(info.Name))
+                    args = "/n,/e,\"" + info.Directory.FullName + "\"";
+                else
+                    args = "/n,/e,/select,\"" + info.FullName + "\"";
+
+                System.Diagnostics.Process.Start("explorer.exe", args);
+            }
+        }
+       
+        /// <summary>
+        /// Opens Windows Explorer pointing given file.
+        /// </summary>
+        public static void OpenFolder(string fileName)
+        {
+            if (!string.IsNullOrEmpty(fileName))
+                OpenFolder(new FileInfo(fileName));
+        }
     }
 }

@@ -117,90 +117,63 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\RegistryView.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddIn_AboutBox" xml:space="preserve">
+    <value>Author - Pawel Hofman - Pretorianie (C) 2010\r\nFor more information visit project's home page at: http://www.codeplex.com/tytannet\r\n\r\nMany thanks to:\r\n - Mark James (http://www.famfamfam.com/lab/icons/silk/) and\r\n - Yusuke Kamiyamane (http://www.pinvoke.com)\r\nFor providing the free icons for this project.\r\n - Dmitri Maximov (http://dmitrimaximov.blogspot.com)\r\nFor ideas how to improve the Environment Editor.</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\page_edit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="2021" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\tag_red.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\27.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\chart_organisation.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\application_side_tree.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9001" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\124.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9002" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\129.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9003" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\page_white_gear.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9004" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\textfield_rename.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9005" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\page_white_go.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9006" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\script_link.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9007" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\folder_link.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9008" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\GoToParentFolder.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9009" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\VSProject_reference.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9010" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\VSObject_Module_Shortcut.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9011" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\VSObject_Namespace_Shortcut.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9012" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\brick_add.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9013" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\lightbulb.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="9014" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\application_home.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="9015" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\FillDown.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9016" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\database_edit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9017" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\tag_blue_edit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="9018" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\folder_edit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="2021" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\tag_red.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="9019" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\page_white_edit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="9020" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\page_white_star.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddIn_Description" xml:space="preserve">
+    <value>TytanNET is an add-in that provides extra toolwindows and extends refactoring capabilities of C# / VB / ManagedC++ projects inside Visual Studio.</value>
+  </data>
+  <data name="1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RegistryView.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\124.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="9021" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\text_indent.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="AddIn_AboutBox" xml:space="preserve">
-    <value>Author - Pawel Hofman - Pretorianie (C) 2008\r\nFor more information visit project's home page at: http://www.codeplex.com/tytannet\r\n\r\nMany thanks to:\r\n - Mark James (http://www.famfamfam.com/lab/icons/silk/) and\r\n - Yusuke Kamiyamane (http://www.pinvoke.com)\r\n\r\nFor providing the free icons for this project.</value>
+  <data name="9002" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\129.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9005" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\page_white_go.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9017" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\tag_blue_edit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9013" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\lightbulb.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9016" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\database_edit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9004" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textfield_rename.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9011" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VSObject_Namespace_Shortcut.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9009" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VSProject_reference.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\application_side_tree.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AddIn_Category" xml:space="preserve">
     <value>TytanNET</value>
@@ -208,10 +181,37 @@
   <data name="AddIn_DefaultIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\bug_link.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="AddIn_Description" xml:space="preserve">
-    <value>TytanNET is an add-in that provides extra toolwindows and extends refactoring capabilities of C# / VB / ManagedC++ projects inside Visual Studio.</value>
+  <data name="9003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\page_white_gear.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\chart_organisation.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9010" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VSObject_Module_Shortcut.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9020" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\page_white_star.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9006" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\script_link.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\27.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9008" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GoToParentFolder.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AddIn_FriendlyName" xml:space="preserve">
-    <value>TytanNET v0.20</value>
+    <value>TytanNET v0.21</value>
+  </data>
+  <data name="9007" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\folder_link.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9015" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FillDown.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9012" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\brick_add.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

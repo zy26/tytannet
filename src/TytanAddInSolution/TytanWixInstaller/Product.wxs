@@ -39,7 +39,7 @@
                         <File Id="TytanCoreDLL" Source="..\..\..\output\AddIns\TytanNET\Tytan.Core.dll" Name="Tytan.Core.dll" KeyPath="yes" />
                         <File Id="TytanActionsDLL" Source="..\..\..\output\AddIns\TytanNET\Tytan.Actions.dll" Name="Tytan.Actions.dll" />
                         <File Id="TytanDatabaseDLL" Source="..\..\..\output\AddIns\TytanNET\Tytan.Database.dll" Name="Tytan.Database.dll" />
-                        <File Id="CoreLicence" Source="Resources\License.rtf" Name="gpl-2.0.txt" />
+                        <File Id="CoreLicenceTXT" Source="Resources\License.rtf" Name="gpl-2.0.rtf" />
                         <File Id="CoreReadme" Source="..\..\..\output\AddIns\TytanNET\ReleaseNotes.txt" Name="ReleaseNotes.txt">
                             <Shortcut Id="LinkToReadme" Directory="ProgramMenuDir" Name="Release Notes" WorkingDirectory="INSTALLDIR" />
                         </File>
@@ -95,6 +95,11 @@
                         <File Id="VisualizerDebugEXE" Source="..\..\..\output\VisualEditors\VisualEditor.DebugView.exe" Name="VisualEditor.DebugView.exe">
                             <Shortcut Id="StartMenuVisualizerDebug"
                                         Directory="ProgramMenuDir" Name="Visual Debug View" WorkingDirectory="INSTALLDIR" />
+                        </File>
+
+                        <File Id="VisualizerEnvironmentEXE" Source="..\..\..\output\VisualEditors\VisualEditor.Environment.exe" Name="VisualEditor.EnvironmentView.exe">
+                            <Shortcut Id="StartMenuVisualizerEnvironment"
+                                        Directory="ProgramMenuDir" Name="Visual Environment View" WorkingDirectory="INSTALLDIR" />
                         </File>
 
                         <!--<File Id="VisualizerNativeImageEXE" Source="..\..\..\output\VisualEditors\VisualEditor.NativeImage.exe"

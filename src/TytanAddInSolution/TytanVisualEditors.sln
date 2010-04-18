@@ -13,9 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanActions", "TytanAction
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TytanDatabase", "TytanDatabase\TytanDatabase.csproj", "{76C487D6-0A6D-4C7A-96EA-67286535931D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualEditorEnvVars", "VisualEditorEnvVars\VisualEditorEnvVars.csproj", "{C891071B-7DF4-4959-B05A-B592631F8E15}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs01.codeplex.com/
 		SccLocalPath0 = TytanVisualEditors
@@ -38,6 +40,9 @@ Global
 		SccProjectUniqueName6 = TytanDatabase\\TytanDatabase.csproj
 		SccProjectName6 = TytanDatabase
 		SccLocalPath6 = TytanDatabase
+		SccProjectUniqueName7 = VisualEditorEnvVars\\VisualEditorEnvVars.csproj
+		SccProjectName7 = VisualEditorEnvVars
+		SccLocalPath7 = VisualEditorEnvVars
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +73,10 @@ Global
 		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76C487D6-0A6D-4C7A-96EA-67286535931D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C891071B-7DF4-4959-B05A-B592631F8E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C891071B-7DF4-4959-B05A-B592631F8E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C891071B-7DF4-4959-B05A-B592631F8E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C891071B-7DF4-4959-B05A-B592631F8E15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

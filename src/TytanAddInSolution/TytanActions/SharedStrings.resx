@@ -281,4 +281,10 @@ Please click [Download] button to navigate to release page.</value>
   <data name="DebugView_SerialPortReplaced" xml:space="preserve">
     <value>Updated settings for serial port listener.</value>
   </data>
+  <data name="EnvironmentView_ConfirmSessionDelete" xml:space="preserve">
+    <value>Delete the session ({0})?</value>
+  </data>
+  <data name="EnvironmentView_ClearHistoryQuestion" xml:space="preserve">
+    <value>Clear cached values of changed variables?</value>
+  </data>
 </root>

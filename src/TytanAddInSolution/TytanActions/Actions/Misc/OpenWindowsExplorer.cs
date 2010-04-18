@@ -17,21 +17,6 @@ namespace Pretorianie.Tytan.Actions.Misc
 
         #region OpenFolder
 
-        private static void OpenFolder(FileInfo folder)
-        {
-            if (folder != null && folder.Directory != null
-                && !string.IsNullOrEmpty(folder.Directory.FullName))
-            {
-                string args;
-                if (string.IsNullOrEmpty(folder.Name))
-                    args = "/n,/e,\"" + folder.Directory.FullName + "\"";
-                else
-                    args = "/n,/e,/select,\"" + folder.FullName + "\"";
-
-                System.Diagnostics.Process.Start("explorer.exe", args);
-            }
-        }
-
         private static FileInfo GetFolderPath(UIHierarchyItem s)
         {
             string path = GetFilePath(s.Object);
@@ -137,7 +122,7 @@ namespace Pretorianie.Tytan.Actions.Misc
             // check if opening from active document window:
             if (parent.DTE.ActiveWindow.ProjectItem != null)
             {
-                OpenFolder(GetFolderPath(parent.DTE.ActiveWindow.ProjectItem));
+                FileHelper.OpenFolder(GetFolderPath(parent.DTE.ActiveWindow.ProjectItem));
             }
             else
             {
@@ -145,7 +130,7 @@ namespace Pretorianie.Tytan.Actions.Misc
                 UIHierarchy hierarchy = parent.DTE.ToolWindows.SolutionExplorer;
 
                 foreach (UIHierarchyItem s in (object[]) hierarchy.SelectedItems)
-                    OpenFolder(GetFolderPath(s));
+                    FileHelper.OpenFolder(GetFolderPath(s));
             }
         }
 

@@ -7,18 +7,18 @@ namespace Pretorianie.Tytan.Core.EnvVarView
     /// </summary>
     public class EnvironmentVariable
     {
-        private string name;
-        private string value;
-        private readonly IList<string> historyValues;
+        private string _name;
+        private string _value;
+        private readonly IList<string> _historyValues;
 
         /// <summary>
         /// Init constructor.
         /// </summary>
         public EnvironmentVariable(string name, string value)
         {
-            this.name = name;
-            
-            historyValues = new List<string>();
+            _name = name;
+
+            _historyValues = new List<string>();
             Value = value;
         }
 
@@ -29,8 +29,8 @@ namespace Pretorianie.Tytan.Core.EnvVarView
         /// </summary>
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         /// <summary>
@@ -38,13 +38,13 @@ namespace Pretorianie.Tytan.Core.EnvVarView
         /// </summary>
         public string Value
         {
-            get { return value; }
+            get { return _value; }
             set
             {
-                if (!string.IsNullOrEmpty(value) && !historyValues.Contains(value))
-                    historyValues.Add(value);
+                if (!string.IsNullOrEmpty(value) && !_historyValues.Contains(value))
+                    _historyValues.Add(value);
 
-                this.value = value;
+                this._value = value;
             }
         }
 
@@ -53,9 +53,31 @@ namespace Pretorianie.Tytan.Core.EnvVarView
         /// </summary>
         public IList<string> HistoryValues
         {
-            get { return historyValues; }
+            get { return _historyValues; }
         }
 
         #endregion
+
+        /// <summary>
+        /// Appends new history values.
+        /// </summary>
+        public void ApplyHistory(IList<string> entries)
+        {
+            if (entries != null)
+            {
+                foreach (string i in entries)
+                    if (!string.IsNullOrEmpty(i) && !_historyValues.Contains(i))
+                        _historyValues.Add(i);
+            }
+        }
+
+        /// <summary>
+        /// Removes all history values.
+        /// </summary>
+        public void ClearHistory()
+        {
+            _historyValues.Clear();
+            _historyValues.Add(_value);
+        }
     }
 }

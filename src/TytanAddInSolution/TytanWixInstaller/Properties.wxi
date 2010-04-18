@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
 
-    <?define DynProductName         = "TytanNET v0.20 - Visual Studio addin" ?>      <!-- 0.20.0.0 -->
-    <?define DynManufacturerName    = "Pretorianie 2008" ?>
-    <?define DynProductVersion      = "0.20.0" ?>
+    <?define DynProductName         = "TytanNET v0.21 - Visual Studio addin" ?>      <!-- 0.21.0.0 -->
+    <?define DynManufacturerName    = "Pretorianie 2010" ?>
+    <?define DynProductVersion      = "0.21.0" ?>
     <?define DynProductLanguage     = "1033" ?>
-    <?define DynProductCode         = "A64E3419-AC2D-4D45-A65A-99CD095DA923" ?>     <!-- update each time generating new installer -->
-    <?define DynPackageCode         = "F1A45EC3-7372-42D9-AAEF-887B8FB8ED70" ?>     <!-- and also this one -->
+    <?define DynProductCode         = "68630774-55CA-4654-BF37-E6C216209D95" ?>     <!-- update each time generating new installer -->
+    <?define DynPackageCode         = "2B473586-FDC3-4A07-A4ED-4A69F5B329AD" ?>     <!-- and also this one -->
     <?define DynUpgradeCode         = "B92A720C-DE1D-4790-AD57-99B0B0E36C28" ?>
-    <?define DynTytanAddInFileName  = "TytanNET.v0.20.AddIn" ?>                     <!-- 0.20.0.0 -->
+    <?define DynTytanAddInFileName  = "TytanNET.v0.21.AddIn" ?>                     <!-- 0.21.0.0 -->
 
     <?define DynMainFolderName      = "TytanNET for Visual Studio" ?>
-    <?define DynFeaturesCore        = "TytanNET v0.20 Components" ?>                 <!-- 0.20.0.0 -->
-    <?define DynFeaturesVisualizers = "TytanNET v0.20 Visualizers" ?>                <!-- 0.20.0.0 -->
+    <?define DynFeaturesCore        = "TytanNET v0.21 Components" ?>                 <!-- 0.21.0.0 -->
+    <?define DynFeaturesVisualizers = "TytanNET v0.21 Visualizers" ?>                <!-- 0.21.0.0 -->
 
 </Include>

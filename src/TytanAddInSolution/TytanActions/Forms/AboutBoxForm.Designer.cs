@@ -44,7 +44,7 @@ namespace Pretorianie.Tytan.Forms
             this.bttClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.bttClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.bttClose.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bttClose.Location = new System.Drawing.Point(375, 231);
+            this.bttClose.Location = new System.Drawing.Point(375, 248);
             this.bttClose.Name = "bttClose";
             this.bttClose.Size = new System.Drawing.Size(75, 23);
             this.bttClose.TabIndex = 0;
@@ -67,7 +67,7 @@ namespace Pretorianie.Tytan.Forms
             this.linkHomepage.AutoSize = true;
             this.linkHomepage.BackColor = System.Drawing.Color.Transparent;
             this.linkHomepage.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.linkHomepage.Location = new System.Drawing.Point(9, 236);
+            this.linkHomepage.Location = new System.Drawing.Point(9, 253);
             this.linkHomepage.Name = "linkHomepage";
             this.linkHomepage.Size = new System.Drawing.Size(146, 13);
             this.linkHomepage.TabIndex = 3;
@@ -87,7 +87,7 @@ namespace Pretorianie.Tytan.Forms
             this.txtDescription.ReadOnly = true;
             this.txtDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.txtDescription.ShowSelectionMargin = true;
-            this.txtDescription.Size = new System.Drawing.Size(365, 126);
+            this.txtDescription.Size = new System.Drawing.Size(365, 143);
             this.txtDescription.TabIndex = 4;
             this.txtDescription.Text = "";
             this.txtDescription.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.txtDescription_LinkClicked);
@@ -110,7 +110,7 @@ namespace Pretorianie.Tytan.Forms
             this.pictureBox1.Image = global::Pretorianie.Tytan.SharedIcons.Gradient;
             this.pictureBox1.Location = new System.Drawing.Point(8, 82);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(72, 141);
+            this.pictureBox1.Size = new System.Drawing.Size(72, 158);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
@@ -131,7 +131,7 @@ namespace Pretorianie.Tytan.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.bttClose;
-            this.ClientSize = new System.Drawing.Size(462, 261);
+            this.ClientSize = new System.Drawing.Size(462, 278);
             this.Controls.Add(this.txtInfo);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.linkHomepage);

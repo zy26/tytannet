@@ -10,5 +10,6 @@ TytanDatabase
 TytanVisualizers
 TytanWixInstaller
 VisualEditorDebugView
+VisualEditorEnvVars
 VisualEditorNativeImage
 VisualEditorRegistry

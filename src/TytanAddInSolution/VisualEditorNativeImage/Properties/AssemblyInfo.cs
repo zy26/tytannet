@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Silicon & Software Systems")]
 [assembly: AssemblyProduct("VisualEditorNativeImage")]
-[assembly: AssemblyCopyright("Copyright © Silicon & Software Systems 2008")]
+[assembly: AssemblyCopyright("Copyright © Silicon & Software Systems 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -28,5 +28,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.19.0.0")]
-[assembly: AssemblyFileVersion("0.19.0.0")]
+[assembly: AssemblyVersion("0.21.0.0")]
+[assembly: AssemblyFileVersion("0.21.0.0")]

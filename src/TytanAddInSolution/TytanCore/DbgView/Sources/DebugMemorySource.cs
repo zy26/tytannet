@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Pretorianie.Tytan.Core.Data;
 using Pretorianie.Tytan.Core.Mapping;
 using Pretorianie.Tytan.Core.Helpers;
 
@@ -18,9 +17,9 @@ namespace Pretorianie.Tytan.Core.DbgView.Sources
         private static Thread threadProcessing;
         private static volatile bool isRunning;
 
-        private const string BufferReadyName = @"Global\DBWIN_BUFFER_READY";
-        private const string DataReadyName = @"Global\DBWIN_DATA_READY";
-        private const string SharedMemoryName = @"Global\DBWIN_BUFFER";
+        private const string BufferReadyName = @"DBWIN_BUFFER_READY";
+        private const string DataReadyName = @"DBWIN_DATA_READY";
+        private const string SharedMemoryName = @"DBWIN_BUFFER";
 
         #region Implementation of IDbgSource
 

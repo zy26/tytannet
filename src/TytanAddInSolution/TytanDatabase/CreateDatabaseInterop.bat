@@ -2,9 +2,14 @@
 
 if {%1} == {} goto no_param
 if {%2} == {} goto no_param
-if {"%VS80COMNTOOLS%"} == {""} goto no_vs8
-:vs_validate
-if {"%VS80COMNTOOLS%"} == {""} goto no_vs9
+
+if NOT {"%VS80COMNTOOLS%"} == {""} goto has_vs8
+echo No Visual Studio 2005 installed. Checking for never version.
+
+if NOT {"%VS90COMNTOOLS%"} == {""} goto has_vs9
+echo No Visual Studio 2008 installed on your machine!
+
+exit /B 0x101010
 
 REM #####################################################
 echo Configuring environment for Visual Studio 2005...
@@ -33,14 +38,6 @@ tlbimp /nologo /silent "C:\Program Files\Common Files\System\Ole DB\oledb32.dll"
 
 popd
 
-goto end
-
-:no_vs8
-echo No Visual Studio 2005 installed. Checking for never version.
-goto vs_validate
-
-:no_vs9
-echo No Visual Studio 2008 installed on your machine!
 goto end
 
 

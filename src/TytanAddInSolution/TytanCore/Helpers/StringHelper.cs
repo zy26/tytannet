@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Pretorianie.Tytan.Core.Helpers
 {
@@ -18,7 +19,7 @@ namespace Pretorianie.Tytan.Core.Helpers
         public interface IStringFilter
         {
             /// <summary>
-            /// Checks if the specified text matches the comparison cirteria defined for current object.
+            /// Checks if the specified text matches the comparison criteria defined for current object.
             /// </summary>
             bool Match(string text);
             
@@ -35,7 +36,7 @@ namespace Pretorianie.Tytan.Core.Helpers
         }
 
         /// <summary>
-        /// Class that uses star as a delimeter for multi-char comparison.
+        /// Class that uses star as a delimiter for multi-char comparison.
         /// </summary>
         public class StarFilter : IStringFilter
         {
@@ -88,7 +89,7 @@ namespace Pretorianie.Tytan.Core.Helpers
             #region IStringFilter Members
 
             /// <summary>
-            /// Checks if the specified text matches the comparison cirteria defined for current object.
+            /// Checks if the specified text matches the comparison criteria defined for current object.
             /// </summary>
             public bool Match(string text)
             {
@@ -147,6 +148,65 @@ namespace Pretorianie.Tytan.Core.Helpers
             public void Update(string filter)
             {
                 Parse(filter);
+            }
+
+            #endregion
+        }
+
+        /// <summary>
+        /// Class that uses regular expression to evaluate if two strings are equal.
+        /// </summary>
+        public class RegexFilter : IStringFilter
+        {
+            private Regex _expression;
+
+            /// <summary>
+            /// Default constructor.
+            /// </summary>
+            public RegexFilter ()
+            {
+            }
+
+            /// <summary>
+            /// Init constructor.
+            /// </summary>
+            public RegexFilter(string filter)
+            {
+                _expression = new Regex(filter);
+            }
+
+            /// <summary>
+            /// Init constructor.
+            /// </summary>
+            public RegexFilter(string filter, RegexOptions options)
+            {
+                _expression = new Regex(filter, options);
+            }
+
+            #region Implementation of IStringFilter
+
+            /// <summary>
+            /// Checks if the specified text matches the comparison criteria defined for current object.
+            /// </summary>
+            public bool Match(string text)
+            {
+                return _expression.IsMatch(text);
+            }
+
+            /// <summary>
+            /// Initialize the filter fields for future matching.
+            /// </summary>
+            public void Update(string filter)
+            {
+                _expression = new Regex(filter);
+            }
+
+            /// <summary>
+            /// Checks if current filter is currently not initialized and will always return 'true' for Match.
+            /// </summary>
+            public bool IsAlwaysMatch
+            {
+                get { return false; }
             }
 
             #endregion

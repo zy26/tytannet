@@ -44,6 +44,15 @@ Check for new releases at: http://tytannet.codeplex.com/Release/ProjectReleases.
 --------------------------------------------------------------------------------------------
 [Change Log]:
 
+TytanNET - v0.21 - (under development)
+ - fixed issue with DebugView, not working properly on some machines
+ - added changes tracking to EnvironmentVariables editor
+ - added cache support for changed values of environment variables between Visual Studio sessions
+ - added revert functionality to changes introduced to environment variables
+ - added storing/loading sets of changes to/from persistent storage
+ - added stand-alone EnvironmentVariable editor
+
+
 TytanNET - v0.20 - (3-March-2009)
  - fixed crash when checking version behind proxy (PR #20456)
  - added binary file parser with support of Windows PE32/PE32+ files (Portable Executable) also known as Coff files

@@ -168,6 +168,24 @@
     <Compile Include="Forms\DebugViewNewNetworkForm.Designer.cs">
       <DependentUpon>DebugViewNewNetworkForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EnvironmentSessionItemsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EnvironmentSessionItemsForm.Designer.cs">
+      <DependentUpon>EnvironmentSessionItemsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EnvironmentSessionListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EnvironmentSessionListForm.Designer.cs">
+      <DependentUpon>EnvironmentSessionListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EnvironmentSessionSaveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EnvironmentSessionSaveForm.Designer.cs">
+      <DependentUpon>EnvironmentSessionSaveForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\EnvironmentVarForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -339,6 +357,15 @@
     <EmbeddedResource Include="Forms\DebugViewNewNetworkForm.resx">
       <DependentUpon>DebugViewNewNetworkForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EnvironmentSessionItemsForm.resx">
+      <DependentUpon>EnvironmentSessionItemsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EnvironmentSessionListForm.resx">
+      <DependentUpon>EnvironmentSessionListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EnvironmentSessionSaveForm.resx">
+      <DependentUpon>EnvironmentSessionSaveForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EnvironmentVarForm.resx">
       <DependentUpon>EnvironmentVarForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -448,6 +475,7 @@
     <None Include="Resources\application_home.bmp" />
     <None Include="Resources\Critical.png" />
     <Content Include="Resources\database_edit.bmp" />
+    <None Include="Resources\Edit_UndoHS.bmp" />
     <Content Include="Resources\empty.bmp" />
     <None Include="Resources\FillDown.bmp" />
     <Content Include="Resources\folder_edit.bmp" />
@@ -458,9 +486,12 @@
     <None Include="Resources\gradient.png" />
     <None Include="Resources\TipsAndTricks.png" />
     <None Include="Resources\p3oEnetres.PNG" />
+    <None Include="Resources\OpenHS.bmp" />
     <Content Include="Resources\page_white_edit.bmp" />
     <Content Include="Resources\page_white_star.bmp" />
     <None Include="Resources\pda.PNG" />
+    <None Include="Resources\SaveHS.bmp" />
+    <None Include="Resources\PreviousPageHS.BMP" />
     <Content Include="Resources\tag_blue_edit.bmp" />
     <Content Include="Resources\tag_red.bmp" />
     <Content Include="Resources\text_indent.bmp" />
