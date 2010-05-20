@@ -16,6 +16,10 @@ namespace Pretorianie.Tytan.Core.Data
         /// <summary>
         /// Visual Studio 2008
         /// </summary>
-        VS2008
+        VS2008,
+        /// <summary>
+        /// Visual Studio 2010
+        /// </summary>
+        VS2010
     }
 }

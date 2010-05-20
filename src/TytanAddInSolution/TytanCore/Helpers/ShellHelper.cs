@@ -117,6 +117,8 @@ namespace Pretorianie.Tytan.Core.Helpers
                     return ShellVersions.VS2005;
                 if (appObject.Version == "9.0")
                     return ShellVersions.VS2008;
+                if (appObject.Version == "10.0")
+                    return ShellVersions.VS2010;
 
                 //if (appObject.RegistryRoot.StartsWith(@"Software\Microsoft\VisualStudio\8.0",
                 //                                      StringComparison.CurrentCultureIgnoreCase))
@@ -141,6 +143,8 @@ namespace Pretorianie.Tytan.Core.Helpers
                     return "8";
                 case ShellVersions.VS2008:
                     return "9";
+                case ShellVersions.VS2010:
+                    return "10";
 
                 default:
                     return "0";

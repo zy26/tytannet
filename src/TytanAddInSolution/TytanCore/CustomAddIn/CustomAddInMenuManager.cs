@@ -533,7 +533,8 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
 
                 popupMenu.BeginGroup = beginGroup;
                 popupMenu.TooltipText = toolTip;
-                popupMenu.Caption = caption;
+                if (!string.IsNullOrEmpty(caption) && !string.IsNullOrEmpty(caption.Trim()))
+                    popupMenu.Caption = caption;
 
                 // store for future usage or memory release:
                 popups.Add(popupMenu);

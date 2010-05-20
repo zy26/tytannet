@@ -212,11 +212,11 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
             try
             {
                 // create a new tool window, embedding the control inside it ActiveX host...
-                Window2 window = ((Windows2) appObject.Windows).CreateToolWindow2(addInInstance, type.Assembly.Location,
+                Window2 window = ((Windows2)appObject.Windows).CreateToolWindow2(addInInstance, type.Assembly.Location,
                                                                                   type.FullName, tool.Caption, guid,
                                                                                   ref objToolWindow) as Window2;
 
-                if(objToolWindow == null)
+                if (objToolWindow == null)
                 {
                     objToolWindow = LastCreatedPackageTool;
                     lastCreatedPackageTool = null;
@@ -236,10 +236,22 @@ namespace Pretorianie.Tytan.Core.CustomAddIn
                 }
 
                 // make the window a document inside the IDE:
-                if (!tool.IsFloating)
+                try
                 {
                     window.Linkable = false;
+                }
+                catch (Exception ex)
+                {
+                    Trace.Write(ex.Message);
+                }
+
+                try
+                {
                     window.IsFloating = false;
+                }
+                catch (Exception ex)
+                {
+                    Trace.Write(ex.Message);
                 }
 
                 // remember reference:

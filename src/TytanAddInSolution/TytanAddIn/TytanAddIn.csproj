@@ -96,6 +96,9 @@
     <Content Include="TytanNET.AddIn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TytanNET.VS100.AddIn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TytanNET.VS80.AddIn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

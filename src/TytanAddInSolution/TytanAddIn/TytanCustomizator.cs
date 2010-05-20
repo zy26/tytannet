@@ -263,7 +263,7 @@ namespace Pretorianie.Tytan
             if (referenceProjects == null)
             {
                 referenceProjects =
-                    InitializeReferenceProjectsPopups(ReferenceProjectMenu, "Add Reference &To", "Re&ference", null, ReferenceProjectAfter);
+                    InitializeReferenceProjectsPopups(ReferenceProjectMenu, "Add Reference &To", "Refere&nce", null, ReferenceProjectAfter);
             }
 
             return referenceProjects;

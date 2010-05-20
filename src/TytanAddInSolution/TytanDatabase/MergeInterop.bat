@@ -39,7 +39,7 @@ set xkey=Key.snk
 
 pushd "%xpath%"
 echo Merging Database Interop Assemblies ...
-%xtoolpath%\ilmerge.exe /ndebug /keyfile:%xkey% /target:library /copyattrs /out:%xoutputfile% %xoutputfile% Pretorianie.AdoHelper.dll Pretorianie.OleDbHelper.dll
+"%xtoolpath%\ilmerge.exe" /ndebug /keyfile:%xkey% /target:library /copyattrs /out:%xoutputfile% %xoutputfile% Pretorianie.AdoHelper.dll Pretorianie.OleDbHelper.dll
 
 REM echo Copying the result to the output directory (%xtargetfile%)...
 REM copy  /V /Y /B %xmergefile% %xoutputfile%
